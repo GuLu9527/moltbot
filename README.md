@@ -1,5 +1,7 @@
 # 🦞 Moltbot — Personal AI Assistant
 
+> **中文文档**: [README_CN.md](./README_CN.md)
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/moltbot/moltbot/main/docs/whatsapp-clawd.jpg" alt="Clawdbot" width="400">
 </p>
