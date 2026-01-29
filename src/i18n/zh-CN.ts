@@ -1,0 +1,143 @@
+// 中文语言包
+export const zhCN = {
+  // 通用
+  ok: "确定",
+  cancel: "取消",
+  yes: "是",
+  no: "否",
+  error: "错误",
+  success: "成功",
+  warning: "警告",
+  info: "信息",
+  loading: "加载中...",
+  done: "完成",
+  skip: "跳过",
+  back: "返回",
+  next: "下一步",
+  close: "关闭",
+  save: "保存",
+  delete: "删除",
+  edit: "编辑",
+  add: "添加",
+  remove: "移除",
+  copy: "复制",
+  paste: "粘贴",
+
+  // Banner 和标语
+  banner: {
+    version: "版本",
+    commit: "提交",
+    freshDaily: "每日更新",
+    tagline: "Type the command with confidence—nature will provide the stack trace if needed.",
+  },
+
+  // Help
+  help: {
+    usage: "用法",
+    options: "选项",
+    commands: "命令",
+    examples: "示例",
+    docs: "文档",
+  },
+
+  // 选项描述
+  options: {
+    version: "显示版本号",
+    help: "显示帮助信息",
+    dev: "开发模式：在 ~/.clawdbot-dev 下隔离状态，默认网关端口 19001，偏移派生端口（browser/canvas）",
+    profile: "使用命名配置文件（在 ~/.clawdbot-<name> 下隔离 CLAWDBOT_STATE_DIR/CLAWDBOT_CONFIG_PATH）",
+    noColor: "禁用 ANSI 颜色",
+  },
+
+  // 子命令描述
+  commands: {
+    // 主命令
+    setup: "初始化 ~/.clawdbot/moltbot.json 和代理工作区",
+    onboard: "交互式向导：设置网关、工作区和技能",
+    configure: "交互式提示：设置凭据、设备和代理默认值",
+    config: "配置助手（获取/设置/取消设置）。不带子命令运行进入向导",
+    doctor: "健康检查 + 快速修复网关和渠道",
+    dashboard: "使用当前令牌打开控制 UI",
+    reset: "重置本地配置/状态（保留 CLI）",
+    uninstall: "卸载网关服务 + 本地数据（保留 CLI）",
+    message: "发送消息和渠道操作",
+    memory: "记忆搜索工具",
+    agent: "通过网关运行代理对话（使用 --local 嵌入式）",
+    agents: "管理隔离的代理（工作区 + 认证 + 路由）",
+    acp: "代理控制协议工具",
+    gateway: "网关控制",
+    daemon: "网关服务（旧版别名）",
+    logs: "网关日志",
+    system: "系统事件、心跳和在线状态",
+    models: "模型配置",
+    approvals: "执行审批",
+    nodes: "节点命令",
+    devices: "设备配对 + 令牌管理",
+    node: "节点控制",
+    sandbox: "沙箱工具",
+    tui: "终端 UI",
+    cron: "计划任务调度器",
+    dns: "DNS 助手",
+    hooks: "Hooks 工具",
+    docs: "文档助手",
+    webhooks: "Webhook 助手",
+    pairing: "配对助手",
+    plugins: "插件管理",
+    channels: "渠道管理",
+    directory: "目录命令",
+    security: "安全助手",
+    skills: "技能管理",
+    update: "CLI 更新助手",
+    status: "显示渠道健康状况和最近会话接收者",
+    health: "从运行中的网关获取健康状态",
+    sessions: "列出存储的对话会话",
+    browser: "管理专用浏览器（Chrome/Chromium）",
+    help: "显示帮助信息",
+
+    // 子命令的子命令
+    agentsList: "列出已配置的代理",
+    agentsAdd: "添加新的隔离代理",
+    agentsSetIdentity: "更新代理身份（名称/主题/表情/头像）",
+    agentsDelete: "删除代理并清理工作区/状态",
+
+    // Discord 管理
+    discordRoleInfo: "列出角色",
+    discordRoleAdd: "向成员添加角色",
+    discordRoleRemove: "从成员移除角色",
+    discordChannelInfo: "获取频道信息",
+    discordChannelList: "列出频道",
+    discordMemberInfo: "获取成员信息",
+    discordVoiceStatus: "获取语音状态",
+    discordEventList: "列出计划事件",
+    discordEventCreate: "创建计划事件",
+    discordMemberTimeout: "成员禁言",
+    discordMemberKick: "踢出成员",
+    discordMemberBan: "封禁成员",
+
+    // 表情和贴纸
+    emojiList: "列出表情",
+    emojiUpload: "上传表情",
+    stickerSend: "发送贴纸",
+    stickerUpload: "上传贴纸",
+
+    // 消息相关
+    messagePermissions: "获取频道权限",
+    messageSearch: "搜索 Discord 消息",
+    messagePin: "置顶消息",
+    messageUnpin: "取消置顶",
+    messagePins: "列出已置顶消息",
+    messagePoll: "发送投票",
+    messageReact: "添加或移除反应",
+    messageReactions: "列出消息的反应",
+    messageRead: "读取最近消息",
+    messageEdit: "编辑消息",
+    messageDelete: "删除消息",
+    messageSend: "发送消息",
+    messageBroadcast: "向多个目标广播消息",
+    messageThreadCreate: "创建线程",
+    messageThreadList: "列出线程",
+    messageThreadReply: "在线程中回复",
+  },
+} as const;
+
+export type ZhCN = typeof zhCN;

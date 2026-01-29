@@ -20,11 +20,12 @@ import { registerMessageReadEditDeleteCommands } from "./message/register.read-e
 import { registerMessageSendCommand } from "./message/register.send.js";
 import { registerMessageThreadCommands } from "./message/register.thread.js";
 import { registerMessageBroadcastCommand } from "./message/register.broadcast.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerMessageCommands(program: Command, ctx: ProgramContext) {
   const message = program
     .command("message")
-    .description("Send messages and channel actions")
+    .description(zhCN.commands.message)
     .addHelpText(
       "after",
       () =>

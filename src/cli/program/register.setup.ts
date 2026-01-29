@@ -6,11 +6,12 @@ import { formatDocsLink } from "../../terminal/links.js";
 import { theme } from "../../terminal/theme.js";
 import { hasExplicitOptions } from "../command-options.js";
 import { runCommandWithRuntime } from "../cli-utils.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerSetupCommand(program: Command) {
   program
     .command("setup")
-    .description("Initialize ~/.clawdbot/moltbot.json and the agent workspace")
+    .description(zhCN.commands.setup)
     .addHelpText(
       "after",
       () =>

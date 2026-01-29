@@ -8,6 +8,7 @@ import { formatDocsLink } from "../terminal/links.js";
 import { formatCliCommand } from "./command-format.js";
 import { theme } from "../terminal/theme.js";
 import { shortenHomePath } from "../utils.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 type PathSegment = string;
 
@@ -181,7 +182,7 @@ async function loadValidConfig() {
 export function registerConfigCli(program: Command) {
   const cmd = program
     .command("config")
-    .description("Config helpers (get/set/unset). Run without subcommand for the wizard.")
+    .description(zhCN.commands.config)
     .addHelpText(
       "after",
       () =>

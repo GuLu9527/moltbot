@@ -2,6 +2,32 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Repository Info
+
+This is a **fork** of the original [moltbot/moltbot](https://github.com/moltbot/moltbot) repository, customized for Chinese users.
+
+- **My fork**: https://github.com/GuLu9527/moltbot
+- **Upstream**: https://github.com/moltbot/moltbot
+- **Documentation**: https://docs.molt.bot
+
+## Git Setup
+
+```bash
+# View remotes
+git remote -v
+
+# Origin points to your fork
+origin  https://github.com/GuLu9527/moltbot.git (fetch)
+origin  https://github.com/GuLu9527/moltbot.git (push)
+
+# Add upstream (for syncing original changes)
+git remote add upstream https://github.com/moltbot/moltbot.git
+
+# Sync upstream changes
+git fetch upstream
+git merge upstream/main
+```
+
 ## Project Overview
 
 Moltbot is a personal AI assistant that runs locally and connects to messaging channels (WhatsApp, Telegram, Slack, Discord, Signal, iMessage, etc.). It has a local-first Gateway control plane, multi-channel inbox, and supports voice/speech on macOS/iOS/Android.

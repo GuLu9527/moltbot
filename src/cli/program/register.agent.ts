@@ -16,11 +16,12 @@ import { formatHelpExamples } from "../help-format.js";
 import { createDefaultDeps } from "../deps.js";
 import { runCommandWithRuntime } from "../cli-utils.js";
 import { collectOption } from "./helpers.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerAgentCommands(program: Command, args: { agentChannelOptions: string }) {
   program
     .command("agent")
-    .description("Run an agent turn via the Gateway (use --local for embedded)")
+    .description(zhCN.commands.agent)
     .requiredOption("-m, --message <text>", "Message body for the agent")
     .option("-t, --to <number>", "Recipient number in E.164 used to derive the session key")
     .option("--session-id <id>", "Use an explicit session id")
@@ -82,7 +83,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.molt.bot/cli/agent"
 
   const agents = program
     .command("agents")
-    .description("Manage isolated agents (workspaces + auth + routing)")
+    .description(zhCN.commands.agents)
     .addHelpText(
       "after",
       () =>
@@ -91,7 +92,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.molt.bot/cli/agent"
 
   agents
     .command("list")
-    .description("List configured agents")
+    .description(zhCN.commands.agentsList)
     .option("--json", "Output JSON instead of text", false)
     .option("--bindings", "Include routing bindings", false)
     .action(async (opts) => {
@@ -105,7 +106,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.molt.bot/cli/agent"
 
   agents
     .command("add [name]")
-    .description("Add a new isolated agent")
+    .description(zhCN.commands.agentsAdd)
     .option("--workspace <dir>", "Workspace directory for the new agent")
     .option("--model <id>", "Model id for this agent")
     .option("--agent-dir <dir>", "Agent state directory for this agent")
@@ -139,7 +140,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.molt.bot/cli/agent"
 
   agents
     .command("set-identity")
-    .description("Update an agent identity (name/theme/emoji/avatar)")
+    .description(zhCN.commands.agentsSetIdentity)
     .option("--agent <id>", "Agent id to update")
     .option("--workspace <dir>", "Workspace directory used to locate the agent + IDENTITY.md")
     .option("--identity-file <path>", "Explicit IDENTITY.md path to read")
@@ -186,7 +187,7 @@ ${formatHelpExamples([
 
   agents
     .command("delete <id>")
-    .description("Delete an agent and prune workspace/state")
+    .description(zhCN.commands.agentsDelete)
     .option("--force", "Skip confirmation", false)
     .option("--json", "Output JSON summary", false)
     .action(async (id, opts) => {

@@ -18,6 +18,7 @@ import { formatDocsLink } from "../terminal/links.js";
 import { colorize, isRich, theme } from "../terminal/theme.js";
 import { resolveStateDir } from "../config/paths.js";
 import { shortenHomeInString, shortenHomePath } from "../utils.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 type MemoryCommandOptions = {
   agent?: string;
@@ -451,7 +452,7 @@ export async function runMemoryStatus(opts: MemoryCommandOptions) {
 export function registerMemoryCli(program: Command) {
   const memory = program
     .command("memory")
-    .description("Memory search tools")
+    .description(zhCN.commands.memory)
     .addHelpText(
       "after",
       () =>

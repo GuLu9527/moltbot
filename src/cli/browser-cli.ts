@@ -16,11 +16,12 @@ import { registerBrowserManageCommands } from "./browser-cli-manage.js";
 import type { BrowserParentOpts } from "./browser-cli-shared.js";
 import { registerBrowserStateCommands } from "./browser-cli-state.js";
 import { addGatewayClientOptions } from "./gateway-rpc.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export function registerBrowserCli(program: Command) {
   const browser = program
     .command("browser")
-    .description("Manage clawd's dedicated browser (Chrome/Chromium)")
+    .description(zhCN.commands.browser)
     .option("--browser-profile <name>", "Browser profile name (default from config)")
     .option("--json", "Output machine-readable JSON", false)
     .addHelpText(

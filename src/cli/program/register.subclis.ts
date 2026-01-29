@@ -3,6 +3,7 @@ import type { MoltbotConfig } from "../../config/config.js";
 import { isTruthyEnvValue } from "../../infra/env.js";
 import { buildParseArgv, getPrimaryCommand, hasHelpOrVersion } from "../argv.js";
 import { resolveActionArgs } from "./helpers.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 type SubCliRegistrar = (program: Command) => Promise<void> | void;
 
@@ -30,7 +31,7 @@ const loadConfig = async (): Promise<MoltbotConfig> => {
 const entries: SubCliEntry[] = [
   {
     name: "acp",
-    description: "Agent Control Protocol tools",
+    description: zhCN.commands.acp,
     register: async (program) => {
       const mod = await import("../acp-cli.js");
       mod.registerAcpCli(program);
@@ -38,7 +39,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "gateway",
-    description: "Gateway control",
+    description: zhCN.commands.gateway,
     register: async (program) => {
       const mod = await import("../gateway-cli.js");
       mod.registerGatewayCli(program);
@@ -46,7 +47,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "daemon",
-    description: "Gateway service (legacy alias)",
+    description: zhCN.commands.daemon,
     register: async (program) => {
       const mod = await import("../daemon-cli.js");
       mod.registerDaemonCli(program);
@@ -54,7 +55,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "logs",
-    description: "Gateway logs",
+    description: zhCN.commands.logs,
     register: async (program) => {
       const mod = await import("../logs-cli.js");
       mod.registerLogsCli(program);
@@ -62,7 +63,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "system",
-    description: "System events, heartbeat, and presence",
+    description: zhCN.commands.system,
     register: async (program) => {
       const mod = await import("../system-cli.js");
       mod.registerSystemCli(program);
@@ -70,7 +71,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "models",
-    description: "Model configuration",
+    description: zhCN.commands.models,
     register: async (program) => {
       const mod = await import("../models-cli.js");
       mod.registerModelsCli(program);
@@ -78,7 +79,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "approvals",
-    description: "Exec approvals",
+    description: zhCN.commands.approvals,
     register: async (program) => {
       const mod = await import("../exec-approvals-cli.js");
       mod.registerExecApprovalsCli(program);
@@ -86,7 +87,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "nodes",
-    description: "Node commands",
+    description: zhCN.commands.nodes,
     register: async (program) => {
       const mod = await import("../nodes-cli.js");
       mod.registerNodesCli(program);
@@ -94,7 +95,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "devices",
-    description: "Device pairing + token management",
+    description: zhCN.commands.devices,
     register: async (program) => {
       const mod = await import("../devices-cli.js");
       mod.registerDevicesCli(program);
@@ -102,7 +103,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "node",
-    description: "Node control",
+    description: zhCN.commands.node,
     register: async (program) => {
       const mod = await import("../node-cli.js");
       mod.registerNodeCli(program);
@@ -110,7 +111,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "sandbox",
-    description: "Sandbox tools",
+    description: zhCN.commands.sandbox,
     register: async (program) => {
       const mod = await import("../sandbox-cli.js");
       mod.registerSandboxCli(program);
@@ -118,7 +119,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "tui",
-    description: "Terminal UI",
+    description: zhCN.commands.tui,
     register: async (program) => {
       const mod = await import("../tui-cli.js");
       mod.registerTuiCli(program);
@@ -126,7 +127,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "cron",
-    description: "Cron scheduler",
+    description: zhCN.commands.cron,
     register: async (program) => {
       const mod = await import("../cron-cli.js");
       mod.registerCronCli(program);
@@ -134,7 +135,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "dns",
-    description: "DNS helpers",
+    description: zhCN.commands.dns,
     register: async (program) => {
       const mod = await import("../dns-cli.js");
       mod.registerDnsCli(program);
@@ -142,7 +143,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "docs",
-    description: "Docs helpers",
+    description: zhCN.commands.docs,
     register: async (program) => {
       const mod = await import("../docs-cli.js");
       mod.registerDocsCli(program);
@@ -150,7 +151,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "hooks",
-    description: "Hooks tooling",
+    description: zhCN.commands.hooks,
     register: async (program) => {
       const mod = await import("../hooks-cli.js");
       mod.registerHooksCli(program);
@@ -158,7 +159,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "webhooks",
-    description: "Webhook helpers",
+    description: zhCN.commands.webhooks,
     register: async (program) => {
       const mod = await import("../webhooks-cli.js");
       mod.registerWebhooksCli(program);
@@ -166,7 +167,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "pairing",
-    description: "Pairing helpers",
+    description: zhCN.commands.pairing,
     register: async (program) => {
       // Initialize plugins before registering pairing CLI.
       // The pairing CLI calls listPairingChannels() at registration time,
@@ -179,7 +180,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "plugins",
-    description: "Plugin management",
+    description: zhCN.commands.plugins,
     register: async (program) => {
       const mod = await import("../plugins-cli.js");
       mod.registerPluginsCli(program);
@@ -189,7 +190,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "channels",
-    description: "Channel management",
+    description: zhCN.commands.channels,
     register: async (program) => {
       const mod = await import("../channels-cli.js");
       mod.registerChannelsCli(program);
@@ -197,7 +198,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "directory",
-    description: "Directory commands",
+    description: zhCN.commands.directory,
     register: async (program) => {
       const mod = await import("../directory-cli.js");
       mod.registerDirectoryCli(program);
@@ -205,7 +206,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "security",
-    description: "Security helpers",
+    description: zhCN.commands.security,
     register: async (program) => {
       const mod = await import("../security-cli.js");
       mod.registerSecurityCli(program);
@@ -213,7 +214,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "skills",
-    description: "Skills management",
+    description: zhCN.commands.skills,
     register: async (program) => {
       const mod = await import("../skills-cli.js");
       mod.registerSkillsCli(program);
@@ -221,7 +222,7 @@ const entries: SubCliEntry[] = [
   },
   {
     name: "update",
-    description: "CLI update helpers",
+    description: zhCN.commands.update,
     register: async (program) => {
       const mod = await import("../update-cli.js");
       mod.registerUpdateCli(program);
