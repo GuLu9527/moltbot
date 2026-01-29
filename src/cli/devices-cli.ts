@@ -6,6 +6,7 @@ import { defaultRuntime } from "../runtime.js";
 import { renderTable } from "../terminal/table.js";
 import { theme } from "../terminal/theme.js";
 import { withProgress } from "./progress.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 type DevicesRpcOpts = {
   url?: string;
@@ -106,12 +107,12 @@ function formatTokenSummary(tokens: DeviceTokenSummary[] | undefined) {
 }
 
 export function registerDevicesCli(program: Command) {
-  const devices = program.command("devices").description("Device pairing and auth tokens");
+  const devices = program.command("devices").description(zhCN.commands.devicesManage);
 
   devicesCallOpts(
     devices
       .command("list")
-      .description("List pending and paired devices")
+      .description(zhCN.commands.devicesList)
       .action(async (opts: DevicesRpcOpts) => {
         const result = await callGatewayCli("device.pair.list", opts, {});
         const list = parseDevicePairingList(result);
@@ -180,7 +181,7 @@ export function registerDevicesCli(program: Command) {
   devicesCallOpts(
     devices
       .command("approve")
-      .description("Approve a pending device pairing request")
+      .description(zhCN.commands.devicesApprove)
       .argument("<requestId>", "Pending request id")
       .action(async (requestId: string, opts: DevicesRpcOpts) => {
         const result = await callGatewayCli("device.pair.approve", opts, { requestId });
@@ -196,7 +197,7 @@ export function registerDevicesCli(program: Command) {
   devicesCallOpts(
     devices
       .command("reject")
-      .description("Reject a pending device pairing request")
+      .description(zhCN.commands.devicesReject)
       .argument("<requestId>", "Pending request id")
       .action(async (requestId: string, opts: DevicesRpcOpts) => {
         const result = await callGatewayCli("device.pair.reject", opts, { requestId });
@@ -212,7 +213,7 @@ export function registerDevicesCli(program: Command) {
   devicesCallOpts(
     devices
       .command("rotate")
-      .description("Rotate a device token for a role")
+      .description(zhCN.commands.devicesRotate)
       .requiredOption("--device <id>", "Device id")
       .requiredOption("--role <role>", "Role name")
       .option("--scope <scope...>", "Scopes to attach to the token (repeatable)")
@@ -236,7 +237,7 @@ export function registerDevicesCli(program: Command) {
   devicesCallOpts(
     devices
       .command("revoke")
-      .description("Revoke a device token for a role")
+      .description(zhCN.commands.devicesRevoke)
       .requiredOption("--device <id>", "Device id")
       .requiredOption("--role <role>", "Role name")
       .action(async (opts: DevicesRpcOpts) => {

@@ -26,6 +26,7 @@ import { renderTable } from "../terminal/table.js";
 import { theme } from "../terminal/theme.js";
 import { formatCliCommand } from "./command-format.js";
 import { resolveUserPath, shortenHomePath } from "../utils.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export type HooksListOptions = {
   json?: boolean;
@@ -420,7 +421,7 @@ export async function disableHook(hookName: string): Promise<void> {
 export function registerHooksCli(program: Command): void {
   const hooks = program
     .command("hooks")
-    .description("Manage internal agent hooks")
+    .description(zhCN.commands.hooks)
     .addHelpText(
       "after",
       () =>
@@ -429,7 +430,7 @@ export function registerHooksCli(program: Command): void {
 
   hooks
     .command("list")
-    .description("List all hooks")
+    .description(zhCN.commands.hooksList)
     .option("--eligible", "Show only eligible hooks", false)
     .option("--json", "Output as JSON", false)
     .option("-v, --verbose", "Show more details including missing requirements", false)
@@ -448,7 +449,7 @@ export function registerHooksCli(program: Command): void {
 
   hooks
     .command("info <name>")
-    .description("Show detailed information about a hook")
+    .description(zhCN.commands.hooksInfo)
     .option("--json", "Output as JSON", false)
     .action(async (name, opts) => {
       try {
@@ -465,7 +466,7 @@ export function registerHooksCli(program: Command): void {
 
   hooks
     .command("check")
-    .description("Check hooks eligibility status")
+    .description(zhCN.commands.hooksCheck)
     .option("--json", "Output as JSON", false)
     .action(async (opts) => {
       try {
@@ -482,7 +483,7 @@ export function registerHooksCli(program: Command): void {
 
   hooks
     .command("enable <name>")
-    .description("Enable a hook")
+    .description(zhCN.commands.hooksEnable)
     .action(async (name) => {
       try {
         await enableHook(name);
@@ -496,7 +497,7 @@ export function registerHooksCli(program: Command): void {
 
   hooks
     .command("disable <name>")
-    .description("Disable a hook")
+    .description(zhCN.commands.hooksDisable)
     .action(async (name) => {
       try {
         await disableHook(name);
@@ -510,7 +511,7 @@ export function registerHooksCli(program: Command): void {
 
   hooks
     .command("install")
-    .description("Install a hook pack (path, archive, or npm spec)")
+    .description(zhCN.commands.hooksInstall)
     .argument("<path-or-spec>", "Path to a hook pack or npm package spec")
     .option("-l, --link", "Link a local path instead of copying", false)
     .action(async (raw: string, opts: { link?: boolean }) => {
@@ -722,7 +723,7 @@ export function registerHooksCli(program: Command): void {
 
   hooks
     .command("update")
-    .description("Update installed hooks (npm installs only)")
+    .description(zhCN.commands.hooksUpdate)
     .argument("[id]", "Hook pack id (omit with --all)")
     .option("--all", "Update all tracked hooks", false)
     .option("--dry-run", "Show what would change without writing", false)

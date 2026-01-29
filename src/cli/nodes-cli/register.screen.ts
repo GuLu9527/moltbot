@@ -11,16 +11,17 @@ import { runNodesCommand } from "./cli-utils.js";
 import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
 import type { NodesRpcOpts } from "./types.js";
 import { shortenHomePath } from "../../utils.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerNodesScreenCommands(nodes: Command) {
   const screen = nodes
     .command("screen")
-    .description("Capture screen recordings from a paired node");
+    .description(zhCN.commands.nodesScreen);
 
   nodesCallOpts(
     screen
       .command("record")
-      .description("Capture a short screen recording from a node (prints MEDIA:<path>)")
+      .description(zhCN.commands.nodesScreenRecord)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--screen <index>", "Screen index (0 = primary)", "0")
       .option("--duration <ms|10s>", "Clip duration (ms or 10s)", "10000")

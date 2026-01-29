@@ -11,6 +11,7 @@ import {
   runNodeDaemonUninstall,
 } from "./daemon.js";
 import { parsePort } from "../daemon-cli/shared.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 function parsePortWithFallback(value: unknown, fallback: number): number {
   const parsed = parsePort(value);
@@ -20,7 +21,7 @@ function parsePortWithFallback(value: unknown, fallback: number): number {
 export function registerNodeCli(program: Command) {
   const node = program
     .command("node")
-    .description("Run a headless node host (system.run/system.which)")
+    .description(zhCN.commands.nodeRun)
     .addHelpText(
       "after",
       () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/node", "docs.molt.bot/cli/node")}\n`,
@@ -28,7 +29,7 @@ export function registerNodeCli(program: Command) {
 
   node
     .command("run")
-    .description("Run the headless node host (foreground)")
+    .description(zhCN.commands.nodeRun)
     .option("--host <host>", "Gateway host")
     .option("--port <port>", "Gateway port")
     .option("--tls", "Use TLS for the gateway connection", false)
@@ -52,7 +53,7 @@ export function registerNodeCli(program: Command) {
 
   node
     .command("status")
-    .description("Show node host status")
+    .description(zhCN.commands.nodeStatus)
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runNodeDaemonStatus(opts);
@@ -60,7 +61,7 @@ export function registerNodeCli(program: Command) {
 
   node
     .command("install")
-    .description("Install the node host service (launchd/systemd/schtasks)")
+    .description(zhCN.commands.nodeInstall)
     .option("--host <host>", "Gateway host")
     .option("--port <port>", "Gateway port")
     .option("--tls", "Use TLS for the gateway connection", false)
@@ -76,7 +77,7 @@ export function registerNodeCli(program: Command) {
 
   node
     .command("uninstall")
-    .description("Uninstall the node host service (launchd/systemd/schtasks)")
+    .description(zhCN.commands.nodeUninstall)
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runNodeDaemonUninstall(opts);
@@ -84,7 +85,7 @@ export function registerNodeCli(program: Command) {
 
   node
     .command("stop")
-    .description("Stop the node host service (launchd/systemd/schtasks)")
+    .description(zhCN.commands.nodeStop)
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runNodeDaemonStop(opts);
@@ -92,7 +93,7 @@ export function registerNodeCli(program: Command) {
 
   node
     .command("restart")
-    .description("Restart the node host service (launchd/systemd/schtasks)")
+    .description(zhCN.commands.nodeRestart)
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runNodeDaemonRestart(opts);

@@ -4,12 +4,13 @@ import { defaultRuntime } from "../../runtime.js";
 import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
 import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
 import type { NodesRpcOpts } from "./types.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerNodesNotifyCommand(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("notify")
-      .description("Send a local notification on a node (mac only)")
+      .description(zhCN.commands.nodesNotify)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--title <text>", "Notification title")
       .option("--body <text>", "Notification body")

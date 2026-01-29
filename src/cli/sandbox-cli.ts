@@ -6,6 +6,7 @@ import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
 import { formatHelpExamples } from "./help-format.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 // --- Types ---
 
@@ -60,7 +61,7 @@ function createRunner(
 export function registerSandboxCli(program: Command) {
   const sandbox = program
     .command("sandbox")
-    .description("Manage sandbox containers (Docker-based agent isolation)")
+    .description(zhCN.commands.sandbox)
     .addHelpText(
       "after",
       () => `\n${theme.heading("Examples:")}\n${formatHelpExamples(SANDBOX_EXAMPLES.main)}\n`,
@@ -78,7 +79,7 @@ export function registerSandboxCli(program: Command) {
 
   sandbox
     .command("list")
-    .description("List sandbox containers and their status")
+    .description(zhCN.commands.sandboxList)
     .option("--json", "Output result as JSON", false)
     .option("--browser", "List browser containers only", false)
     .addHelpText(
@@ -108,7 +109,7 @@ export function registerSandboxCli(program: Command) {
 
   sandbox
     .command("recreate")
-    .description("Remove containers to force recreation with updated config")
+    .description(zhCN.commands.sandboxRecreate)
     .option("--all", "Recreate all sandbox containers", false)
     .option("--session <key>", "Recreate container for specific session")
     .option("--agent <id>", "Recreate containers for specific agent")
@@ -152,7 +153,7 @@ export function registerSandboxCli(program: Command) {
 
   sandbox
     .command("explain")
-    .description("Explain effective sandbox/tool policy for a session/agent")
+    .description(zhCN.commands.sandboxExplain)
     .option("--session <key>", "Session key to inspect (defaults to agent main)")
     .option("--agent <id>", "Agent id to inspect (defaults to derived agent)")
     .option("--json", "Output result as JSON", false)

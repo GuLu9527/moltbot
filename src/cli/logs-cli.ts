@@ -8,6 +8,7 @@ import { createSafeStreamWriter } from "../terminal/stream-writer.js";
 import { colorize, isRich, theme } from "../terminal/theme.js";
 import { formatCliCommand } from "./command-format.js";
 import { addGatewayClientOptions, callGatewayFromCli } from "./gateway-rpc.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 type LogsTailPayload = {
   file?: string;
@@ -170,7 +171,7 @@ function emitGatewayError(
 export function registerLogsCli(program: Command) {
   const logs = program
     .command("logs")
-    .description("Tail gateway file logs via RPC")
+    .description(zhCN.commands.logsTail)
     .option("--limit <n>", "Max lines to return", "200")
     .option("--max-bytes <n>", "Max bytes to read", "250000")
     .option("--follow", "Follow log output", false)

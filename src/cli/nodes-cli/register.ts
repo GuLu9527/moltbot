@@ -9,15 +9,16 @@ import { registerNodesNotifyCommand } from "./register.notify.js";
 import { registerNodesPairingCommands } from "./register.pairing.js";
 import { registerNodesScreenCommands } from "./register.screen.js";
 import { registerNodesStatusCommands } from "./register.status.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerNodesCli(program: Command) {
   const nodes = program
     .command("nodes")
-    .description("Manage gateway-owned node pairing")
+    .description(zhCN.commands.nodesManage)
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/nodes", "docs.molt.bot/cli/nodes")}\n`,
+        `\n${theme.muted("文档:")} ${formatDocsLink("/cli/nodes", "docs.molt.bot/cli/nodes")}\n`,
     );
 
   registerNodesStatusCommands(nodes);

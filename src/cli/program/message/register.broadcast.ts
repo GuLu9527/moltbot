@@ -1,11 +1,12 @@
 import type { Command } from "commander";
 import { CHANNEL_TARGETS_DESCRIPTION } from "../../../infra/outbound/channel-target.js";
 import type { MessageCliHelpers } from "./helpers.js";
+import { zhCN } from "../../../i18n/zh-CN.js";
 
 export function registerMessageBroadcastCommand(message: Command, helpers: MessageCliHelpers) {
   helpers
     .withMessageBase(
-      message.command("broadcast").description("Broadcast a message to multiple targets"),
+      message.command("broadcast").description(zhCN.commands.messageBroadcast),
     )
     .requiredOption("--targets <target...>", CHANNEL_TARGETS_DESCRIPTION)
     .option("--message <text>", "Message to send")

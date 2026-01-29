@@ -20,22 +20,23 @@ import {
 import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export function registerWebhooksCli(program: Command) {
   const webhooks = program
     .command("webhooks")
-    .description("Webhook helpers and integrations")
+    .description(zhCN.commands.webhooks)
     .addHelpText(
       "after",
       () =>
         `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/webhooks", "docs.molt.bot/cli/webhooks")}\n`,
     );
 
-  const gmail = webhooks.command("gmail").description("Gmail Pub/Sub hooks (via gogcli)");
+  const gmail = webhooks.command("gmail").description(zhCN.commands.webhooksGmail);
 
   gmail
     .command("setup")
-    .description("Configure Gmail watch + Pub/Sub + Moltbot hooks")
+    .description(zhCN.commands.webhooksGmailSetup)
     .requiredOption("--account <email>", "Gmail account to watch")
     .option("--project <id>", "GCP project id (OAuth client owner)")
     .option("--topic <name>", "Pub/Sub topic name", DEFAULT_GMAIL_TOPIC)
@@ -74,7 +75,7 @@ export function registerWebhooksCli(program: Command) {
 
   gmail
     .command("run")
-    .description("Run gog watch serve + auto-renew loop")
+    .description(zhCN.commands.webhooksGmailRun)
     .option("--account <email>", "Gmail account to watch")
     .option("--topic <topic>", "Pub/Sub topic path (projects/.../topics/..)")
     .option("--subscription <name>", "Pub/Sub subscription name")

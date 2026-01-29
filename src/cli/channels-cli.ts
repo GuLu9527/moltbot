@@ -16,6 +16,7 @@ import { theme } from "../terminal/theme.js";
 import { runChannelLogin, runChannelLogout } from "./channel-auth.js";
 import { runCommandWithRuntime } from "./cli-utils.js";
 import { hasExplicitOptions } from "./command-options.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 const optionNamesAdd = [
   "channel",
@@ -70,11 +71,11 @@ export function registerChannelsCli(program: Command) {
   const channelNames = formatCliChannelOptions();
   const channels = program
     .command("channels")
-    .description("Manage chat channel accounts")
+    .description(zhCN.commands.channels)
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink(
+        `\n${theme.muted("文档:")} ${formatDocsLink(
           "/cli/channels",
           "docs.molt.bot/cli/channels",
         )}\n`,
@@ -82,7 +83,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("list")
-    .description("List configured channels + auth profiles")
+    .description(zhCN.commands.channelsList)
     .option("--no-usage", "Skip model provider usage/quota snapshots")
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
@@ -93,7 +94,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("status")
-    .description("Show gateway channel status (use status --deep for local)")
+    .description(zhCN.commands.channelsStatus)
     .option("--probe", "Probe channel credentials", false)
     .option("--timeout <ms>", "Timeout in ms", "10000")
     .option("--json", "Output JSON", false)
@@ -105,7 +106,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("capabilities")
-    .description("Show provider capabilities (intents/scopes + supported features)")
+    .description(zhCN.commands.channelsCapabilities)
     .option("--channel <name>", `Channel (${formatCliChannelOptions(["all"])})`)
     .option("--account <id>", "Account id (only with --channel)")
     .option("--target <dest>", "Channel target for permission audit (Discord channel:<id>)")
@@ -119,7 +120,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("resolve")
-    .description("Resolve channel/user names to IDs")
+    .description(zhCN.commands.channelsResolve)
     .argument("<entries...>", "Entries to resolve (names or ids)")
     .option("--channel <name>", `Channel (${channelNames})`)
     .option("--account <id>", "Account id (accountId)")
@@ -142,7 +143,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("logs")
-    .description("Show recent channel logs from the gateway log file")
+    .description(zhCN.commands.channelsLogs)
     .option("--channel <name>", `Channel (${formatCliChannelOptions(["all"])})`, "all")
     .option("--lines <n>", "Number of lines (default: 200)", "200")
     .option("--json", "Output JSON", false)
@@ -154,7 +155,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("add")
-    .description("Add or update a channel account")
+    .description(zhCN.commands.channelsAdd)
     .option("--channel <name>", `Channel (${channelNames})`)
     .option("--account <id>", "Account id (default when omitted)")
     .option("--name <name>", "Display name for this account")
@@ -198,7 +199,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("remove")
-    .description("Disable or delete a channel account")
+    .description(zhCN.commands.channelsRemove)
     .option("--channel <name>", `Channel (${channelNames})`)
     .option("--account <id>", "Account id (default when omitted)")
     .option("--delete", "Delete config entries (no prompt)", false)
@@ -211,7 +212,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("login")
-    .description("Link a channel account (if supported)")
+    .description(zhCN.commands.channelsLogin)
     .option("--channel <channel>", "Channel alias (default: whatsapp)")
     .option("--account <id>", "Account id (accountId)")
     .option("--verbose", "Verbose connection logs", false)
@@ -230,7 +231,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("logout")
-    .description("Log out of a channel session (if supported)")
+    .description(zhCN.commands.channelsLogout)
     .option("--channel <channel>", "Channel alias (default: whatsapp)")
     .option("--account <id>", "Account id (accountId)")
     .action(async (opts) => {

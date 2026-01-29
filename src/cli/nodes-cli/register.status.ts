@@ -7,6 +7,7 @@ import type { NodesRpcOpts } from "./types.js";
 import { renderTable } from "../../terminal/table.js";
 import { parseDurationMs } from "../parse-duration.js";
 import { shortenHomeInString } from "../../utils.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 function formatVersionLabel(raw: string) {
   const trimmed = raw.trim();
@@ -79,7 +80,7 @@ export function registerNodesStatusCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("status")
-      .description("List known nodes with connection status and capabilities")
+      .description(zhCN.commands.nodesStatus)
       .option("--connected", "Only show connected nodes")
       .option("--last-connected <duration>", "Only show nodes connected within duration (e.g. 24h)")
       .action(async (opts: NodesRpcOpts) => {
@@ -186,7 +187,7 @@ export function registerNodesStatusCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("describe")
-      .description("Describe a node (capabilities + supported invoke commands)")
+      .description(zhCN.commands.nodesDescribe)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .action(async (opts: NodesRpcOpts) => {
         await runNodesCommand("describe", async () => {
@@ -267,7 +268,7 @@ export function registerNodesStatusCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("list")
-      .description("List pending and paired nodes")
+      .description(zhCN.commands.nodesList)
       .option("--connected", "Only show connected nodes")
       .option("--last-connected <duration>", "Only show nodes connected within duration (e.g. 24h)")
       .action(async (opts: NodesRpcOpts) => {

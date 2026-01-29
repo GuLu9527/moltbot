@@ -16,6 +16,7 @@ import { formatDocsLink } from "../terminal/links.js";
 import { renderTable } from "../terminal/table.js";
 import { theme } from "../terminal/theme.js";
 import { resolveUserPath, shortenHomeInString, shortenHomePath } from "../utils.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export type PluginsListOptions = {
   json?: boolean;
@@ -94,7 +95,7 @@ function logSlotWarnings(warnings: string[]) {
 export function registerPluginsCli(program: Command) {
   const plugins = program
     .command("plugins")
-    .description("Manage Moltbot plugins/extensions")
+    .description(zhCN.commands.pluginsManage)
     .addHelpText(
       "after",
       () =>
@@ -103,7 +104,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("list")
-    .description("List discovered plugins")
+    .description(zhCN.commands.pluginsList)
     .option("--json", "Print JSON")
     .option("--enabled", "Only show enabled plugins", false)
     .option("--verbose", "Show detailed entries", false)
@@ -177,7 +178,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("info")
-    .description("Show plugin details")
+    .description(zhCN.commands.pluginsInfo)
     .argument("<id>", "Plugin id")
     .option("--json", "Print JSON")
     .action((id: string, opts: PluginInfoOptions) => {
@@ -242,7 +243,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("enable")
-    .description("Enable a plugin in config")
+    .description(zhCN.commands.pluginsEnable)
     .argument("<id>", "Plugin id")
     .action(async (id: string) => {
       const cfg = loadConfig();
@@ -268,7 +269,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("disable")
-    .description("Disable a plugin in config")
+    .description(zhCN.commands.pluginsDisable)
     .argument("<id>", "Plugin id")
     .action(async (id: string) => {
       const cfg = loadConfig();
@@ -291,7 +292,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("install")
-    .description("Install a plugin (path, archive, or npm spec)")
+    .description(zhCN.commands.pluginsInstall)
     .argument("<path-or-spec>", "Path (.ts/.js/.zip/.tgz/.tar.gz) or an npm package spec")
     .option("-l, --link", "Link a local path instead of copying", false)
     .action(async (raw: string, opts: { link?: boolean }) => {
@@ -447,7 +448,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("update")
-    .description("Update installed plugins (npm installs only)")
+    .description(zhCN.commands.pluginsUpdate)
     .argument("[id]", "Plugin id (omit with --all)")
     .option("--all", "Update all tracked plugins", false)
     .option("--dry-run", "Show what would change without writing", false)
@@ -495,7 +496,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("doctor")
-    .description("Report plugin load issues")
+    .description(zhCN.commands.pluginsDoctor)
     .action(() => {
       const report = buildPluginStatusReport();
       const errors = report.plugins.filter((p) => p.status === "error");

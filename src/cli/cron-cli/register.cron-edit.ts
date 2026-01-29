@@ -3,6 +3,7 @@ import { danger } from "../../globals.js";
 import { defaultRuntime } from "../../runtime.js";
 import { sanitizeAgentId } from "../../routing/session-key.js";
 import { addGatewayClientOptions, callGatewayFromCli } from "../gateway-rpc.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 import {
   getCronChannelOptions,
   parseAtMs,
@@ -23,7 +24,7 @@ export function registerCronEditCommand(cron: Command) {
   addGatewayClientOptions(
     cron
       .command("edit")
-      .description("Edit a cron job (patch fields)")
+      .description(zhCN.commands.cronEdit)
       .argument("<id>", "Job id")
       .option("--name <name>", "Set name")
       .option("--description <text>", "Set description")

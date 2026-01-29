@@ -28,6 +28,7 @@ import {
   renderBeaconLines,
 } from "./discover.js";
 import { addGatewayRunCommand } from "./run.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 function styleHealthChannelLine(line: string, rich: boolean): string {
   if (!rich) return line;
@@ -99,21 +100,21 @@ export function registerGatewayCli(program: Command) {
   const gateway = addGatewayRunCommand(
     program
       .command("gateway")
-      .description("Run the WebSocket Gateway")
+      .description(zhCN.commands.gateway)
       .addHelpText(
         "after",
         () =>
-          `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/gateway", "docs.molt.bot/cli/gateway")}\n`,
+          `\n${theme.muted("文档:")} ${formatDocsLink("/cli/gateway", "docs.molt.bot/cli/gateway")}\n`,
       ),
   );
 
   addGatewayRunCommand(
-    gateway.command("run").description("Run the WebSocket Gateway (foreground)"),
+    gateway.command("run").description(zhCN.commands.gatewayRun),
   );
 
   gateway
     .command("status")
-    .description("Show gateway service status + probe the Gateway")
+    .description(zhCN.commands.gatewayStatus)
     .option("--url <url>", "Gateway WebSocket URL (defaults to config/remote/local)")
     .option("--token <token>", "Gateway token (if required)")
     .option("--password <password>", "Gateway password (password auth)")
@@ -132,7 +133,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("install")
-    .description("Install the Gateway service (launchd/systemd/schtasks)")
+    .description(zhCN.commands.gatewayInstall)
     .option("--port <port>", "Gateway port")
     .option("--runtime <runtime>", "Daemon runtime (node|bun). Default: node")
     .option("--token <token>", "Gateway token (token auth)")
@@ -144,7 +145,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("uninstall")
-    .description("Uninstall the Gateway service (launchd/systemd/schtasks)")
+    .description(zhCN.commands.gatewayUninstall)
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runDaemonUninstall(opts);
@@ -152,7 +153,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("start")
-    .description("Start the Gateway service (launchd/systemd/schtasks)")
+    .description(zhCN.commands.gatewayStart)
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runDaemonStart(opts);
@@ -160,7 +161,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("stop")
-    .description("Stop the Gateway service (launchd/systemd/schtasks)")
+    .description(zhCN.commands.gatewayStop)
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runDaemonStop(opts);
@@ -168,7 +169,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("restart")
-    .description("Restart the Gateway service (launchd/systemd/schtasks)")
+    .description(zhCN.commands.gatewayRestart)
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runDaemonRestart(opts);
@@ -177,7 +178,7 @@ export function registerGatewayCli(program: Command) {
   gatewayCallOpts(
     gateway
       .command("call")
-      .description("Call a Gateway method")
+      .description(zhCN.commands.gatewayCall)
       .argument("<method>", "Method name (health/status/system-presence/cron.*)")
       .option("--params <json>", "JSON object string for params", "{}")
       .action(async (method, opts) => {
@@ -200,7 +201,7 @@ export function registerGatewayCli(program: Command) {
   gatewayCallOpts(
     gateway
       .command("usage-cost")
-      .description("Fetch usage cost summary from session logs")
+      .description(zhCN.commands.gatewayUsageCost)
       .option("--days <days>", "Number of days to include", "30")
       .action(async (opts) => {
         await runGatewayCommand(async () => {
@@ -222,7 +223,7 @@ export function registerGatewayCli(program: Command) {
   gatewayCallOpts(
     gateway
       .command("health")
-      .description("Fetch Gateway health")
+      .description(zhCN.commands.gatewayHealth)
       .action(async (opts) => {
         await runGatewayCommand(async () => {
           const result = await callGatewayCli("health", opts);
@@ -249,7 +250,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("probe")
-    .description("Show gateway reachability + discovery + health + status summary (local + remote)")
+    .description(zhCN.commands.gatewayProbe)
     .option("--url <url>", "Explicit Gateway WebSocket URL (still probes localhost)")
     .option("--ssh <target>", "SSH target for remote gateway tunnel (user@host or user@host:port)")
     .option("--ssh-identity <path>", "SSH identity file path")
@@ -267,7 +268,7 @@ export function registerGatewayCli(program: Command) {
   gateway
     .command("discover")
     .description(
-      `Discover gateways via Bonjour (multicast local. + unicast ${WIDE_AREA_DISCOVERY_DOMAIN})`,
+      zhCN.commands.gatewayDiscover,
     )
     .option("--timeout <ms>", "Per-command timeout in ms", "2000")
     .option("--json", "Output JSON", false)

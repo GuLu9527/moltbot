@@ -9,6 +9,7 @@ import { callGatewayCli, nodesCallOpts, resolveNodeId, unauthorizedHintForMessag
 import type { NodesRpcOpts } from "./types.js";
 import { loadConfig } from "../../config/config.js";
 import { resolveAgentConfig, resolveDefaultAgentId } from "../../agents/agent-scope.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 import {
   type ExecApprovalsFile,
   type ExecAsk,
@@ -125,7 +126,7 @@ export function registerNodesInvokeCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("invoke")
-      .description("Invoke a command on a paired node")
+      .description(zhCN.commands.nodesInvoke)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .requiredOption("--command <command>", "Command (e.g. canvas.eval)")
       .option("--params <json>", "JSON object string for params", "{}")
@@ -166,7 +167,7 @@ export function registerNodesInvokeCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("run")
-      .description("Run a shell command on a node (mac only)")
+      .description(zhCN.commands.nodesRun)
       .option("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--cwd <path>", "Working directory")
       .option(

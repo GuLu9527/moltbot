@@ -30,6 +30,7 @@ import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
 import { runCommandWithRuntime } from "./cli-utils.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 function runModelsCommand(action: () => Promise<void>) {
   return runCommandWithRuntime(defaultRuntime, action);
@@ -38,7 +39,7 @@ function runModelsCommand(action: () => Promise<void>) {
 export function registerModelsCli(program: Command) {
   const models = program
     .command("models")
-    .description("Model discovery, scanning, and configuration")
+    .description(zhCN.commands.modelsManage)
     .option("--status-json", "Output JSON (alias for `models status --json`)", false)
     .option("--status-plain", "Plain output (alias for `models status --plain`)", false)
     .addHelpText(
@@ -49,7 +50,7 @@ export function registerModelsCli(program: Command) {
 
   models
     .command("list")
-    .description("List models (configured by default)")
+    .description(zhCN.commands.modelsList)
     .option("--all", "Show full model catalog", false)
     .option("--local", "Filter to local models", false)
     .option("--provider <name>", "Filter by provider")
@@ -63,7 +64,7 @@ export function registerModelsCli(program: Command) {
 
   models
     .command("status")
-    .description("Show configured model state")
+    .description(zhCN.commands.modelsStatus)
     .option("--json", "Output JSON", false)
     .option("--plain", "Plain output", false)
     .option(
@@ -106,7 +107,7 @@ export function registerModelsCli(program: Command) {
 
   models
     .command("set")
-    .description("Set the default model")
+    .description(zhCN.commands.modelsSet)
     .argument("<model>", "Model id or alias")
     .action(async (model: string) => {
       await runModelsCommand(async () => {
@@ -116,7 +117,7 @@ export function registerModelsCli(program: Command) {
 
   models
     .command("set-image")
-    .description("Set the image model")
+    .description(zhCN.commands.modelsSetImage)
     .argument("<model>", "Model id or alias")
     .action(async (model: string) => {
       await runModelsCommand(async () => {
@@ -124,11 +125,11 @@ export function registerModelsCli(program: Command) {
       });
     });
 
-  const aliases = models.command("aliases").description("Manage model aliases");
+  const aliases = models.command("aliases").description(zhCN.commands.modelsAliases);
 
   aliases
     .command("list")
-    .description("List model aliases")
+    .description(zhCN.commands.modelsAliasesList)
     .option("--json", "Output JSON", false)
     .option("--plain", "Plain output", false)
     .action(async (opts) => {
@@ -139,7 +140,7 @@ export function registerModelsCli(program: Command) {
 
   aliases
     .command("add")
-    .description("Add or update a model alias")
+    .description(zhCN.commands.modelsAliasesAdd)
     .argument("<alias>", "Alias name")
     .argument("<model>", "Model id or alias")
     .action(async (alias: string, model: string) => {
@@ -150,7 +151,7 @@ export function registerModelsCli(program: Command) {
 
   aliases
     .command("remove")
-    .description("Remove a model alias")
+    .description(zhCN.commands.modelsAliasesRemove)
     .argument("<alias>", "Alias name")
     .action(async (alias: string) => {
       await runModelsCommand(async () => {
@@ -158,11 +159,11 @@ export function registerModelsCli(program: Command) {
       });
     });
 
-  const fallbacks = models.command("fallbacks").description("Manage model fallback list");
+  const fallbacks = models.command("fallbacks").description(zhCN.commands.modelsFallbacks);
 
   fallbacks
     .command("list")
-    .description("List fallback models")
+    .description(zhCN.commands.modelsFallbacksList)
     .option("--json", "Output JSON", false)
     .option("--plain", "Plain output", false)
     .action(async (opts) => {
@@ -173,7 +174,7 @@ export function registerModelsCli(program: Command) {
 
   fallbacks
     .command("add")
-    .description("Add a fallback model")
+    .description(zhCN.commands.modelsFallbacksAdd)
     .argument("<model>", "Model id or alias")
     .action(async (model: string) => {
       await runModelsCommand(async () => {
@@ -183,7 +184,7 @@ export function registerModelsCli(program: Command) {
 
   fallbacks
     .command("remove")
-    .description("Remove a fallback model")
+    .description(zhCN.commands.modelsFallbacksRemove)
     .argument("<model>", "Model id or alias")
     .action(async (model: string) => {
       await runModelsCommand(async () => {
@@ -193,7 +194,7 @@ export function registerModelsCli(program: Command) {
 
   fallbacks
     .command("clear")
-    .description("Clear all fallback models")
+    .description(zhCN.commands.modelsFallbacksClear)
     .action(async () => {
       await runModelsCommand(async () => {
         await modelsFallbacksClearCommand(defaultRuntime);
@@ -202,11 +203,11 @@ export function registerModelsCli(program: Command) {
 
   const imageFallbacks = models
     .command("image-fallbacks")
-    .description("Manage image model fallback list");
+    .description(zhCN.commands.modelsImageFallbacks);
 
   imageFallbacks
     .command("list")
-    .description("List image fallback models")
+    .description(zhCN.commands.modelsImageFallbacksList)
     .option("--json", "Output JSON", false)
     .option("--plain", "Plain output", false)
     .action(async (opts) => {
@@ -217,7 +218,7 @@ export function registerModelsCli(program: Command) {
 
   imageFallbacks
     .command("add")
-    .description("Add an image fallback model")
+    .description(zhCN.commands.modelsImageFallbacksAdd)
     .argument("<model>", "Model id or alias")
     .action(async (model: string) => {
       await runModelsCommand(async () => {
@@ -227,7 +228,7 @@ export function registerModelsCli(program: Command) {
 
   imageFallbacks
     .command("remove")
-    .description("Remove an image fallback model")
+    .description(zhCN.commands.modelsImageFallbacksRemove)
     .argument("<model>", "Model id or alias")
     .action(async (model: string) => {
       await runModelsCommand(async () => {
@@ -237,7 +238,7 @@ export function registerModelsCli(program: Command) {
 
   imageFallbacks
     .command("clear")
-    .description("Clear all image fallback models")
+    .description(zhCN.commands.modelsImageFallbacksClear)
     .action(async () => {
       await runModelsCommand(async () => {
         await modelsImageFallbacksClearCommand(defaultRuntime);
@@ -246,7 +247,7 @@ export function registerModelsCli(program: Command) {
 
   models
     .command("scan")
-    .description("Scan OpenRouter free models for tools + images")
+    .description(zhCN.commands.modelsScan)
     .option("--min-params <b>", "Minimum parameter size (billions)")
     .option("--max-age-days <days>", "Skip models older than N days")
     .option("--provider <name>", "Filter by provider prefix")
@@ -277,11 +278,11 @@ export function registerModelsCli(program: Command) {
     });
   });
 
-  const auth = models.command("auth").description("Manage model auth profiles");
+  const auth = models.command("auth").description(zhCN.commands.modelsAuth);
 
   auth
     .command("add")
-    .description("Interactive auth helper (setup-token or paste token)")
+    .description(zhCN.commands.modelsAuthAdd)
     .action(async () => {
       await runModelsCommand(async () => {
         await modelsAuthAddCommand({}, defaultRuntime);
@@ -290,7 +291,7 @@ export function registerModelsCli(program: Command) {
 
   auth
     .command("login")
-    .description("Run a provider plugin auth flow (OAuth/API key)")
+    .description(zhCN.commands.modelsAuthLogin)
     .option("--provider <id>", "Provider id registered by a plugin")
     .option("--method <id>", "Provider auth method id")
     .option("--set-default", "Apply the provider's default model recommendation", false)
@@ -309,7 +310,7 @@ export function registerModelsCli(program: Command) {
 
   auth
     .command("setup-token")
-    .description("Run a provider CLI to create/sync a token (TTY required)")
+    .description(zhCN.commands.modelsAuthSetupToken)
     .option("--provider <name>", "Provider id (default: anthropic)")
     .option("--yes", "Skip confirmation", false)
     .action(async (opts) => {
@@ -326,7 +327,7 @@ export function registerModelsCli(program: Command) {
 
   auth
     .command("paste-token")
-    .description("Paste a token into auth-profiles.json and update config")
+    .description(zhCN.commands.modelsAuthPasteToken)
     .requiredOption("--provider <name>", "Provider id (e.g. anthropic)")
     .option("--profile-id <id>", "Auth profile id (default: <provider>:manual)")
     .option(
@@ -348,7 +349,7 @@ export function registerModelsCli(program: Command) {
 
   auth
     .command("login-github-copilot")
-    .description("Login to GitHub Copilot via GitHub device flow (TTY required)")
+    .description(zhCN.commands.modelsAuthLoginGithubCopilot)
     .option("--profile-id <id>", "Auth profile id (default: github-copilot:github)")
     .option("--yes", "Overwrite existing profile without prompting", false)
     .action(async (opts) => {
@@ -363,11 +364,11 @@ export function registerModelsCli(program: Command) {
       });
     });
 
-  const order = auth.command("order").description("Manage per-agent auth profile order overrides");
+  const order = auth.command("order").description(zhCN.commands.modelsAuthOrder);
 
   order
     .command("get")
-    .description("Show per-agent auth order override (from auth-profiles.json)")
+    .description(zhCN.commands.modelsAuthOrderGet)
     .requiredOption("--provider <name>", "Provider id (e.g. anthropic)")
     .option("--agent <id>", "Agent id (default: configured default agent)")
     .option("--json", "Output JSON", false)
@@ -386,7 +387,7 @@ export function registerModelsCli(program: Command) {
 
   order
     .command("set")
-    .description("Set per-agent auth order override (locks rotation to this list)")
+    .description(zhCN.commands.modelsAuthOrderSet)
     .requiredOption("--provider <name>", "Provider id (e.g. anthropic)")
     .option("--agent <id>", "Agent id (default: configured default agent)")
     .argument("<profileIds...>", "Auth profile ids (e.g. anthropic:default)")
@@ -405,7 +406,7 @@ export function registerModelsCli(program: Command) {
 
   order
     .command("clear")
-    .description("Clear per-agent auth order override (fall back to config/round-robin)")
+    .description(zhCN.commands.modelsAuthOrderClear)
     .requiredOption("--provider <name>", "Provider id (e.g. anthropic)")
     .option("--agent <id>", "Agent id (default: configured default agent)")
     .action(async (opts) => {

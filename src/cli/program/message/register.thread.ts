@@ -1,15 +1,16 @@
 import type { Command } from "commander";
 import type { MessageCliHelpers } from "./helpers.js";
+import { zhCN } from "../../../i18n/zh-CN.js";
 
 export function registerMessageThreadCommands(message: Command, helpers: MessageCliHelpers) {
-  const thread = message.command("thread").description("Thread actions");
+  const thread = message.command("thread").description(zhCN.commands.messageThreadCreate);
 
   helpers
     .withMessageBase(
       helpers.withRequiredMessageTarget(
         thread
           .command("create")
-          .description("Create a thread")
+          .description(zhCN.commands.messageThreadCreate)
           .requiredOption("--thread-name <name>", "Thread name"),
       ),
     )
@@ -23,7 +24,7 @@ export function registerMessageThreadCommands(message: Command, helpers: Message
     .withMessageBase(
       thread
         .command("list")
-        .description("List threads")
+        .description(zhCN.commands.messageThreadList)
         .requiredOption("--guild-id <id>", "Guild id"),
     )
     .option("--channel-id <id>", "Channel id")
@@ -39,7 +40,7 @@ export function registerMessageThreadCommands(message: Command, helpers: Message
       helpers.withRequiredMessageTarget(
         thread
           .command("reply")
-          .description("Reply in a thread")
+          .description(zhCN.commands.messageThreadReply)
           .requiredOption("-m, --message <text>", "Message body"),
       ),
     )

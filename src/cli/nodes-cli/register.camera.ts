@@ -13,6 +13,7 @@ import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
 import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
 import type { NodesRpcOpts } from "./types.js";
 import { renderTable } from "../../terminal/table.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 import { shortenHomePath } from "../../utils.js";
 
 const parseFacing = (value: string): CameraFacing => {
@@ -24,12 +25,12 @@ const parseFacing = (value: string): CameraFacing => {
 };
 
 export function registerNodesCameraCommands(nodes: Command) {
-  const camera = nodes.command("camera").description("Capture camera media from a paired node");
+  const camera = nodes.command("camera").description(zhCN.commands.nodesCamera);
 
   nodesCallOpts(
     camera
       .command("list")
-      .description("List available cameras on a node")
+      .description(zhCN.commands.nodesCameraList)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .action(async (opts: NodesRpcOpts) => {
         await runNodesCommand("camera list", async () => {
@@ -86,7 +87,7 @@ export function registerNodesCameraCommands(nodes: Command) {
   nodesCallOpts(
     camera
       .command("snap")
-      .description("Capture a photo from a node camera (prints MEDIA:<path>)")
+      .description(zhCN.commands.nodesCameraSnap)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--facing <front|back|both>", "Camera facing", "both")
       .option("--device-id <id>", "Camera device id (from nodes camera list)")
@@ -175,7 +176,7 @@ export function registerNodesCameraCommands(nodes: Command) {
   nodesCallOpts(
     camera
       .command("clip")
-      .description("Capture a short video clip from a node camera (prints MEDIA:<path>)")
+      .description(zhCN.commands.nodesCameraClip)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--facing <front|back>", "Camera facing", "front")
       .option("--device-id <id>", "Camera device id (from nodes camera list)")
