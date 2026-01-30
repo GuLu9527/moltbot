@@ -137,7 +137,7 @@ export async function doctorCommand(
           : options.nonInteractive === true
             ? false
             : await prompter.confirmRepair({
-                message: "Generate and configure a gateway token now?",
+                message: zhCN.output.generateGatewayToken,
                 initialValue: true,
               });
       if (shouldSetToken) {
@@ -153,7 +153,7 @@ export async function doctorCommand(
             },
           },
         };
-        note("Gateway token configured.", "Gateway auth");
+        note(zhCN.output.gatewayTokenConfigured, "Gateway auth");
       }
     }
   }

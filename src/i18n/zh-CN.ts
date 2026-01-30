@@ -919,6 +919,48 @@ openclaw security audit --fix
 
     // Non-interactive
     braveKeyTip: "提示：运行 `openclaw configure --section web` 以存储您的 Brave Search API 密钥用于 web_search。文档：https://docs.openclaw.ai/tools/web",
+
+    // Channel config
+    noChannelConfigFound: "未在 openclaw.json 中找到渠道配置。",
+    removeChannelConfigPrompt: "移除哪个渠道配置？",
+    deleteTokenSettings: "从配置中删除令牌 + 设置（凭据保留在磁盘上）",
+    channelConfigDone: "完成",
+    deleteChannelConfigConfirm: "从 {configPath} 中删除 {label} 配置？",
+    channelRemoved: "渠道已移除",
+    channelRemovedNote: "注意：磁盘上的凭据/会话未更改。",
+
+    // Daemon config
+    gatewayServiceInstalled: "网关服务已安装",
+    serviceRestart: "重启",
+    serviceReinstall: "重新安装",
+    serviceSkip: "跳过",
+    serviceRuntime: "网关服务运行时",
+    restartingService: "重启网关服务…",
+    serviceRestarted: "网关服务已重启。",
+    uninstallingService: "卸载网关服务…",
+    serviceUninstalled: "网关服务已卸载。",
+    preparingService: "准备网关服务…",
+    installingService: "安装网关服务…",
+    serviceInstalled: "网关服务已安装。",
+    failedToInstallService: "安装网关服务失败：{error}",
+
+    // Configure sections
+    workspaceLabel: "工作区",
+    workspaceHint: "设置工作区 + 会话",
+    modelLabel: "模型",
+    modelHint: "选择提供商 + 凭据",
+    webToolsLabel: "Web 工具",
+    webToolsHint: "配置 Brave 搜索 + 获取",
+    gatewayLabel: "网关",
+    gatewayHint: "端口、绑定、认证、Tailscale",
+    daemonLabel: "服务",
+    daemonHint: "安装/管理后台服务",
+    channelsLabel: "渠道",
+    channelsHint: "链接 WhatsApp/Telegram 等及默认值",
+    skillsLabel: "技能",
+    skillsHint: "安装/启用工作区技能",
+    healthLabel: "健康检查",
+    healthHint: "运行网关 + 渠道检查",
   },
 } as const;
 

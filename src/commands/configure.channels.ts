@@ -3,6 +3,7 @@ import { formatCliCommand } from "../cli/command-format.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { CONFIG_PATH } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { note } from "../terminal/note.js";
 import { shortenHomePath } from "../utils.js";
 import { confirm, select } from "./configure.shared.js";
@@ -24,24 +25,24 @@ export async function removeChannelConfigWizard(
     if (configured.length === 0) {
       note(
         [
-          "No channel config found in openclaw.json.",
-          `Tip: \`${formatCliCommand("openclaw channels status")}\` shows what is configured and enabled.`,
+          zhCN.output.noChannelConfigFound,
+          `提示：\`${formatCliCommand("openclaw channels status")}\` 显示已配置和启用的内容。`,
         ].join("\n"),
-        "Remove channel",
+        zhCN.output.removeChannelConfigPrompt,
       );
       return next;
     }
 
     const channel = guardCancel(
       await select({
-        message: "Remove which channel config?",
+        message: zhCN.output.removeChannelConfigPrompt,
         options: [
           ...configured.map((meta) => ({
             value: meta.id,
             label: meta.label,
-            hint: "Deletes tokens + settings from config (credentials stay on disk)",
+            hint: zhCN.output.deleteTokenSettings,
           })),
-          { value: "done", label: "Done" },
+          { value: "done", label: zhCN.output.channelConfigDone },
         ],
       }),
       runtime,
@@ -52,7 +53,9 @@ export async function removeChannelConfigWizard(
     const label = getChannelPlugin(channel)?.meta.label ?? channel;
     const confirmed = guardCancel(
       await confirm({
-        message: `Delete ${label} configuration from ${shortenHomePath(CONFIG_PATH)}?`,
+        message: zhCN.output.deleteChannelConfigConfirm
+          .replace("{configPath}", shortenHomePath(CONFIG_PATH))
+          .replace("{label}", String(label)),
         initialValue: false,
       }),
       runtime,
@@ -69,10 +72,8 @@ export async function removeChannelConfigWizard(
     };
 
     note(
-      [`${label} removed from config.`, "Note: credentials/sessions on disk are unchanged."].join(
-        "\n",
-      ),
-      "Channel removed",
+      [`${label} ${zhCN.output.channelRemoved}`, zhCN.output.channelRemovedNote].join("\n"),
+      zhCN.output.channelRemoved,
     );
   }
 }
