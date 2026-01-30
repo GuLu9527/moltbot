@@ -53,6 +53,7 @@ Status: beta.
 - Telegram: avoid block replies when streaming is disabled. (#1885) Thanks @ivancasco.
 - Docs: keep docs header sticky so navbar stays visible while scrolling. (#2445) Thanks @chenyuan99.
 - Docs: update exe.dev install instructions. (#https://github.com/moltbot/moltbot/pull/3047) Thanks @zackerthescar.
+- Build: skip redundant UI install step in the Dockerfile. (#4584) Thanks @obviyus.
 - Security: use Windows ACLs for permission audits and fixes on Windows. (#1957)
 - Auth: show copyable Google auth URL after ASCII prompt. (#1787) Thanks @robbyczgw-cla.
 - Routing: precompile session key regexes. (#1697) Thanks @Ray0907.
@@ -73,6 +74,10 @@ Status: beta.
 - **BREAKING:** Gateway auth mode "none" is removed; gateway now requires token/password (Tailscale Serve identity still allowed).
 
 ### Fixes
+- Telegram: use undici fetch for per-account proxy dispatcher. (#4456) Thanks @spiceoogway.
+- Telegram: fix HTML nesting for overlapping styles and links. (#4578) Thanks @ThanhNguyxn.
+- Telegram: accept numeric messageId/chatId in react action and honor channelId fallback. (#4533) Thanks @Ayush10.
+- Telegram: scope native skill commands to bound agent per bot. (#4360) Thanks @robhparker.
 - Telegram: avoid silent empty replies by tracking normalization skips before fallback. (#3796)
 - Mentions: honor mentionPatterns even when explicit mentions are present. (#3303) Thanks @HirokiKobayashi-R.
 - Discord: restore username directory lookup in target resolution. (#3131) Thanks @bonald.
