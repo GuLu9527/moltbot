@@ -13,13 +13,19 @@ function normalizeBase(input: string): string {
 }
 
 export default defineConfig(({ command }) => {
-  const envBase = process.env.OPENCLAW_CONTROL_UI_BASE_PATH?.trim();
+  const envBase = process.env.CLAWDBOT_CONTROL_UI_BASE_PATH?.trim();
   const base = envBase ? normalizeBase(envBase) : "./";
   return {
     base,
     publicDir: path.resolve(here, "public"),
     optimizeDeps: {
       include: ["lit/directives/repeat.js"],
+    },
+    resolve: {
+      alias: {
+        // 指向主项目的语言包
+        "@moltbot/i18n": path.resolve(here, "../src/i18n/zh-CN.ts"),
+      },
     },
     build: {
       outDir: path.resolve(here, "../dist/control-ui"),

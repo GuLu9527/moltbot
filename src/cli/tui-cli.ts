@@ -4,11 +4,12 @@ import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
 import { runTui } from "../tui/tui.js";
 import { parseTimeoutMs } from "./parse-timeout.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export function registerTuiCli(program: Command) {
   program
     .command("tui")
-    .description("Open a terminal UI connected to the Gateway")
+    .description(zhCN.commands.tui)
     .option("--url <url>", "Gateway WebSocket URL (defaults to gateway.remote.url when configured)")
     .option("--token <token>", "Gateway token (if required)")
     .option("--password <password>", "Gateway password (if required)")
@@ -20,7 +21,7 @@ export function registerTuiCli(program: Command) {
     .option("--history-limit <n>", "History entries to load", "200")
     .addHelpText(
       "after",
-      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/tui", "docs.openclaw.ai/cli/tui")}\n`,
+      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/tui", "docs.molt.bot/cli/tui")}\n`,
     )
     .action(async (opts) => {
       try {

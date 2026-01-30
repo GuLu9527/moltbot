@@ -1,11 +1,12 @@
 import type { Command } from "commander";
 import { collectOption } from "../helpers.js";
 import type { MessageCliHelpers } from "./helpers.js";
+import { zhCN } from "../../../i18n/zh-CN.js";
 
 export function registerMessagePollCommand(message: Command, helpers: MessageCliHelpers) {
   helpers
     .withMessageBase(
-      helpers.withRequiredMessageTarget(message.command("poll").description("Send a poll")),
+      helpers.withRequiredMessageTarget(message.command("poll").description(zhCN.commands.messagePoll)),
     )
     .requiredOption("--poll-question <text>", "Poll question")
     .option(

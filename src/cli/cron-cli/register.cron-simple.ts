@@ -3,6 +3,7 @@ import { danger } from "../../globals.js";
 import { defaultRuntime } from "../../runtime.js";
 import { addGatewayClientOptions, callGatewayFromCli } from "../gateway-rpc.js";
 import { warnIfCronSchedulerDisabled } from "./shared.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerCronSimpleCommands(cron: Command) {
   addGatewayClientOptions(
@@ -10,7 +11,7 @@ export function registerCronSimpleCommands(cron: Command) {
       .command("rm")
       .alias("remove")
       .alias("delete")
-      .description("Remove a cron job")
+      .description(zhCN.commands.cronRemove)
       .argument("<id>", "Job id")
       .option("--json", "Output JSON", false)
       .action(async (id, opts) => {
@@ -27,7 +28,7 @@ export function registerCronSimpleCommands(cron: Command) {
   addGatewayClientOptions(
     cron
       .command("enable")
-      .description("Enable a cron job")
+      .description(zhCN.commands.cronEnable)
       .argument("<id>", "Job id")
       .action(async (id, opts) => {
         try {
@@ -47,7 +48,7 @@ export function registerCronSimpleCommands(cron: Command) {
   addGatewayClientOptions(
     cron
       .command("disable")
-      .description("Disable a cron job")
+      .description(zhCN.commands.cronDisable)
       .argument("<id>", "Job id")
       .action(async (id, opts) => {
         try {
@@ -67,7 +68,7 @@ export function registerCronSimpleCommands(cron: Command) {
   addGatewayClientOptions(
     cron
       .command("runs")
-      .description("Show cron run history (JSONL-backed)")
+      .description(zhCN.commands.cronRuns)
       .requiredOption("--id <id>", "Job id")
       .option("--limit <n>", "Max entries (default 50)", "50")
       .action(async (opts) => {
@@ -90,7 +91,7 @@ export function registerCronSimpleCommands(cron: Command) {
   addGatewayClientOptions(
     cron
       .command("run")
-      .description("Run a cron job now (debug)")
+      .description(zhCN.commands.cronRunNow)
       .argument("<id>", "Job id")
       .option("--force", "Run even if not due", false)
       .action(async (id, opts) => {

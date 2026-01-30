@@ -1,11 +1,12 @@
 import type { Command } from "commander";
 import type { MessageCliHelpers } from "./helpers.js";
+import { zhCN } from "../../../i18n/zh-CN.js";
 
 export function registerMessageReactionsCommands(message: Command, helpers: MessageCliHelpers) {
   helpers
     .withMessageBase(
       helpers.withRequiredMessageTarget(
-        message.command("react").description("Add or remove a reaction"),
+        message.command("react").description(zhCN.commands.messageReact),
       ),
     )
     .requiredOption("--message-id <id>", "Message id")
@@ -22,7 +23,7 @@ export function registerMessageReactionsCommands(message: Command, helpers: Mess
   helpers
     .withMessageBase(
       helpers.withRequiredMessageTarget(
-        message.command("reactions").description("List reactions on a message"),
+        message.command("reactions").description(zhCN.commands.messageReactions),
       ),
     )
     .requiredOption("--message-id <id>", "Message id")

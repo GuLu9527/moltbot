@@ -5,9 +5,10 @@ import { serveAcpGateway } from "../acp/server.js";
 import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export function registerAcpCli(program: Command) {
-  const acp = program.command("acp").description("Run an ACP bridge backed by the Gateway");
+  const acp = program.command("acp").description(zhCN.commands.acp);
 
   acp
     .option("--url <url>", "Gateway WebSocket URL (defaults to gateway.remote.url when configured)")
@@ -21,7 +22,7 @@ export function registerAcpCli(program: Command) {
     .option("--verbose, -v", "Verbose logging to stderr", false)
     .addHelpText(
       "after",
-      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/acp", "docs.openclaw.ai/cli/acp")}\n`,
+      () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/acp", "docs.molt.bot/cli/acp")}\n`,
     )
     .action((opts) => {
       try {
@@ -44,9 +45,9 @@ export function registerAcpCli(program: Command) {
 
   acp
     .command("client")
-    .description("Run an interactive ACP client against the local ACP bridge")
+    .description(zhCN.commands.acpClient)
     .option("--cwd <dir>", "Working directory for the ACP session")
-    .option("--server <command>", "ACP server command (default: openclaw)")
+    .option("--server <command>", "ACP server command (default: moltbot)")
     .option("--server-args <args...>", "Extra arguments for the ACP server")
     .option("--server-verbose", "Enable verbose logging on the ACP server", false)
     .option("--verbose, -v", "Verbose client logging", false)

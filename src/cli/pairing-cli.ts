@@ -13,6 +13,7 @@ import { formatDocsLink } from "../terminal/links.js";
 import { renderTable } from "../terminal/table.js";
 import { theme } from "../terminal/theme.js";
 import { formatCliCommand } from "./command-format.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 /** Parse channel, allowing extension channels not in core registry. */
 function parseChannel(raw: unknown, channels: PairingChannel[]): PairingChannel {
@@ -49,16 +50,16 @@ export function registerPairingCli(program: Command) {
   const channels = listPairingChannels();
   const pairing = program
     .command("pairing")
-    .description("Secure DM pairing (approve inbound requests)")
+    .description(zhCN.commands.pairing)
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/pairing", "docs.openclaw.ai/cli/pairing")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/pairing", "docs.molt.bot/cli/pairing")}\n`,
     );
 
   pairing
     .command("list")
-    .description("List pending pairing requests")
+    .description(zhCN.commands.pairingList)
     .option("--channel <channel>", `Channel (${channels.join(", ")})`)
     .argument("[channel]", `Channel (${channels.join(", ")})`)
     .option("--json", "Print JSON", false)
@@ -105,7 +106,7 @@ export function registerPairingCli(program: Command) {
 
   pairing
     .command("approve")
-    .description("Approve a pairing code and allow that sender")
+    .description(zhCN.commands.pairingApprove)
     .option("--channel <channel>", `Channel (${channels.join(", ")})`)
     .argument("<codeOrChannel>", "Pairing code (or channel when using 2 args)")
     .argument("[code]", "Pairing code (when channel is passed as the 1st arg)")
@@ -115,12 +116,12 @@ export function registerPairingCli(program: Command) {
       const resolvedCode = opts.channel ? codeOrChannel : code;
       if (!opts.channel && !code) {
         throw new Error(
-          `Usage: ${formatCliCommand("openclaw pairing approve <channel> <code>")} (or: ${formatCliCommand("openclaw pairing approve --channel <channel> <code>")})`,
+          `Usage: ${formatCliCommand("moltbot pairing approve <channel> <code>")} (or: ${formatCliCommand("moltbot pairing approve --channel <channel> <code>")})`,
         );
       }
       if (opts.channel && code != null) {
         throw new Error(
-          `Too many arguments. Use: ${formatCliCommand("openclaw pairing approve --channel <channel> <code>")}`,
+          `Too many arguments. Use: ${formatCliCommand("moltbot pairing approve --channel <channel> <code>")}`,
         );
       }
       const channel = parseChannel(channelRaw, channels);

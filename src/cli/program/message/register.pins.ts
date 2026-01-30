@@ -1,11 +1,12 @@
 import type { Command } from "commander";
 import type { MessageCliHelpers } from "./helpers.js";
+import { zhCN } from "../../../i18n/zh-CN.js";
 
 export function registerMessagePinCommands(message: Command, helpers: MessageCliHelpers) {
   const pins = [
     helpers
       .withMessageBase(
-        helpers.withRequiredMessageTarget(message.command("pin").description("Pin a message")),
+        helpers.withRequiredMessageTarget(message.command("pin").description(zhCN.commands.messagePin)),
       )
       .requiredOption("--message-id <id>", "Message id")
       .action(async (opts) => {
@@ -13,7 +14,7 @@ export function registerMessagePinCommands(message: Command, helpers: MessageCli
       }),
     helpers
       .withMessageBase(
-        helpers.withRequiredMessageTarget(message.command("unpin").description("Unpin a message")),
+        helpers.withRequiredMessageTarget(message.command("unpin").description(zhCN.commands.messageUnpin)),
       )
       .requiredOption("--message-id <id>", "Message id")
       .action(async (opts) => {
@@ -22,7 +23,7 @@ export function registerMessagePinCommands(message: Command, helpers: MessageCli
     helpers
       .withMessageBase(
         helpers.withRequiredMessageTarget(
-          message.command("pins").description("List pinned messages"),
+          message.command("pins").description(zhCN.commands.messagePins),
         ),
       )
       .option("--limit <n>", "Result limit")

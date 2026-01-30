@@ -6,6 +6,7 @@ import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
 import type { GatewayRpcOpts } from "./gateway-rpc.js";
 import { addGatewayClientOptions, callGatewayFromCli } from "./gateway-rpc.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 type SystemEventOpts = GatewayRpcOpts & { text?: string; mode?: string; json?: boolean };
 
@@ -19,17 +20,17 @@ const normalizeWakeMode = (raw: unknown) => {
 export function registerSystemCli(program: Command) {
   const system = program
     .command("system")
-    .description("System tools (events, heartbeat, presence)")
+    .description(zhCN.commands.systemTools)
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/system", "docs.openclaw.ai/cli/system")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/system", "docs.molt.bot/cli/system")}\n`,
     );
 
   addGatewayClientOptions(
     system
       .command("event")
-      .description("Enqueue a system event and optionally trigger a heartbeat")
+      .description(zhCN.commands.systemEvent)
       .requiredOption("--text <text>", "System event text")
       .option("--mode <mode>", "Wake mode (now|next-heartbeat)", "next-heartbeat")
       .option("--json", "Output JSON", false),
@@ -47,12 +48,12 @@ export function registerSystemCli(program: Command) {
     }
   });
 
-  const heartbeat = system.command("heartbeat").description("Heartbeat controls");
+  const heartbeat = system.command("heartbeat").description(zhCN.commands.heartbeatControls);
 
   addGatewayClientOptions(
     heartbeat
       .command("last")
-      .description("Show the last heartbeat event")
+      .description(zhCN.commands.heartbeatLast)
       .option("--json", "Output JSON", false),
   ).action(async (opts: GatewayRpcOpts & { json?: boolean }) => {
     try {
@@ -69,7 +70,7 @@ export function registerSystemCli(program: Command) {
   addGatewayClientOptions(
     heartbeat
       .command("enable")
-      .description("Enable heartbeats")
+      .description(zhCN.commands.heartbeatEnable)
       .option("--json", "Output JSON", false),
   ).action(async (opts: GatewayRpcOpts & { json?: boolean }) => {
     try {
@@ -89,7 +90,7 @@ export function registerSystemCli(program: Command) {
   addGatewayClientOptions(
     heartbeat
       .command("disable")
-      .description("Disable heartbeats")
+      .description(zhCN.commands.heartbeatDisable)
       .option("--json", "Output JSON", false),
   ).action(async (opts: GatewayRpcOpts & { json?: boolean }) => {
     try {
@@ -109,7 +110,7 @@ export function registerSystemCli(program: Command) {
   addGatewayClientOptions(
     system
       .command("presence")
-      .description("List system presence entries")
+      .description(zhCN.commands.systemPresence)
       .option("--json", "Output JSON", false),
   ).action(async (opts: GatewayRpcOpts & { json?: boolean }) => {
     try {

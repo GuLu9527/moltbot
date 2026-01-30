@@ -16,11 +16,12 @@ import { formatHelpExamples } from "../help-format.js";
 import { createDefaultDeps } from "../deps.js";
 import { runCommandWithRuntime } from "../cli-utils.js";
 import { collectOption } from "./helpers.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerAgentCommands(program: Command, args: { agentChannelOptions: string }) {
   program
     .command("agent")
-    .description("Run an agent turn via the Gateway (use --local for embedded)")
+    .description(zhCN.commands.agent)
     .requiredOption("-m, --message <text>", "Message body for the agent")
     .option("-t, --to <number>", "Recipient number in E.164 used to derive the session key")
     .option("--session-id <id>", "Use an explicit session id")
@@ -51,24 +52,24 @@ export function registerAgentCommands(program: Command, args: { agentChannelOpti
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['openclaw agent --to +15555550123 --message "status update"', "Start a new session."],
-  ['openclaw agent --agent ops --message "Summarize logs"', "Use a specific agent."],
+  ['moltbot agent --to +15555550123 --message "status update"', "Start a new session."],
+  ['moltbot agent --agent ops --message "Summarize logs"', "Use a specific agent."],
   [
-    'openclaw agent --session-id 1234 --message "Summarize inbox" --thinking medium',
+    'moltbot agent --session-id 1234 --message "Summarize inbox" --thinking medium',
     "Target a session with explicit thinking level.",
   ],
   [
-    'openclaw agent --to +15555550123 --message "Trace logs" --verbose on --json',
+    'moltbot agent --to +15555550123 --message "Trace logs" --verbose on --json',
     "Enable verbose logging and JSON output.",
   ],
-  ['openclaw agent --to +15555550123 --message "Summon reply" --deliver', "Deliver reply."],
+  ['moltbot agent --to +15555550123 --message "Summon reply" --deliver', "Deliver reply."],
   [
-    'openclaw agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"',
+    'moltbot agent --agent ops --message "Generate report" --deliver --reply-channel slack --reply-to "#reports"',
     "Send reply to a different channel/target.",
   ],
 ])}
 
-${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.openclaw.ai/cli/agent")}`,
+${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.molt.bot/cli/agent")}`,
     )
     .action(async (opts) => {
       const verboseLevel = typeof opts.verbose === "string" ? opts.verbose.toLowerCase() : "";
@@ -82,16 +83,16 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.openclaw.ai/cli/age
 
   const agents = program
     .command("agents")
-    .description("Manage isolated agents (workspaces + auth + routing)")
+    .description(zhCN.commands.agents)
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/agents", "docs.openclaw.ai/cli/agents")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/agents", "docs.molt.bot/cli/agents")}\n`,
     );
 
   agents
     .command("list")
-    .description("List configured agents")
+    .description(zhCN.commands.agentsList)
     .option("--json", "Output JSON instead of text", false)
     .option("--bindings", "Include routing bindings", false)
     .action(async (opts) => {
@@ -105,7 +106,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.openclaw.ai/cli/age
 
   agents
     .command("add [name]")
-    .description("Add a new isolated agent")
+    .description(zhCN.commands.agentsAdd)
     .option("--workspace <dir>", "Workspace directory for the new agent")
     .option("--model <id>", "Model id for this agent")
     .option("--agent-dir <dir>", "Agent state directory for this agent")
@@ -139,7 +140,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.openclaw.ai/cli/age
 
   agents
     .command("set-identity")
-    .description("Update an agent identity (name/theme/emoji/avatar)")
+    .description(zhCN.commands.agentsSetIdentity)
     .option("--agent <id>", "Agent id to update")
     .option("--workspace <dir>", "Workspace directory used to locate the agent + IDENTITY.md")
     .option("--identity-file <path>", "Explicit IDENTITY.md path to read")
@@ -155,14 +156,11 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.openclaw.ai/cli/age
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['openclaw agents set-identity --agent main --name "OpenClaw" --emoji "🦞"', "Set name + emoji."],
-  ["openclaw agents set-identity --agent main --avatar avatars/openclaw.png", "Set avatar path."],
+  ['moltbot agents set-identity --agent main --name "Clawd" --emoji "🦞"', "Set name + emoji."],
+  ["moltbot agents set-identity --agent main --avatar avatars/clawd.png", "Set avatar path."],
+  ["moltbot agents set-identity --workspace ~/clawd --from-identity", "Load from IDENTITY.md."],
   [
-    "openclaw agents set-identity --workspace ~/.openclaw/workspace --from-identity",
-    "Load from IDENTITY.md.",
-  ],
-  [
-    "openclaw agents set-identity --identity-file ~/.openclaw/workspace/IDENTITY.md --agent main",
+    "moltbot agents set-identity --identity-file ~/clawd/IDENTITY.md --agent main",
     "Use a specific IDENTITY.md.",
   ],
 ])}
@@ -189,7 +187,7 @@ ${formatHelpExamples([
 
   agents
     .command("delete <id>")
-    .description("Delete an agent and prune workspace/state")
+    .description(zhCN.commands.agentsDelete)
     .option("--force", "Skip confirmation", false)
     .option("--json", "Output JSON summary", false)
     .action(async (id, opts) => {

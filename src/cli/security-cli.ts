@@ -8,6 +8,7 @@ import { formatDocsLink } from "../terminal/links.js";
 import { isRich, theme } from "../terminal/theme.js";
 import { shortenHomeInString, shortenHomePath } from "../utils.js";
 import { formatCliCommand } from "./command-format.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 type SecurityAuditOptions = {
   json?: boolean;
@@ -30,16 +31,16 @@ function formatSummary(summary: { critical: number; warn: number; info: number }
 export function registerSecurityCli(program: Command) {
   const security = program
     .command("security")
-    .description("Security tools (audit)")
+    .description(zhCN.commands.security)
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/security", "docs.openclaw.ai/cli/security")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/security", "docs.molt.bot/cli/security")}\n`,
     );
 
   security
     .command("audit")
-    .description("Audit config + local state for common security foot-guns")
+    .description(zhCN.commands.securityAudit)
     .option("--deep", "Attempt live Gateway probe (best-effort)", false)
     .option("--fix", "Apply safe fixes (tighten defaults + chmod state/config)", false)
     .option("--json", "Print JSON", false)
@@ -66,12 +67,12 @@ export function registerSecurityCli(program: Command) {
       const muted = (text: string) => (rich ? theme.muted(text) : text);
 
       const lines: string[] = [];
-      lines.push(heading("OpenClaw security audit"));
+      lines.push(heading("Moltbot security audit"));
       lines.push(muted(`Summary: ${formatSummary(report.summary)}`));
-      lines.push(muted(`Run deeper: ${formatCliCommand("openclaw security audit --deep")}`));
+      lines.push(muted(`Run deeper: ${formatCliCommand("moltbot security audit --deep")}`));
 
       if (opts.fix) {
-        lines.push(muted(`Fix: ${formatCliCommand("openclaw security audit --fix")}`));
+        lines.push(muted(`Fix: ${formatCliCommand("moltbot security audit --fix")}`));
         if (!fixResult) {
           lines.push(muted("Fixes: failed to apply (unexpected error)"));
         } else if (

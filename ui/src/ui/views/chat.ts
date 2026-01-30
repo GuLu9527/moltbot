@@ -5,6 +5,7 @@ import type { SessionsListResult } from "../types";
 import type { ChatAttachment, ChatQueueItem } from "../ui-types";
 import type { ChatItem, MessageGroup } from "../types/chat-types";
 import { icons } from "../icons";
+import { zhCN } from "@moltbot/i18n";
 import {
   normalizeMessage,
   normalizeRoleForGrouping,
@@ -84,7 +85,7 @@ function renderCompactionIndicator(status: CompactionIndicatorStatus | null | un
   if (status.active) {
     return html`
       <div class="callout info compaction-indicator compaction-indicator--active">
-        ${icons.loader} Compacting context...
+        ${icons.loader} ${zhCN.commands.ui.chat.compactingContext}
       </div>
     `;
   }
@@ -95,7 +96,7 @@ function renderCompactionIndicator(status: CompactionIndicatorStatus | null | un
     if (elapsed < COMPACTION_TOAST_DURATION_MS) {
       return html`
         <div class="callout success compaction-indicator compaction-indicator--complete">
-          ${icons.check} Context compacted
+          ${icons.check} ${zhCN.commands.ui.chat.contextCompacted}
         </div>
       `;
     }
@@ -157,13 +158,13 @@ function renderAttachmentPreview(props: ChatProps) {
           <div class="chat-attachment">
             <img
               src=${att.dataUrl}
-              alt="Attachment preview"
+              alt="${zhCN.commands.ui.chat.attachmentPreview}"
               class="chat-attachment__img"
             />
             <button
               class="chat-attachment__remove"
               type="button"
-              aria-label="Remove attachment"
+              aria-label="${zhCN.commands.ui.chat.removeAttachment}"
               @click=${() => {
                 const next = (props.attachments ?? []).filter(
                   (a) => a.id !== att.id,
@@ -197,9 +198,9 @@ export function renderChat(props: ChatProps) {
   const hasAttachments = (props.attachments?.length ?? 0) > 0;
   const composePlaceholder = props.connected
     ? hasAttachments
-      ? "Add a message or paste more images..."
-      : "Message (↩ to send, Shift+↩ for line breaks, paste images)"
-    : "Connect to the gateway to start chatting…";
+      ? zhCN.commands.ui.chat.addMessagePlaceholder
+      : zhCN.commands.ui.chat.messagePlaceholder
+    : zhCN.commands.ui.chat.connectGatewayPlaceholder;
 
   const splitRatio = props.splitRatio ?? 0.6;
   const sidebarOpen = Boolean(props.sidebarOpen && props.onCloseSidebar);
@@ -210,7 +211,7 @@ export function renderChat(props: ChatProps) {
       aria-live="polite"
       @scroll=${props.onChatScroll}
     >
-      ${props.loading ? html`<div class="muted">Loading chat…</div>` : nothing}
+      ${props.loading ? html`<div class="muted">${zhCN.commands.ui.chat.loadingChat}</div>` : nothing}
       ${repeat(buildChatItems(props), (item) => item.key, (item) => {
         if (item.kind === "reading-indicator") {
           return renderReadingIndicatorGroup(assistantIdentity);
@@ -257,8 +258,8 @@ export function renderChat(props: ChatProps) {
               class="chat-focus-exit"
               type="button"
               @click=${props.onToggleFocusMode}
-              aria-label="Exit focus mode"
-              title="Exit focus mode"
+              aria-label="${zhCN.commands.ui.chat.exitFocusMode}"
+              title="${zhCN.commands.ui.chat.exitFocusMode}"
             >
               ${icons.x}
             </button>
@@ -300,7 +301,7 @@ export function renderChat(props: ChatProps) {
       ${props.queue.length
         ? html`
             <div class="chat-queue" role="status" aria-live="polite">
-              <div class="chat-queue__title">Queued (${props.queue.length})</div>
+              <div class="chat-queue__title">${zhCN.commands.ui.chat.queued.replace("{count}", String(props.queue.length))}</div>
               <div class="chat-queue__list">
                 ${props.queue.map(
                   (item) => html`
@@ -308,13 +309,13 @@ export function renderChat(props: ChatProps) {
                       <div class="chat-queue__text">
                         ${item.text ||
                         (item.attachments?.length
-                          ? `Image (${item.attachments.length})`
+                          ? zhCN.commands.ui.chat.imageCount.replace("{count}", String(item.attachments.length))
                           : "")}
                       </div>
                       <button
                         class="btn chat-queue__remove"
                         type="button"
-                        aria-label="Remove queued message"
+                        aria-label="${zhCN.commands.ui.chat.removeQueuedMessage}"
                         @click=${() => props.onQueueRemove(item.id)}
                       >
                         ${icons.x}
@@ -331,7 +332,7 @@ export function renderChat(props: ChatProps) {
         ${renderAttachmentPreview(props)}
         <div class="chat-compose__row">
           <label class="field chat-compose__field">
-            <span>Message</span>
+            <span>${zhCN.commands.ui.chat.messageLabel}</span>
             <textarea
               ${ref((el) => el && adjustTextareaHeight(el as HTMLTextAreaElement))}
               .value=${props.draft}
@@ -359,14 +360,14 @@ export function renderChat(props: ChatProps) {
               ?disabled=${!props.connected || (!canAbort && props.sending)}
               @click=${canAbort ? props.onAbort : props.onNewSession}
             >
-              ${canAbort ? "Stop" : "New session"}
+              ${canAbort ? zhCN.commands.ui.chat.stop : zhCN.commands.ui.chat.newSession}
             </button>
             <button
               class="btn primary"
               ?disabled=${!props.connected}
               @click=${props.onSend}
             >
-              ${isBusy ? "Queue" : "Send"}<kbd class="btn-kbd">↵</kbd>
+              ${isBusy ? zhCN.commands.ui.chat.queue : zhCN.commands.ui.chat.send}<kbd class="btn-kbd">↵</kbd>
             </button>
           </div>
         </div>
@@ -425,7 +426,7 @@ function buildChatItems(props: ChatProps): Array<ChatItem | MessageGroup> {
       key: "chat:history:notice",
       message: {
         role: "system",
-        content: `Showing last ${CHAT_HISTORY_RENDER_LIMIT} messages (${historyStart} hidden).`,
+        content: zhCN.commands.ui.chat.showingLastMessages.replace("{limit}", String(CHAT_HISTORY_RENDER_LIMIT)).replace("{hidden}", String(historyStart)),
         timestamp: Date.now(),
       },
     });

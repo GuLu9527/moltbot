@@ -8,6 +8,7 @@ import { formatDocsLink } from "../terminal/links.js";
 import { formatCliCommand } from "./command-format.js";
 import { theme } from "../terminal/theme.js";
 import { shortenHomePath } from "../utils.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 type PathSegment = string;
 
@@ -173,7 +174,7 @@ async function loadValidConfig() {
   for (const issue of snapshot.issues) {
     defaultRuntime.error(`- ${issue.path || "<root>"}: ${issue.message}`);
   }
-  defaultRuntime.error(`Run \`${formatCliCommand("openclaw doctor")}\` to repair, then retry.`);
+  defaultRuntime.error(`Run \`${formatCliCommand("moltbot doctor")}\` to repair, then retry.`);
   defaultRuntime.exit(1);
   return snapshot;
 }
@@ -181,11 +182,11 @@ async function loadValidConfig() {
 export function registerConfigCli(program: Command) {
   const cmd = program
     .command("config")
-    .description("Config helpers (get/set/unset). Run without subcommand for the wizard.")
+    .description(zhCN.commands.config)
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/config", "docs.openclaw.ai/cli/config")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/config", "docs.molt.bot/cli/config")}\n`,
     )
     .option(
       "--section <section>",
@@ -220,7 +221,7 @@ export function registerConfigCli(program: Command) {
 
   cmd
     .command("get")
-    .description("Get a config value by dot path")
+    .description(zhCN.commands.configGet)
     .argument("<path>", "Config path (dot or bracket notation)")
     .option("--json", "Output JSON", false)
     .action(async (path: string, opts) => {
@@ -257,7 +258,7 @@ export function registerConfigCli(program: Command) {
 
   cmd
     .command("set")
-    .description("Set a config value by dot path")
+    .description(zhCN.commands.configSet)
     .argument("<path>", "Config path (dot or bracket notation)")
     .argument("<value>", "Value (JSON5 or raw string)")
     .option("--json", "Parse value as JSON5 (required)", false)
@@ -279,7 +280,7 @@ export function registerConfigCli(program: Command) {
 
   cmd
     .command("unset")
-    .description("Remove a config value by dot path")
+    .description(zhCN.commands.configUnset)
     .argument("<path>", "Config path (dot or bracket notation)")
     .action(async (path: string) => {
       try {

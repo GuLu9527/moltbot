@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import type { MessageCliHelpers } from "./helpers.js";
+import { zhCN } from "../../../i18n/zh-CN.js";
 
 export function registerMessageReadEditDeleteCommands(
   message: Command,
@@ -8,7 +9,7 @@ export function registerMessageReadEditDeleteCommands(
   helpers
     .withMessageBase(
       helpers.withRequiredMessageTarget(
-        message.command("read").description("Read recent messages"),
+        message.command("read").description(zhCN.commands.messageRead),
       ),
     )
     .option("--limit <n>", "Result limit")
@@ -25,7 +26,7 @@ export function registerMessageReadEditDeleteCommands(
       helpers.withRequiredMessageTarget(
         message
           .command("edit")
-          .description("Edit a message")
+          .description(zhCN.commands.messageEdit)
           .requiredOption("--message-id <id>", "Message id")
           .requiredOption("-m, --message <text>", "Message body"),
       ),
@@ -40,7 +41,7 @@ export function registerMessageReadEditDeleteCommands(
       helpers.withRequiredMessageTarget(
         message
           .command("delete")
-          .description("Delete a message")
+          .description(zhCN.commands.messageDelete)
           .requiredOption("--message-id <id>", "Message id"),
       ),
     )

@@ -5,12 +5,13 @@ import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
 import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
 import type { NodesRpcOpts } from "./types.js";
 import { renderTable } from "../../terminal/table.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerNodesPairingCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("pending")
-      .description("List pending pairing requests")
+      .description(zhCN.commands.nodesPending)
       .action(async (opts: NodesRpcOpts) => {
         await runNodesCommand("pending", async () => {
           const result = (await callGatewayCli("node.pair.list", opts, {})) as unknown;
@@ -58,7 +59,7 @@ export function registerNodesPairingCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("approve")
-      .description("Approve a pending pairing request")
+      .description(zhCN.commands.nodesApprove)
       .argument("<requestId>", "Pending request id")
       .action(async (requestId: string, opts: NodesRpcOpts) => {
         await runNodesCommand("approve", async () => {
@@ -73,7 +74,7 @@ export function registerNodesPairingCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("reject")
-      .description("Reject a pending pairing request")
+      .description(zhCN.commands.nodesReject)
       .argument("<requestId>", "Pending request id")
       .action(async (requestId: string, opts: NodesRpcOpts) => {
         await runNodesCommand("reject", async () => {
@@ -88,7 +89,7 @@ export function registerNodesPairingCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("rename")
-      .description("Rename a paired node (display name override)")
+      .description(zhCN.commands.nodesRename)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .requiredOption("--name <displayName>", "New display name")
       .action(async (opts: NodesRpcOpts) => {

@@ -6,6 +6,7 @@ import { sanitizeAgentId } from "../../routing/session-key.js";
 import type { GatewayRpcOpts } from "../gateway-rpc.js";
 import { addGatewayClientOptions, callGatewayFromCli } from "../gateway-rpc.js";
 import { parsePositiveIntOrUndefined } from "../program/helpers.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 import {
   getCronChannelOptions,
   parseAtMs,
@@ -18,7 +19,7 @@ export function registerCronStatusCommand(cron: Command) {
   addGatewayClientOptions(
     cron
       .command("status")
-      .description("Show cron scheduler status")
+      .description(zhCN.commands.cronStatus)
       .option("--json", "Output JSON", false)
       .action(async (opts) => {
         try {
@@ -36,7 +37,7 @@ export function registerCronListCommand(cron: Command) {
   addGatewayClientOptions(
     cron
       .command("list")
-      .description("List cron jobs")
+      .description(zhCN.commands.cronList)
       .option("--all", "Include disabled jobs", false)
       .option("--json", "Output JSON", false)
       .action(async (opts) => {
@@ -63,7 +64,7 @@ export function registerCronAddCommand(cron: Command) {
     cron
       .command("add")
       .alias("create")
-      .description("Add a cron job")
+      .description(zhCN.commands.cronAdd)
       .requiredOption("--name <name>", "Job name")
       .option("--description <text>", "Optional description")
       .option("--disabled", "Create job disabled", false)

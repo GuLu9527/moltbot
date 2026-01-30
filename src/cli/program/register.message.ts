@@ -20,33 +20,34 @@ import { registerMessageReadEditDeleteCommands } from "./message/register.read-e
 import { registerMessageSendCommand } from "./message/register.send.js";
 import { registerMessageThreadCommands } from "./message/register.thread.js";
 import { registerMessageBroadcastCommand } from "./message/register.broadcast.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerMessageCommands(program: Command, ctx: ProgramContext) {
   const message = program
     .command("message")
-    .description("Send messages and channel actions")
+    .description(zhCN.commands.message)
     .addHelpText(
       "after",
       () =>
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['openclaw message send --target +15555550123 --message "Hi"', "Send a text message."],
+  ['moltbot message send --target +15555550123 --message "Hi"', "Send a text message."],
   [
-    'openclaw message send --target +15555550123 --message "Hi" --media photo.jpg',
+    'moltbot message send --target +15555550123 --message "Hi" --media photo.jpg',
     "Send a message with media.",
   ],
   [
-    'openclaw message poll --channel discord --target channel:123 --poll-question "Snack?" --poll-option Pizza --poll-option Sushi',
+    'moltbot message poll --channel discord --target channel:123 --poll-question "Snack?" --poll-option Pizza --poll-option Sushi',
     "Create a Discord poll.",
   ],
   [
-    'openclaw message react --channel discord --target 123 --message-id 456 --emoji "✅"',
+    'moltbot message react --channel discord --target 123 --message-id 456 --emoji "✅"',
     "React to a message.",
   ],
 ])}
 
-${theme.muted("Docs:")} ${formatDocsLink("/cli/message", "docs.openclaw.ai/cli/message")}`,
+${theme.muted("Docs:")} ${formatDocsLink("/cli/message", "docs.molt.bot/cli/message")}`,
     )
     .action(() => {
       message.help({ error: true });

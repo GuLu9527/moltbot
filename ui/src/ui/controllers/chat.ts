@@ -2,6 +2,7 @@ import { extractText } from "../chat/message-extract";
 import type { GatewayBrowserClient } from "../gateway";
 import { generateUUID } from "../uuid";
 import type { ChatAttachment } from "../ui-types";
+import { zhCN } from "@moltbot/i18n";
 
 export type ChatState = {
   client: GatewayBrowserClient | null;
@@ -163,7 +164,7 @@ export function handleChatEvent(
   if (payload.sessionKey !== state.sessionKey) return null;
 
   // Final from another run (e.g. sub-agent announce): refresh history to show new message.
-  // See https://github.com/openclaw/openclaw/issues/1909
+  // See https://github.com/moltbot/moltbot/issues/1909
   if (
     payload.runId &&
     state.chatRunId &&
@@ -193,7 +194,7 @@ export function handleChatEvent(
     state.chatStream = null;
     state.chatRunId = null;
     state.chatStreamStartedAt = null;
-    state.lastError = payload.errorMessage ?? "chat error";
+    state.lastError = payload.errorMessage ?? zhCN.commands.ui.chat.chatError;
   }
   return payload.state;
 }

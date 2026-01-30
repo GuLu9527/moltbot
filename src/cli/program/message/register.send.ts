@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import type { MessageCliHelpers } from "./helpers.js";
+import { zhCN } from "../../../i18n/zh-CN.js";
 
 export function registerMessageSendCommand(message: Command, helpers: MessageCliHelpers) {
   helpers
@@ -8,7 +9,7 @@ export function registerMessageSendCommand(message: Command, helpers: MessageCli
         .withRequiredMessageTarget(
           message
             .command("send")
-            .description("Send a message")
+            .description(zhCN.commands.messageSend)
             .option("-m, --message <text>", "Message body (required unless --media is set)"),
         )
         .option(

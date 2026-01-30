@@ -18,6 +18,7 @@ import { formatDocsLink } from "../terminal/links.js";
 import { colorize, isRich, theme } from "../terminal/theme.js";
 import { resolveStateDir } from "../config/paths.js";
 import { shortenHomeInString, shortenHomePath } from "../utils.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 type MemoryCommandOptions = {
   agent?: string;
@@ -451,16 +452,16 @@ export async function runMemoryStatus(opts: MemoryCommandOptions) {
 export function registerMemoryCli(program: Command) {
   const memory = program
     .command("memory")
-    .description("Memory search tools")
+    .description(zhCN.commands.memory)
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/memory", "docs.openclaw.ai/cli/memory")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/memory", "docs.molt.bot/cli/memory")}\n`,
     );
 
   memory
     .command("status")
-    .description("Show memory search index status")
+    .description(zhCN.commands.memoryStatus)
     .option("--agent <id>", "Agent id (default: default agent)")
     .option("--json", "Print JSON")
     .option("--deep", "Probe embedding provider availability")
@@ -472,7 +473,7 @@ export function registerMemoryCli(program: Command) {
 
   memory
     .command("index")
-    .description("Reindex memory files")
+    .description(zhCN.commands.memoryIndex)
     .option("--agent <id>", "Agent id (default: default agent)")
     .option("--force", "Force full reindex", false)
     .option("--verbose", "Verbose logging", false)
@@ -593,7 +594,7 @@ export function registerMemoryCli(program: Command) {
 
   memory
     .command("search")
-    .description("Search memory files")
+    .description(zhCN.commands.memorySearch)
     .argument("<query>", "Search query")
     .option("--agent <id>", "Agent id (default: default agent)")
     .option("--max-results <n>", "Max results", (value: string) => Number(value))

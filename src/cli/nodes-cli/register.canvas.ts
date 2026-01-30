@@ -10,6 +10,7 @@ import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
 import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
 import type { NodesRpcOpts } from "./types.js";
 import { shortenHomePath } from "../../utils.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 async function invokeCanvas(opts: NodesRpcOpts, command: string, params?: Record<string, unknown>) {
   const nodeId = await resolveNodeId(opts, String(opts.node ?? ""));
@@ -29,12 +30,12 @@ async function invokeCanvas(opts: NodesRpcOpts, command: string, params?: Record
 export function registerNodesCanvasCommands(nodes: Command) {
   const canvas = nodes
     .command("canvas")
-    .description("Capture or render canvas content from a paired node");
+    .description(zhCN.commands.nodesCanvas);
 
   nodesCallOpts(
     canvas
       .command("snapshot")
-      .description("Capture a canvas snapshot (prints MEDIA:<path>)")
+      .description(zhCN.commands.nodesCanvasSnapshot)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--format <png|jpg|jpeg>", "Image format", "jpg")
       .option("--max-width <px>", "Max width in px (optional)")
@@ -95,7 +96,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     canvas
       .command("present")
-      .description("Show the canvas (optionally with a target URL/path)")
+      .description(zhCN.commands.nodesCanvasPresent)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--target <urlOrPath>", "Target URL/path (optional)")
       .option("--x <px>", "Placement x coordinate")
@@ -133,7 +134,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     canvas
       .command("hide")
-      .description("Hide the canvas")
+      .description(zhCN.commands.nodesCanvasHide)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--invoke-timeout <ms>", "Node invoke timeout in ms")
       .action(async (opts: NodesRpcOpts) => {
@@ -150,7 +151,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     canvas
       .command("navigate")
-      .description("Navigate the canvas to a URL")
+      .description(zhCN.commands.nodesCanvasNavigate)
       .argument("<url>", "Target URL/path")
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--invoke-timeout <ms>", "Node invoke timeout in ms")
@@ -168,7 +169,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     canvas
       .command("eval")
-      .description("Evaluate JavaScript in the canvas")
+      .description(zhCN.commands.nodesCanvasEval)
       .argument("[js]", "JavaScript to evaluate")
       .option("--js <code>", "JavaScript to evaluate")
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
@@ -197,12 +198,12 @@ export function registerNodesCanvasCommands(nodes: Command) {
       }),
   );
 
-  const a2ui = canvas.command("a2ui").description("Render A2UI content on the canvas");
+  const a2ui = canvas.command("a2ui").description(zhCN.commands.nodesA2ui);
 
   nodesCallOpts(
     a2ui
       .command("push")
-      .description("Push A2UI JSONL to the canvas")
+      .description(zhCN.commands.nodesA2uiPush)
       .option("--jsonl <path>", "Path to JSONL payload")
       .option("--text <text>", "Render a quick A2UI text payload")
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
@@ -221,7 +222,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
           const { version, messageCount } = validateA2UIJsonl(jsonl);
           if (version === "v0.9") {
             throw new Error(
-              "Detected A2UI v0.9 JSONL (createSurface). OpenClaw currently supports v0.8 only.",
+              "Detected A2UI v0.9 JSONL (createSurface). Moltbot currently supports v0.8 only.",
             );
           }
           await invokeCanvas(opts, "canvas.a2ui.pushJSONL", { jsonl });
@@ -240,7 +241,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     a2ui
       .command("reset")
-      .description("Reset A2UI renderer state")
+      .description(zhCN.commands.nodesA2uiReset)
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--invoke-timeout <ms>", "Node invoke timeout in ms")
       .action(async (opts: NodesRpcOpts) => {

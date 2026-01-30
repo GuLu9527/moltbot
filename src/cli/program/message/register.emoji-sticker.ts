@@ -1,12 +1,13 @@
 import type { Command } from "commander";
 import { collectOption } from "../helpers.js";
 import type { MessageCliHelpers } from "./helpers.js";
+import { zhCN } from "../../../i18n/zh-CN.js";
 
 export function registerMessageEmojiCommands(message: Command, helpers: MessageCliHelpers) {
-  const emoji = message.command("emoji").description("Emoji actions");
+  const emoji = message.command("emoji").description(zhCN.commands.emojiList);
 
   helpers
-    .withMessageBase(emoji.command("list").description("List emojis"))
+    .withMessageBase(emoji.command("list").description(zhCN.commands.emojiList))
     .option("--guild-id <id>", "Guild id (Discord)")
     .action(async (opts) => {
       await helpers.runMessageAction("emoji-list", opts);
@@ -16,7 +17,7 @@ export function registerMessageEmojiCommands(message: Command, helpers: MessageC
     .withMessageBase(
       emoji
         .command("upload")
-        .description("Upload an emoji")
+        .description(zhCN.commands.emojiUpload)
         .requiredOption("--guild-id <id>", "Guild id"),
     )
     .requiredOption("--emoji-name <name>", "Emoji name")
@@ -28,11 +29,11 @@ export function registerMessageEmojiCommands(message: Command, helpers: MessageC
 }
 
 export function registerMessageStickerCommands(message: Command, helpers: MessageCliHelpers) {
-  const sticker = message.command("sticker").description("Sticker actions");
+  const sticker = message.command("sticker").description(zhCN.commands.stickerSend);
 
   helpers
     .withMessageBase(
-      helpers.withRequiredMessageTarget(sticker.command("send").description("Send stickers")),
+      helpers.withRequiredMessageTarget(sticker.command("send").description(zhCN.commands.stickerSend)),
     )
     .requiredOption("--sticker-id <id>", "Sticker id (repeat)", collectOption)
     .option("-m, --message <text>", "Optional message body")
@@ -44,7 +45,7 @@ export function registerMessageStickerCommands(message: Command, helpers: Messag
     .withMessageBase(
       sticker
         .command("upload")
-        .description("Upload a sticker")
+        .description(zhCN.commands.stickerUpload)
         .requiredOption("--guild-id <id>", "Guild id"),
     )
     .requiredOption("--sticker-name <name>", "Sticker name")
