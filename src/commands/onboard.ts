@@ -8,6 +8,7 @@ import { runInteractiveOnboarding } from "./onboard-interactive.js";
 import { runNonInteractiveOnboarding } from "./onboard-non-interactive.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import type { OnboardOptions } from "./onboard-types.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv = defaultRuntime) {
   assertSupportedRuntime(runtime);
@@ -21,18 +22,18 @@ export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv =
   if (opts.nonInteractive && (authChoice === "claude-cli" || authChoice === "codex-cli")) {
     runtime.error(
       [
-        `Auth choice "${authChoice}" is deprecated.`,
-        'Use "--auth-choice token" (Anthropic setup-token) or "--auth-choice openai-codex".',
+        `认证选项 "${authChoice}" 已弃用。`,
+        zhCN.output.useAuthChoiceToken,
       ].join("\n"),
     );
     runtime.exit(1);
     return;
   }
   if (authChoice === "claude-cli") {
-    runtime.log('Auth choice "claude-cli" is deprecated; using setup-token flow instead.');
+    runtime.log(zhCN.output.authChoiceDeprecated + " " + "使用 setup-token 流程代替。");
   }
   if (authChoice === "codex-cli") {
-    runtime.log('Auth choice "codex-cli" is deprecated; using OpenAI Codex OAuth instead.');
+    runtime.log(zhCN.output.authChoiceDeprecated + " " + "使用 OpenAI Codex OAuth 代替。");
   }
   const flow = opts.flow === "manual" ? ("advanced" as const) : opts.flow;
   const normalizedOpts =
@@ -43,8 +44,8 @@ export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv =
   if (normalizedOpts.nonInteractive && normalizedOpts.acceptRisk !== true) {
     runtime.error(
       [
-        "Non-interactive onboarding requires explicit risk acknowledgement.",
-        "Read: https://docs.molt.bot/security",
+        zhCN.output.nonInteractiveRisk,
+        `${zhCN.output.readSecurityDocs}`,
         `Re-run with: ${formatCliCommand("moltbot onboard --non-interactive --accept-risk ...")}`,
       ].join("\n"),
     );
@@ -63,8 +64,8 @@ export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv =
   if (process.platform === "win32") {
     runtime.log(
       [
-        "Windows detected.",
-        "WSL2 is strongly recommended; native Windows is untested and more problematic.",
+        zhCN.output.windowsDetected,
+        zhCN.output.wsl2Recommended,
         "Guide: https://docs.molt.bot/windows",
       ].join("\n"),
     );

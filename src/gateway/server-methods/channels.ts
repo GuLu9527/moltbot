@@ -13,6 +13,7 @@ import { loadConfig, readConfigFileSnapshot } from "../../config/config.js";
 import { getChannelActivity } from "../../infra/channel-activity.js";
 import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
 import { defaultRuntime } from "../../runtime.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 import {
   ErrorCodes,
   errorShape,
@@ -51,7 +52,7 @@ export async function logoutChannelAccount(params: {
     runtime: defaultRuntime,
   });
   if (!result) {
-    throw new Error(`Channel ${params.channelId} does not support logout`);
+    throw new Error(`${params.channelId}${zhCN.errors.channelDoesNotSupportLogout}`);
   }
   const cleared = Boolean(result.cleared);
   const loggedOut = typeof result.loggedOut === "boolean" ? result.loggedOut : cleared;
@@ -248,7 +249,7 @@ export const channelsHandlers: GatewayRequestHandlers = {
       respond(
         false,
         undefined,
-        errorShape(ErrorCodes.INVALID_REQUEST, "invalid channels.logout channel"),
+        errorShape(ErrorCodes.INVALID_REQUEST, zhCN.errors.invalidChannelsLogoutChannel),
       );
       return;
     }
@@ -257,7 +258,7 @@ export const channelsHandlers: GatewayRequestHandlers = {
       respond(
         false,
         undefined,
-        errorShape(ErrorCodes.INVALID_REQUEST, `channel ${channelId} does not support logout`),
+        errorShape(ErrorCodes.INVALID_REQUEST, `${channelId}${zhCN.errors.channelDoesNotSupportLogout}`),
       );
       return;
     }
@@ -268,7 +269,7 @@ export const channelsHandlers: GatewayRequestHandlers = {
       respond(
         false,
         undefined,
-        errorShape(ErrorCodes.INVALID_REQUEST, "config invalid; fix it before logging out"),
+        errorShape(ErrorCodes.INVALID_REQUEST, zhCN.errors.configInvalidFixBeforeLogout),
       );
       return;
     }

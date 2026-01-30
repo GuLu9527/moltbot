@@ -9,6 +9,7 @@ import { defaultRuntime, type RuntimeEnv } from "../../runtime.js";
 import { fetchSlackScopes, type SlackScopesResult } from "../../slack/scopes.js";
 import { theme } from "../../terminal/theme.js";
 import { formatChannelAccountLabel, requireValidConfig } from "./shared.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export type ChannelsCapabilitiesOptions = {
   channel?: string;
@@ -244,7 +245,7 @@ async function buildDiscordPermissions(params: {
     return {
       target,
       report: {
-        error: "Target looks like a DM user; pass channel:<id> to audit channel permissions.",
+        error: zhCN.errors.targetLooksLikeDmUser,
       },
     };
   }
@@ -254,7 +255,7 @@ async function buildDiscordPermissions(params: {
       target,
       report: {
         channelId: target.channelId,
-        error: "Discord bot token missing for permission audit.",
+        error: zhCN.errors.discordBotTokenMissing,
       },
     };
   }
@@ -347,7 +348,7 @@ async function resolveChannelReports(params: {
       } else {
         scopeReports.push({
           tokenType: "bot",
-          result: { ok: false, error: "Slack bot token missing." },
+          result: { ok: false, error: zhCN.errors.slackBotTokenMissing },
         });
       }
       if (userToken) {
@@ -401,12 +402,12 @@ export async function channelsCapabilitiesCommand(
   const rawTarget = typeof opts.target === "string" ? opts.target.trim() : "";
 
   if (opts.account && (!rawChannel || rawChannel === "all")) {
-    runtime.error(danger("--account requires a specific --channel."));
+    runtime.error(danger(zhCN.errors.accountRequiresChannel));
     runtime.exit(1);
     return;
   }
   if (rawTarget && rawChannel !== "discord") {
-    runtime.error(danger("--target requires --channel discord."));
+    runtime.error(danger(zhCN.errors.targetRequiresDiscord));
     runtime.exit(1);
     return;
   }
@@ -422,7 +423,7 @@ export async function channelsCapabilitiesCommand(
         })();
 
   if (!selected || selected.length === 0) {
-    runtime.error(danger(`Unknown channel "${rawChannel}".`));
+    runtime.error(danger(`${zhCN.errors.unknownChannel} "${rawChannel}".`));
     runtime.exit(1);
     return;
   }

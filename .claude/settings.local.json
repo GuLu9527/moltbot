@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm moltbot security --help:*)",
+      "Bash(pnpm moltbot plugins --help:*)",
+      "Bash(pnpm moltbot skills --help:*)",
+      "Bash(pnpm moltbot --help:*)",
+      "Bash(pnpm moltbot gateway --help:*)",
+      "Bash(pnpm moltbot channels --help:*)",
+      "Bash(pnpm moltbot node --help:*)",
+      "Bash(pnpm moltbot hooks --help:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(pnpm moltbot setup --help:*)",
+      "Bash(pnpm moltbot configure --help:*)",
+      "Bash(git pull:*)",
+      "Bash(pnpm moltbot doctor --help:*)",
+      "Bash(pnpm moltbot onboard --help:*)",
+      "Bash(pnpm build)",
+      "Bash(pnpm moltbot nodes --help:*)",
+      "Bash(pnpm ui:build)"
+    ]
+  }
+}

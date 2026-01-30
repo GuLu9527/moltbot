@@ -27,10 +27,11 @@ import {
 } from "../utils.js";
 import { VERSION } from "../version.js";
 import type { NodeManagerChoice, OnboardMode, ResetScope } from "./onboard-types.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export function guardCancel<T>(value: T | symbol, runtime: RuntimeEnv): T {
   if (isCancel(value)) {
-    cancel(stylePromptTitle("Setup cancelled.") ?? "Setup cancelled.");
+    cancel(stylePromptTitle(zhCN.output.setupCancelled) ?? zhCN.output.setupCancelled);
     runtime.exit(0);
   }
   return value as T;
@@ -55,7 +56,7 @@ export function summarizeExistingConfig(config: MoltbotConfig): string {
   if (config.skills?.install?.nodeManager) {
     rows.push(shortenHomeInString(`skills.nodeManager: ${config.skills.install.nodeManager}`));
   }
-  return rows.length ? rows.join("\n") : "No key settings detected.";
+  return rows.length ? rows.join("\n") : zhCN.output.noKeySettings;
 }
 
 export function randomToken(): string {
@@ -172,12 +173,12 @@ export function formatControlUiSshHint(params: {
   const authedUrl = params.token ? `${localUrl}${tokenParam}` : undefined;
   const sshTarget = resolveSshTargetHint();
   return [
-    "No GUI detected. Open from your computer:",
+    zhCN.output.noGuiDetected,
     `ssh -N -L ${params.port}:127.0.0.1:${params.port} ${sshTarget}`,
-    "Then open:",
+    zhCN.output.thenOpen,
     localUrl,
     authedUrl,
-    "Docs:",
+    zhCN.output.docsLinks,
     "https://docs.molt.bot/gateway/remote",
     "https://docs.molt.bot/web/control-ui",
   ]

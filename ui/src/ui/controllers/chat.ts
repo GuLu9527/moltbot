@@ -2,6 +2,7 @@ import { extractText } from "../chat/message-extract";
 import type { GatewayBrowserClient } from "../gateway";
 import { generateUUID } from "../uuid";
 import type { ChatAttachment } from "../ui-types";
+import { zhCN } from "@moltbot/i18n";
 
 export type ChatState = {
   client: GatewayBrowserClient | null;
@@ -193,7 +194,7 @@ export function handleChatEvent(
     state.chatStream = null;
     state.chatRunId = null;
     state.chatStreamStartedAt = null;
-    state.lastError = payload.errorMessage ?? "chat error";
+    state.lastError = payload.errorMessage ?? zhCN.commands.ui.chat.chatError;
   }
   return payload.state;
 }

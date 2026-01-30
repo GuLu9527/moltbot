@@ -16,6 +16,7 @@ import {
 import type { MsgContext } from "../../auto-reply/templating.js";
 import { resolveSendPolicy } from "../../sessions/send-policy.js";
 import { INTERNAL_MESSAGE_CHANNEL } from "../../utils/message-channel.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 import {
   abortChatRunById,
   abortChatRunsForSessionKey,
@@ -96,19 +97,19 @@ function appendAssistantTranscriptMessage(params: {
     sessionFile: params.sessionFile,
   });
   if (!transcriptPath) {
-    return { ok: false, error: "transcript path not resolved" };
+    return { ok: false, error: zhCN.errors.transcriptPathNotResolved };
   }
 
   if (!fs.existsSync(transcriptPath)) {
     if (!params.createIfMissing) {
-      return { ok: false, error: "transcript file not found" };
+      return { ok: false, error: zhCN.errors.transcriptFileNotFound };
     }
     const ensured = ensureTranscriptFile({
       transcriptPath,
       sessionId: params.sessionId,
     });
     if (!ensured.ok) {
-      return { ok: false, error: ensured.error ?? "failed to create transcript file" };
+      return { ok: false, error: ensured.error ?? zhCN.errors.failedToCreateTranscriptFile };
     }
   }
 
@@ -277,7 +278,7 @@ export const chatHandlers: GatewayRequestHandlers = {
       respond(
         false,
         undefined,
-        errorShape(ErrorCodes.INVALID_REQUEST, "runId does not match sessionKey"),
+        errorShape(ErrorCodes.INVALID_REQUEST, zhCN.errors.runIdDoesNotMatchSessionKey),
       );
       return;
     }
@@ -343,7 +344,7 @@ export const chatHandlers: GatewayRequestHandlers = {
       respond(
         false,
         undefined,
-        errorShape(ErrorCodes.INVALID_REQUEST, "message or attachment required"),
+        errorShape(ErrorCodes.INVALID_REQUEST, zhCN.errors.messageOrAttachmentRequired),
       );
       return;
     }
@@ -381,7 +382,7 @@ export const chatHandlers: GatewayRequestHandlers = {
       respond(
         false,
         undefined,
-        errorShape(ErrorCodes.INVALID_REQUEST, "send blocked by session policy"),
+        errorShape(ErrorCodes.INVALID_REQUEST, zhCN.errors.sendBlockedBySessionPolicy),
       );
       return;
     }
@@ -473,7 +474,7 @@ export const chatHandlers: GatewayRequestHandlers = {
         responsePrefix: resolveEffectiveMessagesConfig(cfg, agentId).responsePrefix,
         responsePrefixContextProvider: () => prefixContext,
         onError: (err) => {
-          context.logGateway.warn(`webchat dispatch failed: ${formatForLog(err)}`);
+          context.logGateway.warn(`${zhCN.errors.webchatDispatchFailed}: ${formatForLog(err)}`);
         },
         deliver: async (payload, info) => {
           if (info.kind !== "final") return;
@@ -528,7 +529,7 @@ export const chatHandlers: GatewayRequestHandlers = {
                 message = appended.message;
               } else {
                 context.logGateway.warn(
-                  `webchat transcript append failed: ${appended.error ?? "unknown error"}`,
+                  `${zhCN.errors.webchatTranscriptAppendFailed}: ${appended.error ?? zhCN.errors.unknown}`,
                 );
                 const now = Date.now();
                 message = {
@@ -616,7 +617,7 @@ export const chatHandlers: GatewayRequestHandlers = {
     const { storePath, entry } = loadSessionEntry(p.sessionKey);
     const sessionId = entry?.sessionId;
     if (!sessionId || !storePath) {
-      respond(false, undefined, errorShape(ErrorCodes.INVALID_REQUEST, "session not found"));
+      respond(false, undefined, errorShape(ErrorCodes.INVALID_REQUEST, zhCN.errors.sessionNotFound));
       return;
     }
 
@@ -629,7 +630,7 @@ export const chatHandlers: GatewayRequestHandlers = {
       respond(
         false,
         undefined,
-        errorShape(ErrorCodes.INVALID_REQUEST, "transcript file not found"),
+        errorShape(ErrorCodes.INVALID_REQUEST, zhCN.errors.transcriptFileNotFound),
       );
       return;
     }
@@ -660,7 +661,7 @@ export const chatHandlers: GatewayRequestHandlers = {
       respond(
         false,
         undefined,
-        errorShape(ErrorCodes.UNAVAILABLE, `failed to write transcript: ${errMessage}`),
+        errorShape(ErrorCodes.UNAVAILABLE, `${zhCN.errors.failedToWriteTranscript}: ${errMessage}`),
       );
       return;
     }

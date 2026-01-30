@@ -21,6 +21,12 @@ export default defineConfig(({ command }) => {
     optimizeDeps: {
       include: ["lit/directives/repeat.js"],
     },
+    resolve: {
+      alias: {
+        // 指向主项目的语言包
+        "@moltbot/i18n": path.resolve(here, "../src/i18n/zh-CN.ts"),
+      },
+    },
     build: {
       outDir: path.resolve(here, "../dist/control-ui"),
       emptyOutDir: true,

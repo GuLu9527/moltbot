@@ -25,6 +25,7 @@ import {
   emitDaemonActionJson,
 } from "../daemon-cli/response.js";
 import { formatRuntimeStatus, parsePort } from "../daemon-cli/shared.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 type NodeDaemonInstallOptions = {
   host?: string;
@@ -134,20 +135,20 @@ export async function runNodeDaemonInstall(opts: NodeDaemonInstallOptions) {
   };
 
   if (resolveIsNixMode(process.env)) {
-    fail("Nix mode detected; service install is disabled.");
+    fail(zhCN.errors.nixModeDetectedServiceInstallDisabled);
     return;
   }
 
   const config = await loadNodeHostConfig();
   const { host, port } = resolveNodeDefaults(opts, config);
   if (!Number.isFinite(port ?? NaN) || (port ?? 0) <= 0) {
-    fail("Invalid port");
+    fail(zhCN.errors.invalidPort);
     return;
   }
 
   const runtimeRaw = opts.runtime ? String(opts.runtime) : DEFAULT_NODE_DAEMON_RUNTIME;
   if (!isNodeDaemonRuntime(runtimeRaw)) {
-    fail('Invalid --runtime (use "node" or "bun")');
+    fail(zhCN.errors.invalidRuntime);
     return;
   }
 
@@ -156,7 +157,7 @@ export async function runNodeDaemonInstall(opts: NodeDaemonInstallOptions) {
   try {
     loaded = await service.isLoaded({ env: process.env });
   } catch (err) {
-    fail(`Node service check failed: ${String(err)}`);
+    fail(`${zhCN.errors.nodeServiceCheckFailed}: ${String(err)}`);
     return;
   }
   if (loaded && !opts.force) {
@@ -202,7 +203,7 @@ export async function runNodeDaemonInstall(opts: NodeDaemonInstallOptions) {
       description,
     });
   } catch (err) {
-    fail(`Node install failed: ${String(err)}`);
+    fail(`${zhCN.errors.nodeInstallFailed}: ${String(err)}`);
     return;
   }
 
@@ -245,7 +246,7 @@ export async function runNodeDaemonUninstall(opts: NodeDaemonLifecycleOptions = 
   };
 
   if (resolveIsNixMode(process.env)) {
-    fail("Nix mode detected; service uninstall is disabled.");
+    fail(zhCN.errors.nixModeDetectedServiceInstallDisabled);
     return;
   }
 
@@ -253,7 +254,7 @@ export async function runNodeDaemonUninstall(opts: NodeDaemonLifecycleOptions = 
   try {
     await service.uninstall({ env: process.env, stdout });
   } catch (err) {
-    fail(`Node uninstall failed: ${String(err)}`);
+    fail(`${zhCN.errors.nodeUninstallFailed}: ${String(err)}`);
     return;
   }
 
@@ -300,7 +301,7 @@ export async function runNodeDaemonStart(opts: NodeDaemonLifecycleOptions = {}) 
   try {
     loaded = await service.isLoaded({ env: process.env });
   } catch (err) {
-    fail(`Node service check failed: ${String(err)}`);
+    fail(`${zhCN.errors.nodeServiceCheckFailed}: ${String(err)}`);
     return;
   }
   if (!loaded) {
@@ -330,7 +331,7 @@ export async function runNodeDaemonStart(opts: NodeDaemonLifecycleOptions = {}) 
     await service.restart({ env: process.env, stdout });
   } catch (err) {
     const hints = renderNodeServiceStartHints();
-    fail(`Node start failed: ${String(err)}`, hints);
+    fail(`${zhCN.errors.nodeStartFailed}: ${String(err)}`, hints);
     return;
   }
 
@@ -377,7 +378,7 @@ export async function runNodeDaemonRestart(opts: NodeDaemonLifecycleOptions = {}
   try {
     loaded = await service.isLoaded({ env: process.env });
   } catch (err) {
-    fail(`Node service check failed: ${String(err)}`);
+    fail(`${zhCN.errors.nodeServiceCheckFailed}: ${String(err)}`);
     return;
   }
   if (!loaded) {
@@ -407,7 +408,7 @@ export async function runNodeDaemonRestart(opts: NodeDaemonLifecycleOptions = {}
     await service.restart({ env: process.env, stdout });
   } catch (err) {
     const hints = renderNodeServiceStartHints();
-    fail(`Node restart failed: ${String(err)}`, hints);
+    fail(`${zhCN.errors.nodeRestartFailed}: ${String(err)}`, hints);
     return;
   }
 
@@ -453,7 +454,7 @@ export async function runNodeDaemonStop(opts: NodeDaemonLifecycleOptions = {}) {
   try {
     loaded = await service.isLoaded({ env: process.env });
   } catch (err) {
-    fail(`Node service check failed: ${String(err)}`);
+    fail(`${zhCN.errors.nodeServiceCheckFailed}: ${String(err)}`);
     return;
   }
   if (!loaded) {
@@ -471,7 +472,7 @@ export async function runNodeDaemonStop(opts: NodeDaemonLifecycleOptions = {}) {
   try {
     await service.stop({ env: process.env, stdout });
   } catch (err) {
-    fail(`Node stop failed: ${String(err)}`);
+    fail(`${zhCN.errors.nodeStopFailed}: ${String(err)}`);
     return;
   }
 
@@ -565,7 +566,7 @@ export async function runNodeDaemonStatus(opts: NodeDaemonStatusOptions = {}) {
   } as NodeJS.ProcessEnv;
 
   if (runtime?.missingUnit) {
-    defaultRuntime.error(errorText("Service unit not found."));
+    defaultRuntime.error(errorText(zhCN.errors.serviceUnitNotFound));
     for (const hint of buildNodeRuntimeHints(hintEnv)) {
       defaultRuntime.error(errorText(hint));
     }
@@ -573,7 +574,7 @@ export async function runNodeDaemonStatus(opts: NodeDaemonStatusOptions = {}) {
   }
 
   if (runtime?.status === "stopped") {
-    defaultRuntime.error(errorText("Service is loaded but not running."));
+    defaultRuntime.error(errorText(zhCN.errors.serviceIsLoadedButNotRunning));
     for (const hint of buildNodeRuntimeHints(hintEnv)) {
       defaultRuntime.error(errorText(hint));
     }

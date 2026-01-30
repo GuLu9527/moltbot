@@ -8,6 +8,7 @@ import {
   type JsonSchema,
 } from "./config-form.shared";
 import { renderNode } from "./config-form.node";
+import { zhCN } from "@moltbot/i18n";
 
 export type ConfigFormProps = {
   schema: JsonSchema | null;
@@ -56,34 +57,34 @@ const sectionIcons = {
 
 // Section metadata
 export const SECTION_META: Record<string, { label: string; description: string }> = {
-  env: { label: "Environment Variables", description: "Environment variables passed to the gateway process" },
-  update: { label: "Updates", description: "Auto-update settings and release channel" },
-  agents: { label: "Agents", description: "Agent configurations, models, and identities" },
-  auth: { label: "Authentication", description: "API keys and authentication profiles" },
-  channels: { label: "Channels", description: "Messaging channels (Telegram, Discord, Slack, etc.)" },
-  messages: { label: "Messages", description: "Message handling and routing settings" },
-  commands: { label: "Commands", description: "Custom slash commands" },
-  hooks: { label: "Hooks", description: "Webhooks and event hooks" },
-  skills: { label: "Skills", description: "Skill packs and capabilities" },
-  tools: { label: "Tools", description: "Tool configurations (browser, search, etc.)" },
-  gateway: { label: "Gateway", description: "Gateway server settings (port, auth, binding)" },
-  wizard: { label: "Setup Wizard", description: "Setup wizard state and history" },
+  env: { label: zhCN.commands.configSections.environmentVariables, description: "Environment variables passed to the gateway process" },
+  update: { label: zhCN.commands.configSections.updates, description: "Auto-update settings and release channel" },
+  agents: { label: zhCN.commands.configSections.agents, description: "Agent configurations, models, and identities" },
+  auth: { label: zhCN.commands.configSections.authentication, description: "API keys and authentication profiles" },
+  channels: { label: zhCN.commands.configSections.channels, description: "Messaging channels (Telegram, Discord, Slack, etc.)" },
+  messages: { label: zhCN.commands.configSections.messages, description: "Message handling and routing settings" },
+  commands: { label: zhCN.commands.configSections.commands, description: "Custom slash commands" },
+  hooks: { label: zhCN.commands.configSections.hooks, description: "Webhooks and event hooks" },
+  skills: { label: zhCN.commands.configSections.skills, description: "Skill packs and capabilities" },
+  tools: { label: zhCN.commands.configSections.tools, description: "Tool configurations (browser, search, etc.)" },
+  gateway: { label: zhCN.commands.configSections.gateway, description: "Gateway server settings (port, auth, binding)" },
+  wizard: { label: zhCN.commands.configSections.wizard, description: "Setup wizard state and history" },
   // Additional sections
-  meta: { label: "Metadata", description: "Gateway metadata and version information" },
-  logging: { label: "Logging", description: "Log levels and output configuration" },
-  browser: { label: "Browser", description: "Browser automation settings" },
-  ui: { label: "UI", description: "User interface preferences" },
-  models: { label: "Models", description: "AI model configurations and providers" },
-  bindings: { label: "Bindings", description: "Key bindings and shortcuts" },
-  broadcast: { label: "Broadcast", description: "Broadcast and notification settings" },
-  audio: { label: "Audio", description: "Audio input/output settings" },
-  session: { label: "Session", description: "Session management and persistence" },
-  cron: { label: "Cron", description: "Scheduled tasks and automation" },
-  web: { label: "Web", description: "Web server and API settings" },
-  discovery: { label: "Discovery", description: "Service discovery and networking" },
-  canvasHost: { label: "Canvas Host", description: "Canvas rendering and display" },
-  talk: { label: "Talk", description: "Voice and speech settings" },
-  plugins: { label: "Plugins", description: "Plugin management and extensions" },
+  meta: { label: zhCN.commands.configSections.meta, description: "Gateway metadata and version information" },
+  logging: { label: zhCN.commands.configSections.logging, description: "Log levels and output configuration" },
+  browser: { label: zhCN.commands.configSections.browser, description: "Browser automation settings" },
+  ui: { label: zhCN.commands.configSections.ui, description: "User interface preferences" },
+  models: { label: zhCN.commands.configSections.models, description: "AI model configurations and providers" },
+  bindings: { label: zhCN.commands.configSections.bindings, description: "Key bindings and shortcuts" },
+  broadcast: { label: zhCN.commands.configSections.broadcast, description: "Broadcast and notification settings" },
+  audio: { label: zhCN.commands.configSections.audio, description: "Audio input/output settings" },
+  session: { label: zhCN.commands.configSections.session, description: "Session management and persistence" },
+  cron: { label: zhCN.commands.configSections.cron, description: "Scheduled tasks and automation" },
+  web: { label: zhCN.commands.configSections.web, description: "Web server and API settings" },
+  discovery: { label: zhCN.commands.configSections.discovery, description: "Service discovery and networking" },
+  canvasHost: { label: zhCN.commands.configSections.canvasHost, description: "Canvas rendering and display" },
+  talk: { label: zhCN.commands.configSections.talk, description: "Voice and speech settings" },
+  plugins: { label: zhCN.commands.configSections.plugins, description: "Plugin management and extensions" },
 };
 
 function getSectionIcon(key: string) {
@@ -142,12 +143,12 @@ function schemaMatches(schema: JsonSchema, query: string): boolean {
 
 export function renderConfigForm(props: ConfigFormProps) {
   if (!props.schema) {
-    return html`<div class="muted">Schema unavailable.</div>`;
+    return html`<div class="muted">${zhCN.commands.settings.schemaUnavailable}</div>`;
   }
   const schema = props.schema;
   const value = props.value ?? {};
   if (schemaType(schema) !== "object" || !schema.properties) {
-    return html`<div class="callout danger">Unsupported schema. Use Raw.</div>`;
+    return html`<div class="callout danger">${zhCN.commands.settings.unsupportedSchema}</div>`;
   }
   const unsupported = new Set(props.unsupportedPaths ?? []);
   const properties = schema.properties;
@@ -193,8 +194,8 @@ export function renderConfigForm(props: ConfigFormProps) {
         <div class="config-empty__icon">${icons.search}</div>
         <div class="config-empty__text">
           ${searchQuery
-            ? `No settings match "${searchQuery}"`
-            : "No settings in this section"}
+            ? zhCN.commands.settings.noSettingsMatch.replace("{query}", searchQuery)
+            : zhCN.commands.settings.noSettingsSection}
         </div>
       </div>
     `;

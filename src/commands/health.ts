@@ -18,6 +18,7 @@ import type { RuntimeEnv } from "../runtime.js";
 import { buildChannelAccountBindings, resolvePreferredAccountId } from "../routing/bindings.js";
 import { normalizeAgentId } from "../routing/session-key.js";
 import { theme } from "../terminal/theme.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export type ChannelAccountHealthSummary = {
   accountId: string;
@@ -509,7 +510,7 @@ export async function healthCommand(
   // Always query the running gateway; do not open a direct Baileys socket here.
   const summary = await withProgress(
     {
-      label: "Checking gateway health…",
+      label: zhCN.output.checkingGatewayHealth,
       indeterminate: true,
       enabled: opts.json !== true,
     },

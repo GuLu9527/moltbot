@@ -277,7 +277,7 @@ export function registerGatewayCli(program: Command) {
         const timeoutMs = parseDiscoverTimeoutMs(opts.timeout, 2000);
         const beacons = await withProgress(
           {
-            label: "Scanning for gateways…",
+            label: zhCN.output.scanningForGateways,
             indeterminate: true,
             enabled: opts.json !== true,
             delayMs: 0,

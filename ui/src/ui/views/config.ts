@@ -7,6 +7,7 @@ import {
   schemaType,
   type JsonSchema,
 } from "./config-form.shared";
+import { zhCN } from "@moltbot/i18n";
 
 export type ConfigProps = {
   raw: string;
@@ -79,11 +80,11 @@ const SECTIONS: Array<{ key: string; label: string }> = [
   { key: "update", label: "Updates" },
   { key: "agents", label: "Agents" },
   { key: "auth", label: "Authentication" },
-  { key: "channels", label: "Channels" },
+  { key: "channels", label: zhCN.commands.configSections.channels },
   { key: "messages", label: "Messages" },
   { key: "commands", label: "Commands" },
   { key: "hooks", label: "Hooks" },
-  { key: "skills", label: "Skills" },
+  { key: "skills", label: zhCN.commands.configSections.skills },
   { key: "tools", label: "Tools" },
   { key: "gateway", label: "Gateway" },
   { key: "wizard", label: "Setup Wizard" },
@@ -183,7 +184,7 @@ function truncateValue(value: unknown, maxLen = 40): string {
 
 export function renderConfig(props: ConfigProps) {
   const validity =
-    props.valid == null ? "unknown" : props.valid ? "valid" : "invalid";
+    props.valid == null ? zhCN.ui.settings.validityUnknown : props.valid ? zhCN.ui.settings.validityValid : zhCN.ui.settings.validityInvalid;
   const analysis = analyzeConfigSchema(props.schema);
   const formUnsafe = analysis.schema
     ? analysis.unsupportedPaths.length > 0
@@ -255,7 +256,7 @@ export function renderConfig(props: ConfigProps) {
       <!-- Sidebar -->
       <aside class="config-sidebar">
         <div class="config-sidebar__header">
-          <div class="config-sidebar__title">Settings</div>
+          <div class="config-sidebar__title">${zhCN.ui.settings.title}</div>
           <span class="pill pill--sm ${validity === "valid" ? "pill--ok" : validity === "invalid" ? "pill--danger" : ""}">${validity}</span>
         </div>
 
@@ -268,7 +269,7 @@ export function renderConfig(props: ConfigProps) {
           <input
             type="text"
             class="config-search__input"
-            placeholder="Search settings..."
+            placeholder=${zhCN.ui.settings.searchPlaceholder}
             .value=${props.searchQuery}
             @input=${(e: Event) => props.onSearchChange((e.target as HTMLInputElement).value)}
           />
@@ -287,7 +288,7 @@ export function renderConfig(props: ConfigProps) {
             @click=${() => props.onSectionChange(null)}
           >
             <span class="config-nav__icon">${sidebarIcons.all}</span>
-            <span class="config-nav__label">All Settings</span>
+            <span class="config-nav__label">${zhCN.ui.settings.allSettings}</span>
           </button>
           ${allSections.map(section => html`
             <button
@@ -308,13 +309,13 @@ export function renderConfig(props: ConfigProps) {
               ?disabled=${props.schemaLoading || !props.schema}
               @click=${() => props.onFormModeChange("form")}
             >
-              Form
+              ${zhCN.ui.settings.form}
             </button>
             <button
               class="config-mode-toggle__btn ${props.formMode === "raw" ? "active" : ""}"
               @click=${() => props.onFormModeChange("raw")}
             >
-              Raw
+              ${zhCN.ui.settings.raw}
             </button>
           </div>
         </div>
@@ -326,35 +327,35 @@ export function renderConfig(props: ConfigProps) {
         <div class="config-actions">
           <div class="config-actions__left">
             ${hasChanges ? html`
-              <span class="config-changes-badge">${props.formMode === "raw" ? "Unsaved changes" : `${diff.length} unsaved change${diff.length !== 1 ? "s" : ""}`}</span>
+              <span class="config-changes-badge">${props.formMode === "raw" ? zhCN.ui.settings.unsavedChanges : `${diff.length} ${diff.length !== 1 ? zhCN.ui.settings.unsavedChanges : zhCN.ui.settings.unsavedChange}`}</span>
             ` : html`
-              <span class="config-status muted">No changes</span>
+              <span class="config-status muted">${zhCN.ui.settings.noChanges}</span>
             `}
           </div>
           <div class="config-actions__right">
             <button class="btn btn--sm" ?disabled=${props.loading} @click=${props.onReload}>
-              ${props.loading ? "Loading…" : "Reload"}
+              ${props.loading ? zhCN.ui.settings.loading : zhCN.ui.settings.reload}
             </button>
             <button
               class="btn btn--sm primary"
               ?disabled=${!canSave}
               @click=${props.onSave}
             >
-              ${props.saving ? "Saving…" : "Save"}
+              ${props.saving ? zhCN.ui.settings.saving : zhCN.ui.settings.save}
             </button>
             <button
               class="btn btn--sm"
               ?disabled=${!canApply}
               @click=${props.onApply}
             >
-              ${props.applying ? "Applying…" : "Apply"}
+              ${props.applying ? zhCN.ui.settings.applying : zhCN.ui.settings.apply}
             </button>
             <button
               class="btn btn--sm"
               ?disabled=${!canUpdate}
               @click=${props.onUpdate}
             >
-              ${props.updating ? "Updating…" : "Update"}
+              ${props.updating ? zhCN.ui.settings.updating : zhCN.ui.settings.update}
             </button>
           </div>
         </div>
@@ -363,7 +364,7 @@ export function renderConfig(props: ConfigProps) {
         ${hasChanges && props.formMode === "form" ? html`
           <details class="config-diff">
             <summary class="config-diff__summary">
-              <span>View ${diff.length} pending change${diff.length !== 1 ? "s" : ""}</span>
+              <span>${zhCN.ui.settings.view} ${diff.length} ${diff.length !== 1 ? zhCN.ui.settings.pendingChange : zhCN.ui.settings.pendingChange}</span>
               <svg class="config-diff__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
@@ -404,7 +405,7 @@ export function renderConfig(props: ConfigProps) {
                   class="config-subnav__item ${effectiveSubsection === null ? "active" : ""}"
                   @click=${() => props.onSubsectionChange(ALL_SUBSECTION)}
                 >
-                  All
+                  ${zhCN.ui.settings.all}
                 </button>
                 ${subsections.map(
                   (entry) => html`
@@ -430,7 +431,7 @@ export function renderConfig(props: ConfigProps) {
                 ${props.schemaLoading
                   ? html`<div class="config-loading">
                       <div class="config-loading__spinner"></div>
-                      <span>Loading schema…</span>
+                      <span>${zhCN.ui.settings.loadingSchema}</span>
                     </div>`
                   : renderConfigForm({
                       schema: analysis.schema,
@@ -445,14 +446,14 @@ export function renderConfig(props: ConfigProps) {
                     })}
                 ${formUnsafe
                   ? html`<div class="callout danger" style="margin-top: 12px;">
-                      Form view can't safely edit some fields.
-                      Use Raw to avoid losing config entries.
+                      ${zhCN.ui.settings.formUnsafe}
+                      ${zhCN.ui.settings.useRawWarning}
                     </div>`
                   : nothing}
               `
             : html`
                 <label class="field config-raw-field">
-                  <span>Raw JSON5</span>
+                  <span>${zhCN.ui.settings.rawJson5}</span>
                   <textarea
                     .value=${props.raw}
                     @input=${(e: Event) =>

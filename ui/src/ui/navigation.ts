@@ -1,13 +1,14 @@
 import type { IconName } from "./icons.js";
+import { zhCN } from "@moltbot/i18n";
 
 export const TAB_GROUPS = [
-  { label: "Chat", tabs: ["chat"] },
+  { label: zhCN.commands.navigation.chat, tabs: ["chat"] },
   {
-    label: "Control",
+    label: zhCN.commands.navigation.control,
     tabs: ["overview", "channels", "instances", "sessions", "cron"],
   },
-  { label: "Agent", tabs: ["skills", "nodes"] },
-  { label: "Settings", tabs: ["config", "debug", "logs"] },
+  { label: zhCN.commands.navigation.agent, tabs: ["skills", "nodes"] },
+  { label: zhCN.commands.navigation.settings, tabs: ["config", "debug", "logs"] },
 ] as const;
 
 export type Tab =
@@ -132,56 +133,56 @@ export function iconForTab(tab: Tab): IconName {
 export function titleForTab(tab: Tab) {
   switch (tab) {
     case "overview":
-      return "Overview";
+      return zhCN.commands.navigation.overview;
     case "channels":
-      return "Channels";
+      return zhCN.commands.navigation.channels;
     case "instances":
-      return "Instances";
+      return zhCN.commands.navigation.instances;
     case "sessions":
-      return "Sessions";
+      return zhCN.commands.navigation.sessions;
     case "cron":
-      return "Cron Jobs";
+      return zhCN.commands.navigation.cronJobs;
     case "skills":
-      return "Skills";
+      return zhCN.commands.navigation.skills;
     case "nodes":
-      return "Nodes";
+      return zhCN.commands.navigation.nodes;
     case "chat":
-      return "Chat";
+      return zhCN.commands.navigation.chat;
     case "config":
-      return "Config";
+      return zhCN.commands.navigation.config;
     case "debug":
-      return "Debug";
+      return zhCN.commands.navigation.debug;
     case "logs":
-      return "Logs";
+      return zhCN.commands.navigation.logs;
     default:
-      return "Control";
+      return zhCN.commands.navigation.control;
   }
 }
 
 export function subtitleForTab(tab: Tab) {
   switch (tab) {
     case "overview":
-      return "Gateway status, entry points, and a fast health read.";
+      return zhCN.commands.navigation.subtitleOverview;
     case "channels":
-      return "Manage channels and settings.";
+      return zhCN.commands.navigation.subtitleChannels;
     case "instances":
-      return "Presence beacons from connected clients and nodes.";
+      return zhCN.commands.navigation.subtitleInstances;
     case "sessions":
-      return "Inspect active sessions and adjust per-session defaults.";
+      return zhCN.commands.navigation.subtitleSessions;
     case "cron":
-      return "Schedule wakeups and recurring agent runs.";
+      return zhCN.commands.navigation.subtitleCron;
     case "skills":
-      return "Manage skill availability and API key injection.";
+      return zhCN.commands.navigation.subtitleSkills;
     case "nodes":
-      return "Paired devices, capabilities, and command exposure.";
+      return zhCN.commands.navigation.subtitleNodes;
     case "chat":
-      return "Direct gateway chat session for quick interventions.";
+      return zhCN.commands.navigation.subtitleChat;
     case "config":
-      return "Edit ~/.clawdbot/moltbot.json safely.";
+      return zhCN.commands.navigation.subtitleConfig;
     case "debug":
-      return "Gateway snapshots, events, and manual RPC calls.";
+      return zhCN.commands.navigation.subtitleDebug;
     case "logs":
-      return "Live tail of the gateway file logs.";
+      return zhCN.commands.navigation.subtitleLogs;
     default:
       return "";
   }

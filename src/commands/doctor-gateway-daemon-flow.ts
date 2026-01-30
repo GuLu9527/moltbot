@@ -30,6 +30,7 @@ import { buildGatewayRuntimeHints, formatGatewayRuntimeSummary } from "./doctor-
 import type { DoctorOptions, DoctorPrompter } from "./doctor-prompter.js";
 import { healthCommand } from "./health.js";
 import { formatHealthCheckFailure } from "./health-format.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 async function maybeRepairLaunchAgentBootstrap(params: {
   env: Record<string, string | undefined>;
@@ -48,30 +49,30 @@ async function maybeRepairLaunchAgentBootstrap(params: {
   const plistExists = await launchAgentPlistExists(params.env);
   if (!plistExists) return false;
 
-  note("LaunchAgent is listed but not loaded in launchd.", `${params.title} LaunchAgent`);
+  note(zhCN.output.launchAgentListedNotLoaded, `${params.title} LaunchAgent`);
 
   const shouldFix = await params.prompter.confirmSkipInNonInteractive({
-    message: `Repair ${params.title} LaunchAgent bootstrap now?`,
+    message: zhCN.output.repairLaunchAgent,
     initialValue: true,
   });
   if (!shouldFix) return false;
 
-  params.runtime.log(`Bootstrapping ${params.title} LaunchAgent...`);
+  params.runtime.log(zhCN.output.bootstrappingAgent);
   const repair = await repairLaunchAgentBootstrap({ env: params.env });
   if (!repair.ok) {
     params.runtime.error(
-      `${params.title} LaunchAgent bootstrap failed: ${repair.detail ?? "unknown error"}`,
+      `${params.title} LaunchAgent 引导失败：${repair.detail ?? "未知错误"}`,
     );
     return false;
   }
 
   const verified = await isLaunchAgentLoaded({ env: params.env });
   if (!verified) {
-    params.runtime.error(`${params.title} LaunchAgent still not loaded after repair.`);
+    params.runtime.error(`${params.title} LaunchAgent 修复后仍未加载。`);
     return false;
   }
 
-  note(`${params.title} LaunchAgent repaired.`, `${params.title} LaunchAgent`);
+  note(`${params.title} LaunchAgent 已修复。`, `${params.title} LaunchAgent`);
   return true;
 }
 
@@ -126,7 +127,7 @@ export async function maybeRepairGatewayDaemon(params: {
       note(formatPortDiagnostics(diagnostics).join("\n"), "Gateway port");
     } else if (loaded && serviceRuntime?.status === "running") {
       const lastError = await readLastGatewayErrorLine(process.env);
-      if (lastError) note(`Last gateway error: ${lastError}`, "Gateway");
+      if (lastError) note(`上次网关错误: ${lastError}`, "Gateway");
     }
   }
 
@@ -135,20 +136,20 @@ export async function maybeRepairGatewayDaemon(params: {
       const systemdAvailable = await isSystemdUserServiceAvailable().catch(() => false);
       if (!systemdAvailable) {
         const wsl = await isWSL();
-        note(renderSystemdUnavailableHints({ wsl }).join("\n"), "Gateway");
+        note(renderSystemdUnavailableHints({ wsl, output: zhCN.output }).join("\n"), "Gateway");
         return;
       }
     }
-    note("Gateway service not installed.", "Gateway");
+    note(zhCN.output.gatewayNotInstalled, "Gateway");
     if (params.cfg.gateway?.mode !== "remote") {
       const install = await params.prompter.confirmSkipInNonInteractive({
-        message: "Install gateway service now?",
+        message: zhCN.output.installGatewayService,
         initialValue: true,
       });
       if (install) {
         const daemonRuntime = await params.prompter.select<GatewayDaemonRuntime>(
           {
-            message: "Gateway service runtime",
+            message: zhCN.output.gatewayServiceRuntime,
             options: GATEWAY_DAEMON_RUNTIME_OPTIONS,
             initialValue: DEFAULT_GATEWAY_DAEMON_RUNTIME,
           },
@@ -172,7 +173,7 @@ export async function maybeRepairGatewayDaemon(params: {
             environment,
           });
         } catch (err) {
-          note(`Gateway service install failed: ${String(err)}`, "Gateway");
+          note(`网关服务安装失败: ${String(err)}`, "Gateway");
           note(gatewayInstallErrorHint(), "Gateway");
         }
       }
@@ -187,14 +188,14 @@ export async function maybeRepairGatewayDaemon(params: {
   });
   if (summary || hints.length > 0) {
     const lines: string[] = [];
-    if (summary) lines.push(`Runtime: ${summary}`);
+    if (summary) lines.push(`运行时: ${summary}`);
     lines.push(...hints);
     note(lines.join("\n"), "Gateway");
   }
 
   if (serviceRuntime?.status !== "running") {
     const start = await params.prompter.confirmSkipInNonInteractive({
-      message: "Start gateway service now?",
+      message: zhCN.output.startGatewayService,
       initialValue: true,
     });
     if (start) {
@@ -216,7 +217,7 @@ export async function maybeRepairGatewayDaemon(params: {
 
   if (serviceRuntime?.status === "running") {
     const restart = await params.prompter.confirmSkipInNonInteractive({
-      message: "Restart gateway service now?",
+      message: zhCN.output.restartGatewayService,
       initialValue: true,
     });
     if (restart) {
@@ -230,7 +231,7 @@ export async function maybeRepairGatewayDaemon(params: {
       } catch (err) {
         const message = String(err);
         if (message.includes("gateway closed")) {
-          note("Gateway not running.", "Gateway");
+          note(zhCN.output.gatewayNotRunning, "Gateway");
           note(params.gatewayDetailsMessage, "Gateway connection");
         } else {
           params.runtime.error(formatHealthCheckFailure(err));

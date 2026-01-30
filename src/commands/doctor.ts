@@ -54,6 +54,7 @@ import { MEMORY_SYSTEM_PROMPT, shouldSuggestMemorySystem } from "./doctor-worksp
 import { noteWorkspaceStatus } from "./doctor-workspace-status.js";
 import { applyWizardMetadata, printWizardHeader, randomToken } from "./onboard-helpers.js";
 import { ensureSystemdUserLingerInteractive } from "./systemd-linger.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 const intro = (message: string) => clackIntro(stylePromptTitle(message) ?? message);
 const outro = (message: string) => clackOutro(stylePromptTitle(message) ?? message);
@@ -68,7 +69,7 @@ export async function doctorCommand(
 ) {
   const prompter = createDoctorPrompter({ runtime, options });
   printWizardHeader(runtime);
-  intro("Moltbot doctor");
+  intro(zhCN.output.doctorTitle);
 
   const root = await resolveMoltbotPackageRoot({
     moduleUrl: import.meta.url,
@@ -97,12 +98,12 @@ export async function doctorCommand(
   const configPath = configResult.path ?? CONFIG_PATH;
   if (!cfg.gateway?.mode) {
     const lines = [
-      "gateway.mode is unset; gateway start will be blocked.",
-      `Fix: run ${formatCliCommand("moltbot configure")} and set Gateway mode (local/remote).`,
-      `Or set directly: ${formatCliCommand("moltbot config set gateway.mode local")}`,
+      zhCN.output.gatewayModeUnset,
+      `${zhCN.output.gatewayStartBlocked}`,
+      `${zhCN.output.setGatewayModeDirect}`,
     ];
     if (!fs.existsSync(configPath)) {
-      lines.push(`Missing config: run ${formatCliCommand("moltbot setup")} first.`);
+      lines.push(`${zhCN.output.runSetupFirst}`);
     }
     note(lines.join("\n"), "Gateway");
   }
@@ -126,7 +127,7 @@ export async function doctorCommand(
     const needsToken = auth.mode !== "password" && (auth.mode !== "token" || !auth.token);
     if (needsToken) {
       note(
-        "Gateway auth is off or missing a token. Token auth is now the recommended default (including loopback).",
+        zhCN.output.gatewayAuthMissing,
         "Gateway auth",
       );
       const shouldSetToken =
@@ -135,7 +136,7 @@ export async function doctorCommand(
           : options.nonInteractive === true
             ? false
             : await prompter.confirmRepair({
-                message: "Generate and configure a gateway token now?",
+                message: zhCN.output.generateGatewayToken,
                 initialValue: true,
               });
       if (shouldSetToken) {
@@ -151,7 +152,7 @@ export async function doctorCommand(
             },
           },
         };
-        note("Gateway token configured.", "Gateway auth");
+        note(zhCN.output.gatewayTokenConfigured, "Gateway auth");
       }
     }
   }
@@ -163,7 +164,7 @@ export async function doctorCommand(
       options.nonInteractive === true
         ? true
         : await prompter.confirm({
-            message: "Migrate legacy state (sessions/agent/WhatsApp auth) now?",
+            message: zhCN.output.migrateLegacyState,
             initialValue: true,
           });
     if (migrate) {
@@ -171,10 +172,10 @@ export async function doctorCommand(
         detected: legacyState,
       });
       if (migrated.changes.length > 0) {
-        note(migrated.changes.join("\n"), "Doctor changes");
+        note(migrated.changes.join("\n"), zhCN.output.doctorChanges);
       }
       if (migrated.warnings.length > 0) {
-        note(migrated.warnings.join("\n"), "Doctor warnings");
+        note(migrated.warnings.join("\n"), zhCN.output.doctorWarnings);
       }
     }
   }
@@ -198,7 +199,7 @@ export async function doctorCommand(
       defaultProvider: DEFAULT_PROVIDER,
     });
     if (!hooksModelRef) {
-      note(`- hooks.gmail.model "${cfg.hooks.gmail.model}" could not be resolved`, "Hooks");
+      note(zhCN.output.hooksGmailModelWarning, "Hooks");
     } else {
       const { provider: defaultProvider, model: defaultModel } = resolveConfiguredModelRef({
         cfg,
@@ -216,12 +217,12 @@ export async function doctorCommand(
       const warnings: string[] = [];
       if (!status.allowed) {
         warnings.push(
-          `- hooks.gmail.model "${status.key}" not in agents.defaults.models allowlist (will use primary instead)`,
+          zhCN.output.hooksNotInAllowlist,
         );
       }
       if (!status.inCatalog) {
         warnings.push(
-          `- hooks.gmail.model "${status.key}" not in the model catalog (may fail at runtime)`,
+          zhCN.output.hooksNotInCatalog,
         );
       }
       if (warnings.length > 0) {
@@ -249,8 +250,7 @@ export async function doctorCommand(
           confirm: async (p) => prompter.confirm(p),
           note,
         },
-        reason:
-          "Gateway runs as a systemd user service. Without lingering, systemd stops the user session on logout/idle and kills the Gateway.",
+        reason: zhCN.output.systemdLingerRequired,
         requireConfirm: true,
       });
     }
@@ -282,7 +282,7 @@ export async function doctorCommand(
       runtime.log(`Backup: ${shortenHomePath(backupPath)}`);
     }
   } else {
-    runtime.log(`Run "${formatCliCommand("moltbot doctor --fix")}" to apply changes.`);
+    runtime.log(zhCN.output.runDoctorFix);
   }
 
   if (options.workspaceSuggestions !== false) {
@@ -295,12 +295,12 @@ export async function doctorCommand(
 
   const finalSnapshot = await readConfigFileSnapshot();
   if (finalSnapshot.exists && !finalSnapshot.valid) {
-    runtime.error("Invalid config:");
+    runtime.error(zhCN.output.invalidConfig);
     for (const issue of finalSnapshot.issues) {
       const path = issue.path || "<root>";
       runtime.error(`- ${path}: ${issue.message}`);
     }
   }
 
-  outro("Doctor complete.");
+  outro(zhCN.output.doctorComplete);
 }

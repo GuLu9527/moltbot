@@ -17,6 +17,7 @@ import {
 import { loadGatewayTlsRuntime } from "../infra/tls/gateway.js";
 import { GatewayClient } from "./client.js";
 import { PROTOCOL_VERSION } from "./protocol/index.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export type CallGatewayOptions = {
   url?: string;
@@ -91,9 +92,9 @@ export function buildGatewayConnectionDetails(
     : undefined;
   const bindDetail = !urlOverride && !remoteUrl ? `Bind: ${bindMode}` : undefined;
   const message = [
-    `Gateway target: ${url}`,
-    `Source: ${urlSource}`,
-    `Config: ${configPath}`,
+    `网关目标: ${url}`,
+    `来源: ${urlSource}`,
+    `配置: ${configPath}`,
     bindDetail,
     remoteFallbackNote,
   ]
@@ -123,9 +124,9 @@ export async function callGateway<T = unknown>(opts: CallGatewayOptions): Promis
       opts.configPath ?? resolveConfigPath(process.env, resolveStateDir(process.env));
     throw new Error(
       [
-        "gateway remote mode misconfigured: gateway.remote.url missing",
-        `Config: ${configPath}`,
-        "Fix: set gateway.remote.url, or set gateway.mode=local.",
+        zhCN.errors.gatewayRemoteModeMisconfigured,
+        `配置: ${configPath}`,
+        `修复: 设置 gateway.remote.url，或设置 gateway.mode=local。`,
       ].join("\n"),
     );
   }
@@ -178,12 +179,12 @@ export async function callGateway<T = unknown>(opts: CallGatewayOptions): Promis
   const formatCloseError = (code: number, reason: string) => {
     const reasonText = reason?.trim() || "no close reason";
     const hint =
-      code === 1006 ? "abnormal closure (no close frame)" : code === 1000 ? "normal closure" : "";
+      code === 1006 ? zhCN.errors.abnormalClosure : code === 1000 ? zhCN.errors.normalClosure : "";
     const suffix = hint ? ` ${hint}` : "";
-    return `gateway closed (${code}${suffix}): ${reasonText}\n${connectionDetails.message}`;
+    return `${zhCN.errors.gatewayClosed} (${code}${suffix}): ${reasonText}\n${connectionDetails.message}`;
   };
   const formatTimeoutError = () =>
-    `gateway timeout after ${timeoutMs}ms\n${connectionDetails.message}`;
+    `${zhCN.errors.gatewayTimeout} ${timeoutMs}ms\n${connectionDetails.message}`;
   return await new Promise<T>((resolve, reject) => {
     let settled = false;
     let ignoreClose = false;

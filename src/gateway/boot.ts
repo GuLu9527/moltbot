@@ -8,6 +8,7 @@ import { resolveMainSessionKey } from "../config/sessions/main-session.js";
 import { agentCommand } from "../commands/agent.js";
 import { createSubsystemLogger } from "../logging/subsystem.js";
 import { type RuntimeEnv, defaultRuntime } from "../runtime.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 const log = createSubsystemLogger("gateway/boot");
 const BOOT_FILENAME = "BOOT.md";
@@ -62,7 +63,7 @@ export async function runBootOnce(params: {
     result = await loadBootFile(params.workspaceDir);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    log.error(`boot: failed to read ${BOOT_FILENAME}: ${message}`);
+    log.error(`${zhCN.errors.bootReadFailed} ${BOOT_FILENAME}: ${message}`);
     return { status: "failed", reason: message };
   }
 
@@ -86,7 +87,7 @@ export async function runBootOnce(params: {
     return { status: "ran" };
   } catch (err) {
     const messageText = err instanceof Error ? err.message : String(err);
-    log.error(`boot: agent run failed: ${messageText}`);
+    log.error(`${zhCN.errors.bootAgentRunFailed}: ${messageText}`);
     return { status: "failed", reason: messageText };
   }
 }
