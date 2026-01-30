@@ -902,6 +902,23 @@ openclaw security audit --fix
     workspaceBackupTitle: "工作区备份",
     securityNote: "在您的计算机上运行代理有风险 — 强化您的设置：https://docs.openclaw.ai/security",
     securityTitle: "安全",
+
+    // Gateway Config
+    tailscaleTitle: "Tailscale",
+    tailscaleDocs: "文档：\nhttps://docs.openclaw.ai/gateway/tailscale\nhttps://docs.openclaw.ai/web",
+    resetTailscaleOnExit: "退出时重置 Tailscale serve/funnel？",
+    tailscaleRequiresLoopback: "Tailscale 需要 bind=loopback。正在调整 bind 为 loopback。",
+    tailscaleFunnelRequiresPassword: "Tailscale funnel 需要密码认证。",
+    gatewayTokenPrompt: "网关令牌（留空以生成）",
+    gatewayTokenPlaceholder: "用于多机器或非环回访问",
+    gatewayPasswordPrompt: "网关密码",
+    passwordRequired: "必填",
+    customIpAddress: "自定义 IP 地址",
+    customIpPlaceholder: "192.168.1.100",
+    inputRequired: "必填",
+
+    // Non-interactive
+    braveKeyTip: "提示：运行 `openclaw configure --section web` 以存储您的 Brave Search API 密钥用于 web_search。文档：https://docs.openclaw.ai/tools/web",
   },
 } as const;
 

@@ -3,6 +3,7 @@ import { writeConfigFile } from "../../config/config.js";
 import { logConfigUpdated } from "../../config/logging.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import { formatCliCommand } from "../../cli/command-format.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 import { applyWizardMetadata } from "../onboard-helpers.js";
 import type { OnboardOptions } from "../onboard-types.js";
 
@@ -46,8 +47,6 @@ export async function runNonInteractiveOnboardingRemote(params: {
   } else {
     runtime.log(`Remote gateway: ${remoteUrl}`);
     runtime.log(`Auth: ${payload.auth}`);
-    runtime.log(
-      `Tip: run \`${formatCliCommand("openclaw configure --section web")}\` to store your Brave API key for web_search. Docs: https://docs.openclaw.ai/tools/web`,
-    );
+    runtime.log(zhCN.output.braveKeyTip);
   }
 }

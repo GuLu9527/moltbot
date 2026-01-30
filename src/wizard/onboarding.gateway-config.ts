@@ -3,6 +3,7 @@ import type { GatewayAuthChoice } from "../commands/onboard-types.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { findTailscaleBinary } from "../infra/tailscale.js";
 import type { RuntimeEnv } from "../runtime.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import type {
   GatewayWizardSettings,
   QuickstartGatewayDefaults,
@@ -37,7 +38,7 @@ export async function configureGatewayForOnboarding(
       : Number.parseInt(
           String(
             await prompter.text({
-              message: "Gateway port",
+              message: zhCN.output.gatewayPort,
               initialValue: String(localPort),
               validate: (value) => (Number.isFinite(Number(value)) ? undefined : "Invalid port"),
             }),
@@ -49,13 +50,13 @@ export async function configureGatewayForOnboarding(
     flow === "quickstart"
       ? quickstartGateway.bind
       : ((await prompter.select({
-          message: "Gateway bind",
+          message: zhCN.output.gatewayBind,
           options: [
-            { value: "loopback", label: "Loopback (127.0.0.1)" },
+            { value: "loopback", label: "环回 (127.0.0.1)" },
             { value: "lan", label: "LAN (0.0.0.0)" },
             { value: "tailnet", label: "Tailnet (Tailscale IP)" },
-            { value: "auto", label: "Auto (Loopback → LAN)" },
-            { value: "custom", label: "Custom IP" },
+            { value: "auto", label: "自动 (环回 → LAN)" },
+            { value: "custom", label: "自定义 IP" },
           ],
         })) as "loopback" | "lan" | "auto" | "custom" | "tailnet")
   ) as "loopback" | "lan" | "auto" | "custom" | "tailnet";
@@ -65,8 +66,8 @@ export async function configureGatewayForOnboarding(
     const needsPrompt = flow !== "quickstart" || !customBindHost;
     if (needsPrompt) {
       const input = await prompter.text({
-        message: "Custom IP address",
-        placeholder: "192.168.1.100",
+        message: zhCN.output.customIpAddress,
+        placeholder: zhCN.output.customIpPlaceholder,
         initialValue: customBindHost ?? "",
         validate: (value) => {
           if (!value) return "IP address is required for custom bind mode";
@@ -91,14 +92,14 @@ export async function configureGatewayForOnboarding(
     flow === "quickstart"
       ? quickstartGateway.authMode
       : ((await prompter.select({
-          message: "Gateway auth",
+          message: zhCN.output.gatewayAuth,
           options: [
             {
               value: "token",
-              label: "Token",
-              hint: "Recommended default (local + remote)",
+              label: "令牌",
+              hint: "推荐默认值（本地 + 远程）",
             },
-            { value: "password", label: "Password" },
+            { value: "password", label: "密码" },
           ],
           initialValue: "token",
         })) as GatewayAuthChoice)
@@ -108,18 +109,18 @@ export async function configureGatewayForOnboarding(
     flow === "quickstart"
       ? quickstartGateway.tailscaleMode
       : ((await prompter.select({
-          message: "Tailscale exposure",
+          message: zhCN.output.tailscaleExposure,
           options: [
-            { value: "off", label: "Off", hint: "No Tailscale exposure" },
+            { value: "off", label: "关闭", hint: "无 Tailscale 暴露" },
             {
               value: "serve",
               label: "Serve",
-              hint: "Private HTTPS for your tailnet (devices on Tailscale)",
+              hint: "您的 tailnet 的私有 HTTPS（Tailscale 设备）",
             },
             {
               value: "funnel",
               label: "Funnel",
-              hint: "Public HTTPS via Tailscale Funnel (internet)",
+              hint: "通过 Tailscale Funnel 的公共 HTTPS（互联网）",
             },
           ],
         })) as "off" | "serve" | "funnel")
@@ -131,11 +132,11 @@ export async function configureGatewayForOnboarding(
     if (!tailscaleBin) {
       await prompter.note(
         [
-          "Tailscale binary not found in PATH or /Applications.",
-          "Ensure Tailscale is installed from:",
+          "未在 PATH 或 /Applications 中找到 Tailscale 二进制文件。",
+          "请从以下地址安装 Tailscale：",
           "  https://tailscale.com/download/mac",
           "",
-          "You can continue setup, but serve/funnel will fail at runtime.",
+          "您可以继续设置，但 serve/funnel 将在运行时失败。",
         ].join("\n"),
         "Tailscale Warning",
       );
@@ -144,15 +145,10 @@ export async function configureGatewayForOnboarding(
 
   let tailscaleResetOnExit = flow === "quickstart" ? quickstartGateway.tailscaleResetOnExit : false;
   if (tailscaleMode !== "off" && flow !== "quickstart") {
-    await prompter.note(
-      ["Docs:", "https://docs.openclaw.ai/gateway/tailscale", "https://docs.openclaw.ai/web"].join(
-        "\n",
-      ),
-      "Tailscale",
-    );
+    await prompter.note(zhCN.output.tailscaleDocs, zhCN.output.tailscaleTitle);
     tailscaleResetOnExit = Boolean(
       await prompter.confirm({
-        message: "Reset Tailscale serve/funnel on exit?",
+        message: zhCN.output.resetTailscaleOnExit,
         initialValue: false,
       }),
     );
@@ -162,13 +158,13 @@ export async function configureGatewayForOnboarding(
   // - Tailscale wants bind=loopback so we never expose a non-loopback server + tailscale serve/funnel at once.
   // - Funnel requires password auth.
   if (tailscaleMode !== "off" && bind !== "loopback") {
-    await prompter.note("Tailscale requires bind=loopback. Adjusting bind to loopback.", "Note");
+    await prompter.note(zhCN.output.tailscaleRequiresLoopback, "Note");
     bind = "loopback";
     customBindHost = undefined;
   }
 
   if (tailscaleMode === "funnel" && authMode !== "password") {
-    await prompter.note("Tailscale funnel requires password auth.", "Note");
+    await prompter.note(zhCN.output.tailscaleFunnelRequiresPassword, "Note");
     authMode = "password";
   }
 
@@ -178,8 +174,8 @@ export async function configureGatewayForOnboarding(
       gatewayToken = quickstartGateway.token ?? randomToken();
     } else {
       const tokenInput = await prompter.text({
-        message: "Gateway token (blank to generate)",
-        placeholder: "Needed for multi-machine or non-loopback access",
+        message: zhCN.output.gatewayTokenPrompt,
+        placeholder: zhCN.output.gatewayTokenPlaceholder,
         initialValue: quickstartGateway.token ?? "",
       });
       gatewayToken = String(tokenInput).trim() || randomToken();
@@ -191,8 +187,8 @@ export async function configureGatewayForOnboarding(
       flow === "quickstart" && quickstartGateway.password
         ? quickstartGateway.password
         : await prompter.text({
-            message: "Gateway password",
-            validate: (value) => (value?.trim() ? undefined : "Required"),
+            message: zhCN.output.gatewayPasswordPrompt,
+            validate: (value) => (value?.trim() ? undefined : zhCN.output.inputRequired),
           });
     nextConfig = {
       ...nextConfig,

@@ -2,6 +2,7 @@ import type { OpenClawConfig } from "../config/config.js";
 import { resolveGatewayPort } from "../config/config.js";
 import { findTailscaleBinary } from "../infra/tailscale.js";
 import type { RuntimeEnv } from "../runtime.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { note } from "../terminal/note.js";
 import { buildGatewayAuthConfig } from "./configure.gateway-auth.js";
 import { confirm, select, text } from "./configure.shared.js";
@@ -19,7 +20,7 @@ export async function promptGatewayConfig(
 }> {
   const portRaw = guardCancel(
     await text({
-      message: "Gateway port",
+      message: zhCN.output.gatewayPort,
       initialValue: String(resolveGatewayPort(cfg)),
       validate: (value) => (Number.isFinite(Number(value)) ? undefined : "Invalid port"),
     }),
@@ -29,32 +30,32 @@ export async function promptGatewayConfig(
 
   let bind = guardCancel(
     await select({
-      message: "Gateway bind mode",
+      message: zhCN.output.gatewayBind,
       options: [
         {
           value: "loopback",
-          label: "Loopback (Local only)",
-          hint: "Bind to 127.0.0.1 - secure, local-only access",
+          label: "环回（仅本地）",
+          hint: "绑定到 127.0.0.1 - 安全，仅本地访问",
         },
         {
           value: "tailnet",
-          label: "Tailnet (Tailscale IP)",
-          hint: "Bind to your Tailscale IP only (100.x.x.x)",
+          label: "Tailnet（Tailscale IP）",
+          hint: "仅绑定到您的 Tailscale IP（100.x.x.x）",
         },
         {
           value: "auto",
-          label: "Auto (Loopback → LAN)",
-          hint: "Prefer loopback; fall back to all interfaces if unavailable",
+          label: "自动（环回 → LAN）",
+          hint: "优先环回；如果不可用则回退到所有接口",
         },
         {
           value: "lan",
-          label: "LAN (All interfaces)",
-          hint: "Bind to 0.0.0.0 - accessible from anywhere on your network",
+          label: "LAN（所有接口）",
+          hint: "绑定到 0.0.0.0 - 可从网络中的任何位置访问",
         },
         {
           value: "custom",
-          label: "Custom IP",
-          hint: "Specify a specific IP address, with 0.0.0.0 fallback if unavailable",
+          label: "自定义 IP",
+          hint: "指定特定 IP 地址，如果不可用则回退到 0.0.0.0",
         },
       ],
     }),
@@ -65,8 +66,8 @@ export async function promptGatewayConfig(
   if (bind === "custom") {
     const input = guardCancel(
       await text({
-        message: "Custom IP address",
-        placeholder: "192.168.1.100",
+        message: zhCN.output.customIpAddress,
+        placeholder: zhCN.output.customIpPlaceholder,
         validate: (value) => {
           if (!value) return "IP address is required for custom bind mode";
           const trimmed = value.trim();
@@ -89,10 +90,10 @@ export async function promptGatewayConfig(
 
   let authMode = guardCancel(
     await select({
-      message: "Gateway auth",
+      message: zhCN.output.gatewayAuth,
       options: [
-        { value: "token", label: "Token", hint: "Recommended default" },
-        { value: "password", label: "Password" },
+        { value: "token", label: "令牌", hint: "推荐默认值" },
+        { value: "password", label: "密码" },
       ],
       initialValue: "token",
     }),
@@ -101,18 +102,18 @@ export async function promptGatewayConfig(
 
   const tailscaleMode = guardCancel(
     await select({
-      message: "Tailscale exposure",
+      message: zhCN.output.tailscaleExposure,
       options: [
-        { value: "off", label: "Off", hint: "No Tailscale exposure" },
+        { value: "off", label: "关闭", hint: "无 Tailscale 暴露" },
         {
           value: "serve",
           label: "Serve",
-          hint: "Private HTTPS for your tailnet (devices on Tailscale)",
+          hint: "您的 tailnet 的私有 HTTPS（Tailscale 设备）",
         },
         {
           value: "funnel",
           label: "Funnel",
-          hint: "Public HTTPS via Tailscale Funnel (internet)",
+          hint: "通过 Tailscale Funnel 的公共 HTTPS（互联网）",
         },
       ],
     }),
@@ -125,29 +126,24 @@ export async function promptGatewayConfig(
     if (!tailscaleBin) {
       note(
         [
-          "Tailscale binary not found in PATH or /Applications.",
-          "Ensure Tailscale is installed from:",
+          "未在 PATH 或 /Applications 中找到 Tailscale 二进制文件。",
+          "请从以下地址安装 Tailscale：",
           "  https://tailscale.com/download/mac",
           "",
-          "You can continue setup, but serve/funnel will fail at runtime.",
+          "您可以继续设置，但 serve/funnel 将在运行时失败。",
         ].join("\n"),
-        "Tailscale Warning",
+        "Tailscale 警告",
       );
     }
   }
 
   let tailscaleResetOnExit = false;
   if (tailscaleMode !== "off") {
-    note(
-      ["Docs:", "https://docs.openclaw.ai/gateway/tailscale", "https://docs.openclaw.ai/web"].join(
-        "\n",
-      ),
-      "Tailscale",
-    );
+    note(zhCN.output.tailscaleDocs, zhCN.output.tailscaleTitle);
     tailscaleResetOnExit = Boolean(
       guardCancel(
         await confirm({
-          message: "Reset Tailscale serve/funnel on exit?",
+          message: zhCN.output.resetTailscaleOnExit,
           initialValue: false,
         }),
         runtime,
@@ -156,12 +152,12 @@ export async function promptGatewayConfig(
   }
 
   if (tailscaleMode !== "off" && bind !== "loopback") {
-    note("Tailscale requires bind=loopback. Adjusting bind to loopback.", "Note");
+    note(zhCN.output.tailscaleRequiresLoopback, "Note");
     bind = "loopback";
   }
 
   if (tailscaleMode === "funnel" && authMode !== "password") {
-    note("Tailscale funnel requires password auth.", "Note");
+    note(zhCN.output.tailscaleFunnelRequiresPassword, "Note");
     authMode = "password";
   }
 
@@ -172,7 +168,7 @@ export async function promptGatewayConfig(
   if (authMode === "token") {
     const tokenInput = guardCancel(
       await text({
-        message: "Gateway token (blank to generate)",
+        message: zhCN.output.gatewayTokenPrompt,
         initialValue: randomToken(),
       }),
       runtime,
@@ -183,8 +179,8 @@ export async function promptGatewayConfig(
   if (authMode === "password") {
     const password = guardCancel(
       await text({
-        message: "Gateway password",
-        validate: (value) => (value?.trim() ? undefined : "Required"),
+        message: zhCN.output.gatewayPasswordPrompt,
+        validate: (value) => (value?.trim() ? undefined : zhCN.output.inputRequired),
       }),
       runtime,
     );
