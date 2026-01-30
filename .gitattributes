@@ -1,1 +1,4 @@
 * text=auto eol=lf
+
+# 合并时保留中文 README，上游的英文 README 更新到 README_EN.md
+README.md merge=ours
