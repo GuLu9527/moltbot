@@ -8,6 +8,7 @@ import { runInteractiveOnboarding } from "./onboard-interactive.js";
 import { runNonInteractiveOnboarding } from "./onboard-non-interactive.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import type { OnboardOptions } from "./onboard-types.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv = defaultRuntime) {
   assertSupportedRuntime(runtime);
@@ -43,8 +44,8 @@ export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv =
   if (normalizedOpts.nonInteractive && normalizedOpts.acceptRisk !== true) {
     runtime.error(
       [
-        "Non-interactive onboarding requires explicit risk acknowledgement.",
-        "Read: https://docs.openclaw.ai/security",
+        zhCN.output.nonInteractiveRisk,
+        zhCN.output.readSecurityDocs,
         `Re-run with: ${formatCliCommand("openclaw onboard --non-interactive --accept-risk ...")}`,
       ].join("\n"),
     );
@@ -63,8 +64,8 @@ export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv =
   if (process.platform === "win32") {
     runtime.log(
       [
-        "Windows detected.",
-        "WSL2 is strongly recommended; native Windows is untested and more problematic.",
+        zhCN.output.windowsDetected,
+        zhCN.output.wsl2Recommended,
         "Guide: https://docs.openclaw.ai/windows",
       ].join("\n"),
     );

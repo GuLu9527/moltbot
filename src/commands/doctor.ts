@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
 import { intro as clackIntro, outro as clackOutro } from "@clack/prompts";
+import { zhCN } from "../i18n/zh-CN.js";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
 import { loadModelCatalog } from "../agents/model-catalog.js";
@@ -68,7 +69,7 @@ export async function doctorCommand(
 ) {
   const prompter = createDoctorPrompter({ runtime, options });
   printWizardHeader(runtime);
-  intro("OpenClaw doctor");
+  intro(zhCN.output.doctorTitle);
 
   const root = await resolveOpenClawPackageRoot({
     moduleUrl: import.meta.url,
@@ -159,12 +160,12 @@ export async function doctorCommand(
 
   const legacyState = await detectLegacyStateMigrations({ cfg });
   if (legacyState.preview.length > 0) {
-    note(legacyState.preview.join("\n"), "Legacy state detected");
+    note(zhCN.output.legacyStateDetected, "Legacy state detected");
     const migrate =
       options.nonInteractive === true
         ? true
         : await prompter.confirm({
-            message: "Migrate legacy state (sessions/agent/WhatsApp auth) now?",
+            message: zhCN.output.migrateLegacyState,
             initialValue: true,
           });
     if (migrate) {
@@ -172,10 +173,10 @@ export async function doctorCommand(
         detected: legacyState,
       });
       if (migrated.changes.length > 0) {
-        note(migrated.changes.join("\n"), "Doctor changes");
+        note(migrated.changes.join("\n"), zhCN.output.doctorChanges);
       }
       if (migrated.warnings.length > 0) {
-        note(migrated.warnings.join("\n"), "Doctor warnings");
+        note(migrated.warnings.join("\n"), zhCN.output.doctorWarnings);
       }
     }
   }
@@ -302,5 +303,5 @@ export async function doctorCommand(
     }
   }
 
-  outro("Doctor complete.");
+  outro(zhCN.output.doctorComplete);
 }

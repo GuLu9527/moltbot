@@ -67,14 +67,14 @@ export async function runOnboardingWizard(
   prompter: WizardPrompter,
 ) {
   printWizardHeader(runtime);
-  await prompter.intro("OpenClaw onboarding");
+  await prompter.intro(zhCN.output.openClawOnboarding);
   await requireRiskAcknowledgement({ opts, prompter });
 
   const snapshot = await readConfigFileSnapshot();
   let baseConfig: OpenClawConfig = snapshot.valid ? snapshot.config : {};
 
   if (snapshot.exists && !snapshot.valid) {
-    await prompter.note(summarizeExistingConfig(baseConfig), "Invalid config");
+    await prompter.note(summarizeExistingConfig(baseConfig), zhCN.output.invalidConfig);
     if (snapshot.issues.length > 0) {
       await prompter.note(
         [
@@ -92,8 +92,8 @@ export async function runOnboardingWizard(
     return;
   }
 
-  const quickstartHint = `Configure details later via ${formatCliCommand("openclaw configure")}.`;
-  const manualHint = "Configure port, network, Tailscale, and auth options.";
+  const quickstartHint = zhCN.output.quickstartHint;
+  const manualHint = zhCN.output.manualHint;
   const explicitFlowRaw = opts.flow?.trim();
   const normalizedExplicitFlow = explicitFlowRaw === "manual" ? "advanced" : explicitFlowRaw;
   if (
@@ -112,47 +112,47 @@ export async function runOnboardingWizard(
   let flow: WizardFlow =
     explicitFlow ??
     ((await prompter.select({
-      message: "Onboarding mode",
+      message: zhCN.output.onboardingMode,
       options: [
-        { value: "quickstart", label: "QuickStart", hint: quickstartHint },
-        { value: "advanced", label: "Manual", hint: manualHint },
+        { value: "quickstart", label: zhCN.output.quickstartLabel, hint: quickstartHint },
+        { value: "advanced", label: zhCN.output.manualLabel, hint: manualHint },
       ],
       initialValue: "quickstart",
     })) as "quickstart" | "advanced");
 
   if (opts.mode === "remote" && flow === "quickstart") {
     await prompter.note(
-      "QuickStart only supports local gateways. Switching to Manual mode.",
+      zhCN.output.quickstartOnlySupportsLocal,
       "QuickStart",
     );
     flow = "advanced";
   }
 
   if (snapshot.exists) {
-    await prompter.note(summarizeExistingConfig(baseConfig), "Existing config detected");
+    await prompter.note(summarizeExistingConfig(baseConfig), zhCN.output.existingConfigDetected);
 
     const action = (await prompter.select({
-      message: "Config handling",
+      message: zhCN.output.configHandling,
       options: [
-        { value: "keep", label: "Use existing values" },
-        { value: "modify", label: "Update values" },
-        { value: "reset", label: "Reset" },
+        { value: "keep", label: zhCN.output.useExistingValues },
+        { value: "modify", label: zhCN.output.updateValues },
+        { value: "reset", label: zhCN.output.reset },
       ],
     })) as "keep" | "modify" | "reset";
 
     if (action === "reset") {
       const workspaceDefault = baseConfig.agents?.defaults?.workspace ?? DEFAULT_WORKSPACE;
       const resetScope = (await prompter.select({
-        message: "Reset scope",
+        message: zhCN.output.resetScope,
         options: [
-          { value: "config", label: "Config only" },
+          { value: "config", label: zhCN.output.configOnly },
           {
             value: "config+creds+sessions",
-            label: "Config + creds + sessions",
+            label: zhCN.output.configPlusCredsSessions,
           },
           {
             value: "full",
-            label: "Full reset (config + creds + sessions + workspace)",
+            label: zhCN.output.fullReset,
           },
         ],
       })) as ResetScope;
@@ -231,22 +231,22 @@ export async function runOnboardingWizard(
     };
     const quickstartLines = quickstartGateway.hasExisting
       ? [
-          "Keeping your current gateway settings:",
-          `Gateway port: ${quickstartGateway.port}`,
-          `Gateway bind: ${formatBind(quickstartGateway.bind)}`,
+          zhCN.output.keepingCurrentGatewaySettings,
+          `${zhCN.output.gatewayPort}: ${quickstartGateway.port}`,
+          `${zhCN.output.gatewayBind}: ${formatBind(quickstartGateway.bind)}`,
           ...(quickstartGateway.bind === "custom" && quickstartGateway.customBindHost
             ? [`Gateway custom IP: ${quickstartGateway.customBindHost}`]
             : []),
-          `Gateway auth: ${formatAuth(quickstartGateway.authMode)}`,
-          `Tailscale exposure: ${formatTailscale(quickstartGateway.tailscaleMode)}`,
-          "Direct to chat channels.",
+          `${zhCN.output.gatewayAuth}: ${formatAuth(quickstartGateway.authMode)}`,
+          `${zhCN.output.tailscaleExposure}: ${formatTailscale(quickstartGateway.tailscaleMode)}`,
+          zhCN.output.directToChatChannels,
         ]
       : [
-          `Gateway port: ${DEFAULT_GATEWAY_PORT}`,
-          "Gateway bind: Loopback (127.0.0.1)",
-          "Gateway auth: Token (default)",
-          "Tailscale exposure: Off",
-          "Direct to chat channels.",
+          `${zhCN.output.defaultGatewayPort}: ${DEFAULT_GATEWAY_PORT}`,
+          `${zhCN.output.defaultGatewayBind}: Loopback (127.0.0.1)`,
+          `${zhCN.output.defaultGatewayAuth}: Token (default)`,
+          `${zhCN.output.defaultTailscaleExposure}: Off`,
+          zhCN.output.directToChatChannels,
         ];
     await prompter.note(quickstartLines.join("\n"), "QuickStart");
   }
@@ -271,23 +271,23 @@ export async function runOnboardingWizard(
     (flow === "quickstart"
       ? "local"
       : ((await prompter.select({
-          message: "What do you want to set up?",
+          message: zhCN.output.whereWillGatewayRun,
           options: [
             {
               value: "local",
-              label: "Local gateway (this machine)",
+              label: zhCN.output.localGatewayThisMachine,
               hint: localProbe.ok
-                ? `Gateway reachable (${localUrl})`
-                : `No gateway detected (${localUrl})`,
+                ? `${zhCN.output.gatewayReachable} (${localUrl})`
+                : `${zhCN.output.noGatewayDetected} (${localUrl})`,
             },
             {
               value: "remote",
-              label: "Remote gateway (info-only)",
+              label: zhCN.output.remoteGatewayInfoOnly,
               hint: !remoteUrl
-                ? "No remote URL configured yet"
+                ? zhCN.output.noRemoteUrlConfigured
                 : remoteProbe?.ok
-                  ? `Gateway reachable (${remoteUrl})`
-                  : `Configured but unreachable (${remoteUrl})`,
+                  ? `${zhCN.output.gatewayReachable} (${remoteUrl})`
+                  : `${zhCN.output.configuredButUnreachable} (${remoteUrl})`,
             },
           ],
         })) as OnboardMode));
@@ -297,7 +297,7 @@ export async function runOnboardingWizard(
     nextConfig = applyWizardMetadata(nextConfig, { command: "onboard", mode });
     await writeConfigFile(nextConfig);
     logConfigUpdated(runtime);
-    await prompter.outro("Remote gateway configured.");
+    await prompter.outro(zhCN.output.remoteGatewayConfigured);
     return;
   }
 
@@ -306,7 +306,7 @@ export async function runOnboardingWizard(
     (flow === "quickstart"
       ? (baseConfig.agents?.defaults?.workspace ?? DEFAULT_WORKSPACE)
       : await prompter.text({
-          message: "Workspace directory",
+          message: zhCN.output.workspaceDirectory,
           initialValue: baseConfig.agents?.defaults?.workspace ?? DEFAULT_WORKSPACE,
         }));
 
@@ -380,7 +380,7 @@ export async function runOnboardingWizard(
   const settings = gateway.settings;
 
   if (opts.skipChannels ?? opts.skipProviders) {
-    await prompter.note("Skipping channel setup.", "Channels");
+    await prompter.note(zhCN.output.skippingChannelSetup, "Channels");
   } else {
     const quickstartAllowFromChannels =
       flow === "quickstart"
@@ -404,7 +404,7 @@ export async function runOnboardingWizard(
   });
 
   if (opts.skipSkills) {
-    await prompter.note("Skipping skills setup.", "Skills");
+    await prompter.note(zhCN.output.skippingSkillsSetup, "Skills");
   } else {
     nextConfig = await setupSkills(nextConfig, workspaceDir, runtime, prompter);
   }

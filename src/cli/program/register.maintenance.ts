@@ -7,11 +7,12 @@ import { defaultRuntime } from "../../runtime.js";
 import { formatDocsLink } from "../../terminal/links.js";
 import { theme } from "../../terminal/theme.js";
 import { runCommandWithRuntime } from "../cli-utils.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 
 export function registerMaintenanceCommands(program: Command) {
   program
     .command("doctor")
-    .description("Health checks + quick fixes for the gateway and channels")
+    .description(zhCN.commands.doctor)
     .addHelpText(
       "after",
       () =>
@@ -41,7 +42,7 @@ export function registerMaintenanceCommands(program: Command) {
 
   program
     .command("dashboard")
-    .description("Open the Control UI with your current token")
+    .description(zhCN.commands.dashboard)
     .addHelpText(
       "after",
       () =>
@@ -58,7 +59,7 @@ export function registerMaintenanceCommands(program: Command) {
 
   program
     .command("reset")
-    .description("Reset local config/state (keeps the CLI installed)")
+    .description(zhCN.commands.reset)
     .addHelpText(
       "after",
       () =>
@@ -81,7 +82,7 @@ export function registerMaintenanceCommands(program: Command) {
 
   program
     .command("uninstall")
-    .description("Uninstall the gateway service + local data (CLI remains)")
+    .description(zhCN.commands.uninstall)
     .addHelpText(
       "after",
       () =>

@@ -26,6 +26,7 @@ import { isSystemdUserServiceAvailable } from "../daemon/systemd.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { runTui } from "../tui/tui.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { resolveUserPath } from "../utils.js";
 import {
   buildGatewayInstallPlan,
@@ -212,12 +213,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     } catch (err) {
       runtime.error(formatHealthCheckFailure(err));
       await prompter.note(
-        [
-          "Docs:",
-          "https://docs.openclaw.ai/gateway/health",
-          "https://docs.openclaw.ai/gateway/troubleshooting",
-        ].join("\n"),
-        "Health check help",
+        zhCN.output.healthCheckDocsUrl,
+        zhCN.output.healthCheckHelpTitle,
       );
     }
   }
@@ -232,13 +229,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
   }
 
   await prompter.note(
-    [
-      "Add nodes for extra features:",
-      "- macOS app (system + notifications)",
-      "- iOS app (camera/canvas)",
-      "- Android app (camera/canvas)",
-    ].join("\n"),
-    "Optional apps",
+    zhCN.output.addNodesForFeatures,
+    zhCN.output.optionalApps,
   );
 
   const controlUiBasePath =
@@ -277,11 +269,11 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       tokenParam ? `Web UI (with token): ${authedUrl}` : undefined,
       `Gateway WS: ${links.wsUrl}`,
       gatewayStatusLine,
-      "Docs: https://docs.openclaw.ai/web/control-ui",
+      zhCN.output.controlUiDocs,
     ]
       .filter(Boolean)
       .join("\n"),
-    "Control UI",
+    zhCN.output.controlUiTitle,
   );
 
   let controlUiOpened = false;
@@ -291,33 +283,23 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
 
   if (!opts.skipUi && gatewayProbe.ok) {
     if (hasBootstrap) {
-      await prompter.note(
-        [
-          "This is the defining action that makes your agent you.",
-          "Please take your time.",
-          "The more you tell it, the better the experience will be.",
-          'We will send: "Wake up, my friend!"',
-        ].join("\n"),
-        "Start TUI (best option!)",
-      );
+      await prompter.note(zhCN.output.startTuiNote, zhCN.output.startTuiTitle);
     }
 
     await prompter.note(
-      [
-        "Gateway token: shared auth for the Gateway + Control UI.",
-        "Stored in: ~/.openclaw/openclaw.json (gateway.auth.token) or OPENCLAW_GATEWAY_TOKEN.",
-        "Web UI stores a copy in this browser's localStorage (openclaw.control.settings.v1).",
-        `Get the tokenized link anytime: ${formatCliCommand("openclaw dashboard --no-open")}`,
-      ].join("\n"),
-      "Token",
+      zhCN.output.gatewayTokenNote.replace(
+        "{tokenLink}",
+        formatCliCommand("openclaw dashboard --no-open"),
+      ),
+      zhCN.output.gatewayTokenTitle,
     );
 
     hatchChoice = (await prompter.select({
-      message: "How do you want to hatch your bot?",
+      message: zhCN.output.howToHatchBot,
       options: [
-        { value: "tui", label: "Hatch in TUI (recommended)" },
-        { value: "web", label: "Open the Web UI" },
-        { value: "later", label: "Do this later" },
+        { value: "tui", label: zhCN.output.hatchInTui },
+        { value: "web", label: zhCN.output.openWebUi },
+        { value: "later", label: zhCN.output.doThisLater },
       ],
       initialValue: "tui",
     })) as "tui" | "web" | "later";
@@ -336,10 +318,11 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       }
       if (seededInBackground) {
         await prompter.note(
-          `Web UI seeded in the background. Open later with: ${formatCliCommand(
-            "openclaw dashboard --no-open",
-          )}`,
-          "Web UI",
+          zhCN.output.webUiSeeded.replace(
+            "{command}",
+            formatCliCommand("openclaw dashboard --no-open"),
+          ),
+          zhCN.output.webUiTitle,
         );
       }
     } else if (hatchChoice === "web") {
@@ -383,17 +366,11 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
   }
 
   await prompter.note(
-    [
-      "Back up your agent workspace.",
-      "Docs: https://docs.openclaw.ai/concepts/agent-workspace",
-    ].join("\n"),
-    "Workspace backup",
+    `${zhCN.output.workspaceBackup}\n${zhCN.output.workspaceDocs}`,
+    zhCN.output.workspaceBackupTitle,
   );
 
-  await prompter.note(
-    "Running agents on your computer is risky — harden your setup: https://docs.openclaw.ai/security",
-    "Security",
-  );
+  await prompter.note(zhCN.output.securityNote, zhCN.output.securityTitle);
 
   const shouldOpenControlUi =
     !opts.skipUi &&

@@ -11,6 +11,7 @@ import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { renderTable } from "../terminal/table.js";
 import { theme } from "../terminal/theme.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 type RunOpts = { allowFailure?: boolean; inherit?: boolean };
 
@@ -94,7 +95,7 @@ function ensureImportLine(corefilePath: string, importGlob: string): boolean {
 export function registerDnsCli(program: Command) {
   const dns = program
     .command("dns")
-    .description("DNS helpers for wide-area discovery (Tailscale + CoreDNS)")
+    .description(zhCN.commands.dns)
     .addHelpText(
       "after",
       () => `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/dns", "docs.openclaw.ai/cli/dns")}\n`,
@@ -102,9 +103,7 @@ export function registerDnsCli(program: Command) {
 
   dns
     .command("setup")
-    .description(
-      "Set up CoreDNS to serve your discovery domain for unicast DNS-SD (Wide-Area Bonjour)",
-    )
+    .description(zhCN.commands.dnsSetup)
     .option("--domain <domain>", "Wide-area discovery domain (e.g. openclaw.internal)")
     .option(
       "--apply",

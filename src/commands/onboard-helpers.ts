@@ -6,6 +6,7 @@ import { inspect } from "node:util";
 import { cancel, isCancel } from "@clack/prompts";
 
 import { DEFAULT_AGENT_WORKSPACE_DIR, ensureAgentWorkspace } from "../agents/workspace.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { CONFIG_PATH } from "../config/config.js";
 import { resolveSessionTranscriptsDirForAgent } from "../config/sessions.js";
@@ -30,7 +31,7 @@ import type { NodeManagerChoice, OnboardMode, ResetScope } from "./onboard-types
 
 export function guardCancel<T>(value: T | symbol, runtime: RuntimeEnv): T {
   if (isCancel(value)) {
-    cancel(stylePromptTitle("Setup cancelled.") ?? "Setup cancelled.");
+    cancel(stylePromptTitle(zhCN.output.setupCancelled) ?? zhCN.output.setupCancelled);
     runtime.exit(0);
   }
   return value as T;

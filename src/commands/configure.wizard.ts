@@ -7,6 +7,7 @@ import type { RuntimeEnv } from "../runtime.js";
 import { defaultRuntime } from "../runtime.js";
 import { note } from "../terminal/note.js";
 import { resolveUserPath } from "../utils.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { createClackPrompter } from "../wizard/clack-prompter.js";
 import { WizardCancelledError } from "../wizard/prompts.js";
 import { removeChannelConfigWizard } from "./configure.channels.js";
@@ -51,13 +52,13 @@ async function promptConfigureSection(
 ): Promise<ConfigureSectionChoice> {
   return guardCancel(
     await select<ConfigureSectionChoice>({
-      message: "Select sections to configure",
+      message: zhCN.output.selectSectionsToConfigure,
       options: [
         ...CONFIGURE_SECTION_OPTIONS,
         {
           value: "__continue",
-          label: "Continue",
-          hint: hasSelection ? "Done" : "Skip for now",
+          label: zhCN.output.continue,
+          hint: hasSelection ? zhCN.output.done : zhCN.output.skipForNow,
         },
       ],
       initialValue: CONFIGURE_SECTION_OPTIONS[0]?.value,
@@ -69,17 +70,17 @@ async function promptConfigureSection(
 async function promptChannelMode(runtime: RuntimeEnv): Promise<ChannelsWizardMode> {
   return guardCancel(
     await select({
-      message: "Channels",
+      message: zhCN.output.channels,
       options: [
         {
           value: "configure",
-          label: "Configure/link",
-          hint: "Add/update channels; disable unselected accounts",
+          label: zhCN.output.configureLink,
+          hint: zhCN.output.addUpdateChannels,
         },
         {
           value: "remove",
-          label: "Remove channel config",
-          hint: "Delete channel tokens/settings from openclaw.json",
+          label: zhCN.output.removeChannelConfig,
+          hint: zhCN.output.deleteChannelTokens,
         },
       ],
       initialValue: "configure",
@@ -96,18 +97,11 @@ async function promptWebToolsConfig(
   const existingFetch = nextConfig.tools?.web?.fetch;
   const hasSearchKey = Boolean(existingSearch?.apiKey);
 
-  note(
-    [
-      "Web search lets your agent look things up online using the `web_search` tool.",
-      "It requires a Brave Search API key (you can store it in the config or set BRAVE_API_KEY in the Gateway environment).",
-      "Docs: https://docs.openclaw.ai/tools/web",
-    ].join("\n"),
-    "Web search",
-  );
+  note(zhCN.output.webSearchDescription, zhCN.output.webSearch);
 
   const enableSearch = guardCancel(
     await confirm({
-      message: "Enable web_search (Brave Search)?",
+      message: zhCN.output.enableWebSearch,
       initialValue: existingSearch?.enabled ?? hasSearchKey,
     }),
     runtime,
@@ -122,9 +116,9 @@ async function promptWebToolsConfig(
     const keyInput = guardCancel(
       await text({
         message: hasSearchKey
-          ? "Brave Search API key (leave blank to keep current or use BRAVE_API_KEY)"
-          : "Brave Search API key (paste it here; leave blank to use BRAVE_API_KEY)",
-        placeholder: hasSearchKey ? "Leave blank to keep current" : "BSA...",
+          ? `${zhCN.output.braveSearchApiKey} (${zhCN.output.leaveBlankKeepCurrent} or use BRAVE_API_KEY)`
+          : `${zhCN.output.braveSearchApiKey} (${zhCN.output.pasteApiKeyHere})`,
+        placeholder: hasSearchKey ? zhCN.output.leaveBlankKeepCurrent : "BSA...",
       }),
       runtime,
     );
@@ -132,20 +126,13 @@ async function promptWebToolsConfig(
     if (key) {
       nextSearch = { ...nextSearch, apiKey: key };
     } else if (!hasSearchKey) {
-      note(
-        [
-          "No key stored yet, so web_search will stay unavailable.",
-          "Store a key here or set BRAVE_API_KEY in the Gateway environment.",
-          "Docs: https://docs.openclaw.ai/tools/web",
-        ].join("\n"),
-        "Web search",
-      );
+      note(zhCN.output.storeKeyOrUseEnv, zhCN.output.webSearch);
     }
   }
 
   const enableFetch = guardCancel(
     await confirm({
-      message: "Enable web_fetch (keyless HTTP fetch)?",
+      message: zhCN.output.enableWebFetch,
       initialValue: existingFetch?.enabled ?? true,
     }),
     runtime,
@@ -175,14 +162,14 @@ export async function runConfigureWizard(
 ) {
   try {
     printWizardHeader(runtime);
-    intro(opts.command === "update" ? "OpenClaw update wizard" : "OpenClaw configure");
+    intro(opts.command === "update" ? zhCN.output.openClawUpdateWizard : zhCN.output.openClawConfigure);
     const prompter = createClackPrompter();
 
     const snapshot = await readConfigFileSnapshot();
     const baseConfig: OpenClawConfig = snapshot.valid ? snapshot.config : {};
 
     if (snapshot.exists) {
-      const title = snapshot.valid ? "Existing config detected" : "Invalid config";
+      const title = snapshot.valid ? zhCN.output.existingConfigDetected : zhCN.output.invalidConfig;
       note(summarizeExistingConfig(baseConfig), title);
       if (!snapshot.valid && snapshot.issues.length > 0) {
         note(
@@ -219,23 +206,23 @@ export async function runConfigureWizard(
 
     const mode = guardCancel(
       await select({
-        message: "Where will the Gateway run?",
+        message: zhCN.output.whereWillGatewayRun,
         options: [
           {
             value: "local",
-            label: "Local (this machine)",
+            label: zhCN.output.localThisMachine,
             hint: localProbe.ok
-              ? `Gateway reachable (${localUrl})`
-              : `No gateway detected (${localUrl})`,
+              ? `${zhCN.output.gatewayReachable} (${localUrl})`
+              : `${zhCN.output.noGatewayDetected} (${localUrl})`,
           },
           {
             value: "remote",
-            label: "Remote (info-only)",
+            label: zhCN.output.remoteInfoOnly,
             hint: !remoteUrl
-              ? "No remote URL configured yet"
+              ? zhCN.output.noRemoteUrlConfigured
               : remoteProbe?.ok
-                ? `Gateway reachable (${remoteUrl})`
-                : `Configured but unreachable (${remoteUrl})`,
+                ? `${zhCN.output.gatewayReachable} (${remoteUrl})`
+                : `${zhCN.output.configuredButUnreachable} (${remoteUrl})`,
           },
         ],
       }),
@@ -250,7 +237,7 @@ export async function runConfigureWizard(
       });
       await writeConfigFile(remoteConfig);
       logConfigUpdated(runtime);
-      outro("Remote gateway configured.");
+      outro(zhCN.output.remoteGatewayConfigured);
       return;
     }
 
@@ -295,7 +282,7 @@ export async function runConfigureWizard(
       if (selected.includes("workspace")) {
         const workspaceInput = guardCancel(
           await text({
-            message: "Workspace directory",
+            message: zhCN.output.workspaceDirectory,
             initialValue: workspaceDir,
           }),
           runtime,
@@ -355,9 +342,9 @@ export async function runConfigureWizard(
         if (!selected.includes("gateway")) {
           const portInput = guardCancel(
             await text({
-              message: "Gateway port for service install",
+              message: zhCN.output.gatewayPortForServiceInstall,
               initialValue: String(gatewayPort),
-              validate: (value) => (Number.isFinite(Number(value)) ? undefined : "Invalid port"),
+              validate: (value) => (Number.isFinite(Number(value)) ? undefined : zhCN.output.invalidPort),
             }),
             runtime,
           );
@@ -412,7 +399,7 @@ export async function runConfigureWizard(
         if (choice === "workspace") {
           const workspaceInput = guardCancel(
             await text({
-              message: "Workspace directory",
+              message: zhCN.output.workspaceDirectory,
               initialValue: workspaceDir,
             }),
             runtime,
@@ -477,9 +464,9 @@ export async function runConfigureWizard(
           if (!didConfigureGateway) {
             const portInput = guardCancel(
               await text({
-                message: "Gateway port for service install",
+                message: zhCN.output.gatewayPortForServiceInstall,
                 initialValue: String(gatewayPort),
-                validate: (value) => (Number.isFinite(Number(value)) ? undefined : "Invalid port"),
+                validate: (value) => (Number.isFinite(Number(value)) ? undefined : zhCN.output.invalidPort),
               }),
               runtime,
             );
@@ -521,7 +508,7 @@ export async function runConfigureWizard(
                 "https://docs.openclaw.ai/gateway/health",
                 "https://docs.openclaw.ai/gateway/troubleshooting",
               ].join("\n"),
-              "Health check help",
+              zhCN.output.healthCheckHelp,
             );
           }
         }
@@ -530,10 +517,10 @@ export async function runConfigureWizard(
       if (!ranSection) {
         if (didSetGatewayMode) {
           await persistConfig();
-          outro("Gateway mode set to local.");
+          outro(zhCN.output.gatewayModeSetToLocal);
           return;
         }
-        outro("No changes selected.");
+        outro(zhCN.output.noChangesSelected);
         return;
       }
     }
@@ -569,20 +556,20 @@ export async function runConfigureWizard(
       });
     }
     const gatewayStatusLine = gatewayProbe.ok
-      ? "Gateway: reachable"
-      : `Gateway: not detected${gatewayProbe.detail ? ` (${gatewayProbe.detail})` : ""}`;
+      ? `${zhCN.output.gatewayReachableStatus}`
+      : `${zhCN.output.gatewayNotDetected}${gatewayProbe.detail ? ` (${gatewayProbe.detail})` : ""}`;
 
     note(
       [
-        `Web UI: ${links.httpUrl}`,
-        `Gateway WS: ${links.wsUrl}`,
+        `${zhCN.output.webUi}: ${links.httpUrl}`,
+        `${zhCN.output.gatewayWs}: ${links.wsUrl}`,
         gatewayStatusLine,
         "Docs: https://docs.openclaw.ai/web/control-ui",
       ].join("\n"),
-      "Control UI",
+      zhCN.output.controlUi,
     );
 
-    outro("Configure complete.");
+    outro(zhCN.output.configureComplete);
   } catch (err) {
     if (err instanceof WizardCancelledError) {
       runtime.exit(0);
