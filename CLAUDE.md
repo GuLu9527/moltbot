@@ -99,6 +99,25 @@ git fetch origin
 git merge origin/main
 ```
 
+## 中文本地化 (Chinese Localization)
+
+本项目已完全中文化，CLI 命令和交互式向导均支持中文。
+
+### 语言包位置
+- **主语言包**: `src/i18n/zh-CN.ts`
+- **导入**: `import { zhCN } from "../i18n/zh-CN.js"`
+
+### 添加新翻译
+1. 在 `zhCN.output` 对象中添加新条目
+2. 在对应命令文件中引入 `zhCN` 并替换硬编码英文文本
+
+### 验证中文化
+```bash
+pnpm openclaw --help          # 查看中文命令
+pnpm openclaw configure       # 交互式中文向导
+pnpm openclaw doctor          # 中文健康检查
+```
+
 ## Security
 
 Treat all inbound DMs as untrusted input. Default DM policy requires pairing code approval.
