@@ -88,8 +88,6 @@ export const zhCN = {
     security: "安全助手",
     skills: "技能管理",
     update: "CLI 更新助手",
-<<<<<<< HEAD
-=======
     updateWizard: "交互式更新向导",
     updateStatus: "显示更新渠道和版本状态",
 
@@ -101,7 +99,6 @@ export const zhCN = {
     directoryGroupsList: "列出群组",
     directoryGroupsMembers: "列出群组成员",
 
->>>>>>> zh-CN-sync
     status: "显示渠道健康状况和最近会话接收者",
     health: "从运行中的网关获取健康状态",
     sessions: "列出存储的对话会话",
@@ -777,8 +774,6 @@ export const zhCN = {
     sandboxImagesNeedUpdate: "沙箱镜像需要更新。",
     updateSandboxImages: "现在更新沙箱镜像？",
     sandboxScopeWarning: "沙箱作用域警告：",
-<<<<<<< HEAD
-=======
 
     // Onboarding wizard
     onboardingSecurityWarning: `安全警告 — 请阅读。
@@ -966,7 +961,6 @@ openclaw security audit --fix
     skillsHint: "安装/启用工作区技能",
     healthLabel: "健康检查",
     healthHint: "运行网关 + 渠道检查",
->>>>>>> zh-CN-sync
   },
 } as const;
 
