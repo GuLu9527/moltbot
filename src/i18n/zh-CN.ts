@@ -763,6 +763,32 @@ export const zhCN = {
     sandboxImagesNeedUpdate: "沙箱镜像需要更新。",
     updateSandboxImages: "现在更新沙箱镜像？",
     sandboxScopeWarning: "沙箱作用域警告：",
+
+    // Onboarding wizard
+    onboardingSecurityWarning: `安全警告 — 请阅读。
+
+OpenClaw 仍处于测试阶段。期待锐利的边缘。
+
+如果启用了工具，此机器人可以读取文件并运行操作。
+错误的提示可能诱使其做出不安全的事情。
+
+如果您对基本安全和访问控制不满意，请勿运行 OpenClaw。
+在启用工具或将其暴露于互联网之前，请寻求有经验的人的帮助。
+
+建议的基线：
+- 配对/允许列表 + 提及门控。
+- 沙箱 + 最小权限工具。
+- 将密钥保留在代理可访问的文件系统之外。
+- 对于具有工具或不受信任收件箱的机器人，使用可用的最强大模型。
+
+定期运行：
+openclaw security audit --deep
+openclaw security audit --fix
+
+必读：https://docs.openclaw.ai/gateway/security`,
+
+    onboardingRiskConfirmation: "我了解此功能强大且固有风险。继续？",
+    onboardingRiskNotAccepted: "未接受风险",
   },
 } as const;
 

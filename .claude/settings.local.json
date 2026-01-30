@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm openclaw --help:*)",
+      "Bash(pnpm openclaw nodes --help:*)",
+      "Bash(pnpm openclaw dashboard --help:*)",
+      "Bash(pnpm openclaw cron --help:*)",
+      "Bash(pnpm openclaw models --help:*)",
+      "Bash(pnpm openclaw onboard --help:*)",
+      "Bash(pnpm openclaw configure --help:*)"
+    ]
+  }
+}

@@ -8,14 +8,14 @@ import type { ProgramContext } from "./context.js";
 const CLI_NAME = resolveCliName();
 
 const EXAMPLES = [
-  ["moltbot channels login --verbose", "链接个人 WhatsApp Web 并显示二维码 + 连接日志"],
-  ['moltbot message send --target +15555550123 --message "Hi" --json', "通过网页会话发送并打印 JSON 结果"],
-  ["moltbot gateway --port 18789", "本地运行 WebSocket 网关"],
-  ["moltbot --dev gateway", "运行开发网关（隔离状态/配置）"],
-  ["moltbot gateway --force", "终止默认网关端口上的所有进程，然后启动"],
-  ["moltbot gateway ...", "通过 WebSocket 控制网关"],
-  ['moltbot agent --to +15555550123 --message "Run summary" --deliver', "直接与代理对话；可选发送 WhatsApp 回复"],
-  ['moltbot message send --channel telegram --target @mychat --message "Hi"', "通过 Telegram 机器人发送"],
+  ["openclaw channels login --verbose", "链接个人 WhatsApp Web 并显示二维码 + 连接日志"],
+  ['openclaw message send --target +15555550123 --message "Hi" --json', "通过网页会话发送并打印 JSON 结果"],
+  ["openclaw gateway --port 18789", "本地运行 WebSocket 网关"],
+  ["openclaw --dev gateway", "运行开发网关（隔离状态/配置）"],
+  ["openclaw gateway --force", "终止默认网关端口上的所有进程，然后启动"],
+  ["openclaw gateway ...", "通过 WebSocket 控制网关"],
+  ['openclaw agent --to +15555550123 --message "Run summary" --deliver', "直接与代理对话；可选发送 WhatsApp 回复"],
+  ['openclaw message send --channel telegram --target @mychat --message "Hi"', "通过 Telegram 机器人发送"],
 ] as const;
 
 export function configureProgramHelp(program: Command, ctx: ProgramContext) {
@@ -80,7 +80,7 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
 
   program.addHelpText("afterAll", ({ command }) => {
     if (command !== program) return "";
-    const docs = formatDocsLink("/cli", "docs.molt.bot/cli");
+    const docs = formatDocsLink("/cli", "docs.openclaw.ai/cli");
     return `\n${theme.heading("示例:")}\n${fmtExamples}\n\n${theme.muted("文档:")} ${docs}\n`;
   });
 }
