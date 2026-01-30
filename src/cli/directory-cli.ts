@@ -9,6 +9,7 @@ import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
 import { renderTable } from "../terminal/table.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 function parseLimit(value: unknown): number | null {
   if (typeof value === "number" && Number.isFinite(value)) {
@@ -33,7 +34,7 @@ function buildRows(entries: Array<{ id: string; name?: string | undefined }>) {
 export function registerDirectoryCli(program: Command) {
   const directory = program
     .command("directory")
-    .description("Directory lookups (self, peers, groups) for channels that support it")
+    .description(zhCN.commands.directory)
     .addHelpText(
       "after",
       () =>
@@ -65,7 +66,7 @@ export function registerDirectoryCli(program: Command) {
     return { cfg, channelId, accountId, plugin };
   };
 
-  withChannel(directory.command("self").description("Show the current account user")).action(
+  withChannel(directory.command("self").description(zhCN.commands.directorySelf)).action(
     async (opts) => {
       try {
         const { cfg, channelId, accountId, plugin } = await resolve({
@@ -102,8 +103,8 @@ export function registerDirectoryCli(program: Command) {
     },
   );
 
-  const peers = directory.command("peers").description("Peer directory (contacts/users)");
-  withChannel(peers.command("list").description("List peers"))
+  const peers = directory.command("peers").description(zhCN.commands.directoryPeers);
+  withChannel(peers.command("list").description(zhCN.commands.directoryPeersList))
     .option("--query <text>", "Optional search query")
     .option("--limit <n>", "Limit results")
     .action(async (opts) => {
@@ -147,8 +148,8 @@ export function registerDirectoryCli(program: Command) {
       }
     });
 
-  const groups = directory.command("groups").description("Group directory");
-  withChannel(groups.command("list").description("List groups"))
+  const groups = directory.command("groups").description(zhCN.commands.directoryGroups);
+  withChannel(groups.command("list").description(zhCN.commands.directoryGroupsList))
     .option("--query <text>", "Optional search query")
     .option("--limit <n>", "Limit results")
     .action(async (opts) => {
@@ -195,7 +196,7 @@ export function registerDirectoryCli(program: Command) {
   withChannel(
     groups
       .command("members")
-      .description("List group members")
+      .description(zhCN.commands.directoryGroupsMembers)
       .requiredOption("--group-id <id>", "Group id"),
   )
     .option("--limit <n>", "Limit results")

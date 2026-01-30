@@ -2,6 +2,7 @@ import { buildGatewayInstallPlan, gatewayInstallErrorHint } from "./daemon-insta
 import { resolveGatewayService } from "../daemon/service.js";
 import { withProgress } from "../cli/progress.js";
 import type { RuntimeEnv } from "../runtime.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { note } from "../terminal/note.js";
 import { confirm, select } from "./configure.shared.js";
 import {
@@ -27,11 +28,11 @@ export async function maybeInstallDaemon(params: {
   if (loaded) {
     const action = guardCancel(
       await select({
-        message: "Gateway service already installed",
+        message: zhCN.output.gatewayServiceInstalled,
         options: [
-          { value: "restart", label: "Restart" },
-          { value: "reinstall", label: "Reinstall" },
-          { value: "skip", label: "Skip" },
+          { value: "restart", label: zhCN.output.serviceRestart },
+          { value: "reinstall", label: zhCN.output.serviceReinstall },
+          { value: "skip", label: zhCN.output.serviceSkip },
         ],
       }),
       params.runtime,
@@ -40,12 +41,12 @@ export async function maybeInstallDaemon(params: {
       await withProgress(
         { label: "Gateway service", indeterminate: true, delayMs: 0 },
         async (progress) => {
-          progress.setLabel("Restarting Gateway service…");
+          progress.setLabel(zhCN.output.restartingService);
           await service.restart({
             env: process.env,
             stdout: process.stdout,
           });
-          progress.setLabel("Gateway service restarted.");
+          progress.setLabel(zhCN.output.serviceRestarted);
         },
       );
       shouldCheckLinger = true;
@@ -56,9 +57,9 @@ export async function maybeInstallDaemon(params: {
       await withProgress(
         { label: "Gateway service", indeterminate: true, delayMs: 0 },
         async (progress) => {
-          progress.setLabel("Uninstalling Gateway service…");
+          progress.setLabel(zhCN.output.uninstallingService);
           await service.uninstall({ env: process.env, stdout: process.stdout });
-          progress.setLabel("Gateway service uninstalled.");
+          progress.setLabel(zhCN.output.serviceUninstalled);
         },
       );
     }
@@ -72,7 +73,7 @@ export async function maybeInstallDaemon(params: {
       } else {
         daemonRuntime = guardCancel(
           await select({
-            message: "Gateway service runtime",
+            message: zhCN.output.serviceRuntime,
             options: GATEWAY_DAEMON_RUNTIME_OPTIONS,
             initialValue: DEFAULT_GATEWAY_DAEMON_RUNTIME,
           }),
@@ -83,7 +84,7 @@ export async function maybeInstallDaemon(params: {
     await withProgress(
       { label: "Gateway service", indeterminate: true, delayMs: 0 },
       async (progress) => {
-        progress.setLabel("Preparing Gateway service…");
+        progress.setLabel(zhCN.output.preparingService);
 
         const cfg = loadConfig();
         const { programArguments, workingDirectory, environment } = await buildGatewayInstallPlan({
@@ -95,7 +96,7 @@ export async function maybeInstallDaemon(params: {
           config: cfg,
         });
 
-        progress.setLabel("Installing Gateway service…");
+        progress.setLabel(zhCN.output.installingService);
         try {
           await service.install({
             env: process.env,

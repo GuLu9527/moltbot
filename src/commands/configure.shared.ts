@@ -7,6 +7,7 @@ import {
 } from "@clack/prompts";
 
 import { stylePromptHint, stylePromptMessage, stylePromptTitle } from "../terminal/prompt-style.js";
+import { zhCN } from "../i18n/zh-CN.js";
 
 export const CONFIGURE_WIZARD_SECTIONS = [
   "workspace",
@@ -33,25 +34,25 @@ export const CONFIGURE_SECTION_OPTIONS: Array<{
   label: string;
   hint: string;
 }> = [
-  { value: "workspace", label: "Workspace", hint: "Set workspace + sessions" },
-  { value: "model", label: "Model", hint: "Pick provider + credentials" },
-  { value: "web", label: "Web tools", hint: "Configure Brave search + fetch" },
-  { value: "gateway", label: "Gateway", hint: "Port, bind, auth, tailscale" },
+  { value: "workspace", label: zhCN.output.workspaceLabel, hint: zhCN.output.workspaceHint },
+  { value: "model", label: zhCN.output.modelLabel, hint: zhCN.output.modelHint },
+  { value: "web", label: zhCN.output.webToolsLabel, hint: zhCN.output.webToolsHint },
+  { value: "gateway", label: zhCN.output.gatewayLabel, hint: zhCN.output.gatewayHint },
   {
     value: "daemon",
-    label: "Daemon",
-    hint: "Install/manage the background service",
+    label: zhCN.output.daemonLabel,
+    hint: zhCN.output.daemonHint,
   },
   {
     value: "channels",
-    label: "Channels",
-    hint: "Link WhatsApp/Telegram/etc and defaults",
+    label: zhCN.output.channelsLabel,
+    hint: zhCN.output.channelsHint,
   },
-  { value: "skills", label: "Skills", hint: "Install/enable workspace skills" },
+  { value: "skills", label: zhCN.output.skillsLabel, hint: zhCN.output.skillsHint },
   {
     value: "health",
-    label: "Health check",
-    hint: "Run gateway + channel checks",
+    label: zhCN.output.healthLabel,
+    hint: zhCN.output.healthHint,
   },
 ];
 

@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+<<<<<<< HEAD
       "Bash(pnpm moltbot security --help:*)",
       "Bash(pnpm moltbot plugins --help:*)",
       "Bash(pnpm moltbot skills --help:*)",
@@ -21,6 +22,15 @@
       "Bash(pnpm build)",
       "Bash(pnpm moltbot nodes --help:*)",
       "Bash(pnpm ui:build)"
+=======
+      "Bash(pnpm openclaw --help:*)",
+      "Bash(pnpm openclaw nodes --help:*)",
+      "Bash(pnpm openclaw dashboard --help:*)",
+      "Bash(pnpm openclaw cron --help:*)",
+      "Bash(pnpm openclaw models --help:*)",
+      "Bash(pnpm openclaw onboard --help:*)",
+      "Bash(pnpm openclaw configure --help:*)"
+>>>>>>> zh-CN-sync
     ]
   }
 }

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
 import { intro as clackIntro, outro as clackOutro } from "@clack/prompts";
+import { zhCN } from "../i18n/zh-CN.js";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
 import { loadModelCatalog } from "../agents/model-catalog.js";
@@ -159,7 +160,7 @@ export async function doctorCommand(
 
   const legacyState = await detectLegacyStateMigrations({ cfg });
   if (legacyState.preview.length > 0) {
-    note(legacyState.preview.join("\n"), "Legacy state detected");
+    note(zhCN.output.legacyStateDetected, "Legacy state detected");
     const migrate =
       options.nonInteractive === true
         ? true

@@ -88,6 +88,20 @@ export const zhCN = {
     security: "安全助手",
     skills: "技能管理",
     update: "CLI 更新助手",
+<<<<<<< HEAD
+=======
+    updateWizard: "交互式更新向导",
+    updateStatus: "显示更新渠道和版本状态",
+
+    // Directory 子命令
+    directorySelf: "显示当前账户用户",
+    directoryPeers: "对等方目录（联系人/用户）",
+    directoryPeersList: "列出对等方",
+    directoryGroups: "群组目录",
+    directoryGroupsList: "列出群组",
+    directoryGroupsMembers: "列出群组成员",
+
+>>>>>>> zh-CN-sync
     status: "显示渠道健康状况和最近会话接收者",
     health: "从运行中的网关获取健康状态",
     sessions: "列出存储的对话会话",
@@ -763,6 +777,196 @@ export const zhCN = {
     sandboxImagesNeedUpdate: "沙箱镜像需要更新。",
     updateSandboxImages: "现在更新沙箱镜像？",
     sandboxScopeWarning: "沙箱作用域警告：",
+<<<<<<< HEAD
+=======
+
+    // Onboarding wizard
+    onboardingSecurityWarning: `安全警告 — 请阅读。
+
+OpenClaw 仍处于测试阶段。期待锐利的边缘。
+
+如果启用了工具，此机器人可以读取文件并运行操作。
+错误的提示可能诱使其做出不安全的事情。
+
+如果您对基本安全和访问控制不满意，请勿运行 OpenClaw。
+在启用工具或将其暴露于互联网之前，请寻求有经验的人的帮助。
+
+建议的基线：
+- 配对/允许列表 + 提及门控。
+- 沙箱 + 最小权限工具。
+- 将密钥保留在代理可访问的文件系统之外。
+- 对于具有工具或不受信任收件箱的机器人，使用可用的最强大模型。
+
+定期运行：
+openclaw security audit --deep
+openclaw security audit --fix
+
+必读：https://docs.openclaw.ai/gateway/security`,
+
+    onboardingRiskConfirmation: "我了解此功能强大且固有风险。继续？",
+    onboardingRiskNotAccepted: "未接受风险",
+
+    // 向导通用文本
+    openClawOnboarding: "OpenClaw 引导",
+    openClawConfigure: "OpenClaw 配置向导",
+    openClawUpdateWizard: "OpenClaw 更新向导",
+    selectSectionsToConfigure: "选择要配置的部分",
+    existingConfigDetected: "检测到现有配置",
+    whereWillGatewayRun: "网关在哪里运行？",
+    configureComplete: "配置完成",
+    remoteGatewayConfigured: "远程网关已配置",
+    noChangesSelected: "未选择任何更改",
+    gatewayModeSetToLocal: "网关模式已设置为本地",
+    quickstartHint: "稍后可通过 openclaw configure 详细配置。",
+    manualHint: "配置端口、网络、Tailscale 和认证选项。",
+    onboardingMode: "引导模式",
+    quickstartLabel: "快速开始",
+    manualLabel: "手动配置",
+    configHandling: "配置处理",
+    useExistingValues: "使用现有值",
+    updateValues: "更新值",
+    reset: "重置",
+    resetScope: "重置范围",
+    configOnly: "仅配置",
+    configPlusCredsSessions: "配置 + 凭据 + 会话",
+    fullReset: "完全重置（配置 + 凭据 + 会话 + 工作区）",
+    keepingCurrentGatewaySettings: "保留当前网关设置：",
+    gatewayPort: "网关端口",
+    gatewayBind: "网关绑定",
+    gatewayAuth: "网关认证",
+    tailscaleExposure: "Tailscale 暴露",
+    directToChatChannels: "直接发送到聊天渠道",
+    defaultGatewayPort: "默认网关端口",
+    defaultGatewayBind: "默认网关绑定",
+    defaultGatewayAuth: "默认网关认证",
+    defaultTailscaleExposure: "默认 Tailscale 暴露",
+    noGatewayDetected: "未检测到网关",
+    localGatewayThisMachine: "本地网关（本机）",
+    remoteGatewayInfoOnly: "远程网关（仅信息）",
+    noRemoteUrlConfigured: "尚未配置远程 URL",
+    gatewayReachable: "网关可达",
+    configuredButUnreachable: "已配置但不可达",
+    workspaceDirectory: "工作区目录",
+    skippingChannelSetup: "跳过渠道设置。",
+    skippingSkillsSetup: "跳过技能设置。",
+    quickstartOnlySupportsLocal: "快速开始仅支持本地网关。切换到手动模式。",
+    channels: "渠道",
+    configureLink: "配置/链接",
+    addUpdateChannels: "添加/更新渠道；禁用未选中的账户",
+    removeChannelConfig: "移除渠道配置",
+    deleteChannelTokens: "从 openclaw.json 删除渠道令牌/设置",
+    webSearch: "网页搜索",
+    webSearchDescription: "网页搜索允许您的代理使用 `web_search` 工具在线查找信息。\n需要 Brave Search API 密钥（可存储在配置中或设置 BRAVE_API_KEY 环境变量）。\n文档：https://docs.openclaw.ai/tools/web",
+    enableWebSearch: "启用网页搜索（Brave Search）？",
+    braveSearchApiKey: "Brave Search API 密钥",
+    leaveBlankKeepCurrent: "留空以保留当前值",
+    pasteApiKeyHere: "在此粘贴 API 密钥；留空以使用 BRAVE_API_KEY",
+    noKeyStoredWebSearch: "尚未存储密钥，网页搜索将保持不可用。",
+    storeKeyOrUseEnv: "在此存储密钥或设置 BRAVE_API_KEY 环境变量。\n文档：https://docs.openclaw.ai/tools/web",
+    enableWebFetch: "启用 web_fetch（无需密钥的 HTTP 获取）？",
+    gatewayPortForServiceInstall: "用于服务安装的网关端口",
+    invalidPort: "无效端口",
+    healthCheckHelp: "健康检查帮助",
+    controlUi: "控制面板",
+    webUi: "Web UI",
+    gatewayWs: "网关 WS",
+    gatewayReachableStatus: "网关：可达",
+    gatewayNotDetected: "网关：未检测到",
+    gateway: "网关",
+    continue: "继续",
+    done: "完成",
+    skipForNow: "暂时跳过",
+    localThisMachine: "本地（本机）",
+    remoteInfoOnly: "远程（仅信息）",
+
+    // Onboarding Finalize
+    healthCheckHelpTitle: "健康检查帮助",
+    healthCheckDocsUrl: "文档：\nhttps://docs.openclaw.ai/gateway/health\nhttps://docs.openclaw.ai/gateway/troubleshooting",
+    optionalApps: "可选应用",
+    addNodesForFeatures: "添加节点以获得更多功能：\n- macOS 应用（系统 + 通知）\n- iOS 应用（相机/画布）\n- Android 应用（相机/画布）",
+    controlUiTitle: "控制面板",
+    controlUiDocs: "文档：https://docs.openclaw.ai/web/control-ui",
+    startTuiNote: "这是让您的代理与众不同的决定性操作。\n请慢慢来。\n您告诉它越多，体验就越好。\n我们将发送：Wake up, my friend!",
+    startTuiTitle: "启动 TUI（最佳选项！）",
+    workspaceNote: "工作区是您的代理存储其状态、配置文件和会话历史的地方。\n它位于：{workspace}",
+    workspaceTitle: "工作区",
+    workspaceDocs: "文档：https://docs.openclaw.ai/concepts/agent-workspace",
+    braveKeyNote: "Brave Search API 密钥用于 web_search 工具。\n在此存储密钥或设置 BRAVE_API_KEY 环境变量。\n文档：https://docs.openclaw.ai/tools/web",
+    braveKeyTitle: "Brave Search 密钥",
+
+    // Token and Hatch
+    gatewayTokenNote: "网关令牌：网关 + 控制面板的共享认证。\n存储位置：~/.openclaw/openclaw.json (gateway.auth.token) 或 OPENCLAW_GATEWAY_TOKEN。\nWeb UI 将副本存储在此浏览器的 localStorage 中 (openclaw.control.settings.v1)。\n随时获取令牌化链接：{tokenLink}",
+    gatewayTokenTitle: "令牌",
+    howToHatchBot: "您想如何孵化您的机器人？",
+    hatchInTui: "在 TUI 中孵化（推荐）",
+    openWebUi: "打开 Web UI",
+    doThisLater: "稍后操作",
+    webUiSeeded: "Web UI 已在后台启动。稍后使用以下命令打开：{command}",
+    webUiTitle: "Web UI",
+    workspaceBackup: "备份您的工作区。",
+    workspaceBackupTitle: "工作区备份",
+    securityNote: "在您的计算机上运行代理有风险 — 强化您的设置：https://docs.openclaw.ai/security",
+    securityTitle: "安全",
+
+    // Gateway Config
+    tailscaleTitle: "Tailscale",
+    tailscaleDocs: "文档：\nhttps://docs.openclaw.ai/gateway/tailscale\nhttps://docs.openclaw.ai/web",
+    resetTailscaleOnExit: "退出时重置 Tailscale serve/funnel？",
+    tailscaleRequiresLoopback: "Tailscale 需要 bind=loopback。正在调整 bind 为 loopback。",
+    tailscaleFunnelRequiresPassword: "Tailscale funnel 需要密码认证。",
+    gatewayTokenPrompt: "网关令牌（留空以生成）",
+    gatewayTokenPlaceholder: "用于多机器或非环回访问",
+    gatewayPasswordPrompt: "网关密码",
+    passwordRequired: "必填",
+    customIpAddress: "自定义 IP 地址",
+    customIpPlaceholder: "192.168.1.100",
+    inputRequired: "必填",
+
+    // Non-interactive
+    braveKeyTip: "提示：运行 `openclaw configure --section web` 以存储您的 Brave Search API 密钥用于 web_search。文档：https://docs.openclaw.ai/tools/web",
+
+    // Channel config
+    noChannelConfigFound: "未在 openclaw.json 中找到渠道配置。",
+    removeChannelConfigPrompt: "移除哪个渠道配置？",
+    deleteTokenSettings: "从配置中删除令牌 + 设置（凭据保留在磁盘上）",
+    channelConfigDone: "完成",
+    deleteChannelConfigConfirm: "从 {configPath} 中删除 {label} 配置？",
+    channelRemoved: "渠道已移除",
+    channelRemovedNote: "注意：磁盘上的凭据/会话未更改。",
+
+    // Daemon config
+    gatewayServiceInstalled: "网关服务已安装",
+    serviceRestart: "重启",
+    serviceReinstall: "重新安装",
+    serviceSkip: "跳过",
+    serviceRuntime: "网关服务运行时",
+    restartingService: "重启网关服务…",
+    serviceRestarted: "网关服务已重启。",
+    uninstallingService: "卸载网关服务…",
+    serviceUninstalled: "网关服务已卸载。",
+    preparingService: "准备网关服务…",
+    installingService: "安装网关服务…",
+    serviceInstalled: "网关服务已安装。",
+    failedToInstallService: "安装网关服务失败：{error}",
+
+    // Configure sections
+    workspaceLabel: "工作区",
+    workspaceHint: "设置工作区 + 会话",
+    modelLabel: "模型",
+    modelHint: "选择提供商 + 凭据",
+    webToolsLabel: "Web 工具",
+    webToolsHint: "配置 Brave 搜索 + 获取",
+    gatewayLabel: "网关",
+    gatewayHint: "端口、绑定、认证、Tailscale",
+    daemonLabel: "服务",
+    daemonHint: "安装/管理后台服务",
+    channelsLabel: "渠道",
+    channelsHint: "链接 WhatsApp/Telegram 等及默认值",
+    skillsLabel: "技能",
+    skillsHint: "安装/启用工作区技能",
+    healthLabel: "健康检查",
+    healthHint: "运行网关 + 渠道检查",
+>>>>>>> zh-CN-sync
   },
 } as const;
 
