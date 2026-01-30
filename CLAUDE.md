@@ -48,8 +48,8 @@ pnpm ui:build
 # Development
 pnpm gateway:watch          # Gateway with auto-reload
 pnpm tui                    # Terminal UI
-pnpm moltbot dashboard      # Web control panel
-pnpm moltbot onboard        # Initial setup wizard
+pnpm openclaw dashboard     # Web control panel
+pnpm openclaw onboard       # Initial setup wizard
 
 # Lint & Format
 pnpm lint                   # Oxlint
@@ -85,7 +85,7 @@ vitest run path/to/test.test.ts
 - **Testing**: Vitest with 70% coverage thresholds
 - **Formatting**: Oxlint/Oxfmt (run `pnpm lint` before commits)
 - **Channel development**: Consider all built-in + extension channels when refactoring shared logic
-- **Naming**: Use "Moltbot" for product/docs, `moltbot` for CLI/config
+- **Naming**: Use "OpenClaw" for product/docs, `openclaw` for CLI/config
 - **Files**: Keep under ~500 LOC when feasible; extract helpers instead of V2 copies
 
 ## Git Workflow
