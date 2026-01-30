@@ -1,7 +1,10 @@
-# 🦞 Moltbot — 个人 AI 助手
+# 🦞 OpenClaw — 个人 AI 助手
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/moltbot/moltbot/main/docs/whatsapp-clawd.jpg" alt="Clawdbot" width="400">
+    <picture>
+        <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/openclaw/openclaw/main/docs/assets/openclaw-logo-text-dark.png">
+        <img src="https://raw.githubusercontent.com/openclaw/openclaw/main/docs/assets/openclaw-logo-text.png" alt="OpenClaw" width="500">
+    </picture>
 </p>
 
 <p align="center">
@@ -9,47 +12,46 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/moltbot/moltbot/actions/workflows/ci.yml?branch=main"><img src="https://img.shields.io/github/actions/workflow/status/moltbot/moltbot/ci.yml?branch=main&style=for-the-badge" alt="CI status"></a>
-  <a href="https://github.com/moltbot/moltbot/releases"><img src="https://img.shields.io/github/v/release/moltbot/moltbot?include_prereleases&style=for-the-badge" alt="GitHub release"></a>
-  <a href="https://deepwiki.com/moltbot/moltbot"><img src="https://img.shields.io/badge/DeepWiki-moltbot-111111?style=for-the-badge" alt="DeepWiki"></a>
+  <a href="https://github.com/openclaw/openclaw/actions/workflows/ci.yml?branch=main"><img src="https://img.shields.io/github/actions/workflow/status/openclaw/openclaw/ci.yml?branch=main&style=for-the-badge" alt="CI status"></a>
+  <a href="https://github.com/openclaw/openclaw/releases"><img src="https://img.shields.io/github/v/release/openclaw/openclaw?include_prereleases&style=for-the-badge" alt="GitHub release"></a>
   <a href="https://discord.gg/clawd"><img src="https://img.shields.io/discord/1456350064065904867?label=Discord&logo=discord&logoColor=white&color=5865F2&style=for-the-badge" alt="Discord"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="MIT License"></a>
 </p>
 
-**Moltbot** 是一个运行在本地设备上的*个人 AI 助手*。
+**OpenClaw** 是一个运行在本地设备上的*个人 AI 助手*。
 
 它在你已经使用的渠道上回复你（WhatsApp、Telegram、Slack、Discord、Google Chat、Signal、iMessage、Microsoft Teams、WebChat），以及扩展渠道如 BlueBubbles、Matrix、Zalo 和 Zalo Personal。它可以在 macOS/iOS/Android 上说话和聆听，并可以渲染你控制的实时 Canvas。网关只是控制平面——产品是助手。
 
 如果你想要一个感觉本地、快速、始终在线的个人单用户助手，这就是它。
 
-[官网](https://molt.bot) · [文档](https://docs.molt.bot) · [开始使用](https://docs.molt.bot/start/getting-started) · [更新](https://docs.molt.bot/install/updating) · [展示](https://docs.molt.bot/start/showcase) · [常见问题](https://docs.molt.bot/start/faq) · [向导](https://docs.molt.bot/start/wizard) · [Nix](https://github.com/moltbot/nix-clawdbot) · [Docker](https://docs.molt.bot/install/docker) · [Discord](https://discord.gg/clawd)
+[官网](https://openclaw.ai) · [文档](https://docs.openclaw.ai) · [DeepWiki](https://deepwiki.com/openclaw/openclaw) · [开始使用](https://docs.openclaw.ai/start/getting-started) · [更新](https://docs.openclaw.ai/install/updating) · [展示](https://docs.openclaw.ai/start/showcase) · [常见问题](https://docs.openclaw.ai/start/faq) · [向导](https://docs.openclaw.ai/start/wizard) · [Nix](https://github.com/openclaw/nix-clawdbot) · [Docker](https://docs.openclaw.ai/install/docker) · [Discord](https://discord.gg/clawd)
 
-推荐方式：运行向导 (`moltbot onboard`)。它会引导你设置网关、工作区、渠道和技能。CLI 向导是推荐的方式，适用于 **macOS、Linux 和 Windows（通过 WSL2；强烈推荐）**。
+推荐方式：运行向导 (`openclaw onboard`)。它会引导你设置网关、工作区、渠道和技能。CLI 向导是推荐的方式，适用于 **macOS、Linux 和 Windows（通过 WSL2；强烈推荐）**。
 
 支持 npm、pnpm 或 bun。
 
-新安装？从这里开始：[开始使用](https://docs.molt.bot/start/getting-started)
+新安装？从这里开始：[开始使用](https://docs.openclaw.ai/start/getting-started)
 
 **订阅 (OAuth)：**
 - **[Anthropic](https://www.anthropic.com/)** (Claude Pro/Max)
 - **[OpenAI](https://openai.com/)** (ChatGPT/Codex)
 
-模型说明：虽然支持任何模型，但我强烈推荐 **Anthropic Pro/Max (100/200) + Opus 4.5**，因为它具有长上下文优势和更好的提示注入抵抗力。参见[向导](https://docs.molt.bot/start/onboarding)。
+模型说明：虽然支持任何模型，但我强烈推荐 **Anthropic Pro/Max (100/200) + Opus 4.5**，因为它具有长上下文优势和更好的提示注入抵抗力。参见[向导](https://docs.openclaw.ai/start/onboarding)。
 
 ## 模型（选择 + 认证）
 
-- 模型配置 + CLI：[Models](https://docs.molt.bot/concepts/models)
-- 认证配置文件轮换（OAuth vs API 密钥）+ 故障转移：[Model failover](https://docs.molt.bot/concepts/model-failover)
+- 模型配置 + CLI：[Models](https://docs.openclaw.ai/concepts/models)
+- 认证配置文件轮换（OAuth vs API 密钥）+ 故障转移：[Model failover](https://docs.openclaw.ai/concepts/model-failover)
 
 ## 安装（推荐）
 
 运行时：**Node ≥22**。
 
 ```bash
-npm install -g moltbot@latest
-# 或：pnpm add -g moltbot@latest
+npm install -g openclaw@latest
+# 或：pnpm add -g openclaw@latest
 
-moltbot onboard --install-daemon
+openclaw onboard --install-daemon
 ```
 
 向导会安装网关守护进程（launchd/systemd 用户服务），使其保持运行。
@@ -63,18 +65,18 @@ moltbot onboard --install-daemon
 完整初学者指南（认证、配对、渠道）：[开始使用](https://docs.molt.bot/start/getting-started)
 
 ```bash
-moltbot onboard --install-daemon
+openclaw onboard --install-daemon
 
-moltbot gateway --port 18789 --verbose
+openclaw gateway --port 18789 --verbose
 
 # 发送消息
-moltbot message send --to +1234567890 --message "Hello from Moltbot"
+openclaw message send --to +1234567890 --message "Hello from Moltbot"
 
 # 与助手对话（可选地回复到任何已连接的渠道：WhatsApp/Telegram/Slack/Discord/Google Chat/Signal/iMessage/BlueBubbles/Microsoft Teams/Matrix/Zalo/Zalo Personal/WebChat）
-moltbot agent --message "Ship checklist" --thinking high
+openclaw agent --message "Ship checklist" --thinking high
 ```
 
-升级？[更新指南](https://docs.molt.bot/install/updating)（并运行 `moltbot doctor`）。
+升级？[更新指南](https://docs.molt.bot/install/updating)（并运行 `openclaw doctor`）。
 
 ## 开发渠道
 
@@ -82,7 +84,7 @@ moltbot agent --message "Ship checklist" --thinking high
 - **beta**：预发布标签 (`vYYYY.M.D-beta.N`)，npm 标签 `beta`（可能没有 macOS 应用）。
 - **dev**：主分支的最新代码，npm 标签 `dev`（发布时）。
 
-切换渠道（git + npm）：`moltbot update --channel stable|beta|dev`
+切换渠道（git + npm）：`openclaw update --channel stable|beta|dev`
 
 详情：[开发渠道](https://docs.molt.bot/install/development-channels)
 
@@ -91,24 +93,24 @@ moltbot agent --message "Ship checklist" --thinking high
 构建时推荐使用 `pnpm`。Bun 可选用于直接运行 TypeScript。
 
 ```bash
-git clone https://github.com/moltbot/moltbot.git
+git clone https://github.com/openclaw/openclaw.git
 cd moltbot
 
 pnpm install
 pnpm ui:build # 首次运行自动安装 UI 依赖
 pnpm build
 
-pnpm moltbot onboard --install-daemon
+pnpm openclaw onboard --install-daemon
 
 # 开发循环（TS 更改自动重载）
 pnpm gateway:watch
 ```
 
-注意：`pnpm moltbot ...` 直接运行 TypeScript（通过 `tsx`）。`pnpm build` 产出 `dist/` 用于通过 Node 或打包的 `moltbot` 二进制文件运行。
+注意：`pnpm openclaw ...` 直接运行 TypeScript（通过 `tsx`）。`pnpm build` 产出 `dist/` 用于通过 Node 或打包的 `moltbot` 二进制文件运行。
 
 ## 安全默认设置（DM 访问）
 
-Moltbot 连接到真实的即时通讯界面。将入站 DM 视为**不可信输入**。
+OpenClaw 连接到真实的即时通讯界面。将入站 DM 视为**不可信输入**。
 
 完整安全指南：[Security](https://docs.molt.bot/gateway/security)
 
@@ -117,7 +119,7 @@ Telegram/WhatsApp/Signal/iMessage/Microsoft Teams/Discord/Google Chat/Slack 上�
 - 使用批准：`moltbot pairing approve <channel> <code>`（然后发送者被添加到本地允许列表存储）。
 - 公共入站 DM 需要明确选择加入：设置 `dmPolicy="open"` 并在渠道允许列表中包含 `"*"` (`allowFrom` / `channels.discord.dm.allowFrom` / `channels.slack.dm.allowFrom`)。
 
-运行 `moltbot doctor` 以显示有风险/配置错误的 DM 策略。
+运行 `openclaw doctor` 以显示有风险/配置错误的 DM 策略。
 
 ## 亮点
 
@@ -132,7 +134,7 @@ Telegram/WhatsApp/Signal/iMessage/Microsoft Teams/Discord/Google Chat/Slack 上�
 
 ## Star 历史
 
-[![Star History Chart](https://api.star-history.com/svg?repos=moltbot/moltbot&type=date&legend=top-left)](https://www.star-history.com/#moltbot/moltbot&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=openclaw/openclaw&type=date&legend=top-left)](https://www.star-history.com/#moltbot/moltbot&type=date&legend=top-left)
 
 ## 我们构建的一切
 
@@ -154,7 +156,7 @@ Telegram/WhatsApp/Signal/iMessage/Microsoft Teams/Discord/Google Chat/Slack 上�
 - [macOS 节点模式](https://docs.molt.bot/nodes)：system.run/notify + canvas/camera 暴露。
 
 ### 工具 + 自动化
-- [浏览器控制](https://docs.molt.bot/tools/browser)：专用的 moltbot Chrome/Chromium、快照、操作、上传、配置文件。
+- [浏览器控制](https://docs.molt.bot/tools/browser)：专用的 openclaw Chrome/Chromium、快照、操作、上传、配置文件。
 - [Canvas](https://docss/mac/.molt.bot/platformcanvas): [A2UI](https://docs.molt.bot/platforms/mac/canvas#canvas-a2ui) 推送/重置、eval、快照。
 - [节点](https://docs.molt.bot/nodes)：相机快照/剪辑、屏幕录制、[location.get](https://docs.molt.bot/nodes/location-command)、通知。
 - [Cron + 唤醒](https://docs.molt.bot/automation/cron-jobs); [webhooks](https://docs.molt.bot/automation/webhook); [Gmail Pub/Sub](https://docs.molt.bot/automation/gmail-pubsub)。
@@ -185,7 +187,7 @@ WhatsApp / Telegram / Slack / Discord / Google Chat / Signal / iMessage / BlueBu
 └──────────────┬────────────────┘
                │
                ├─ Pi agent (RPC)
-               ├─ CLI (moltbot …)
+               ├─ CLI (openclaw …)
                ├─ WebChat UI
                ├─ macOS app
                └─ iOS / Android nodes
@@ -202,14 +204,14 @@ WhatsApp / Telegram / Slack / Discord / Google Chat / Signal / iMessage / BlueBu
 
 ## Tailscale 访问（网关仪表板）
 
-Moltbot 可以自动配置 Tailscale **Serve**（仅 tailnet）或 **Funnel**（公开），同时网关保持绑定到环回。配置 `gateway.tailscale.mode`：
+OpenClaw 可以自动配置 Tailscale **Serve**（仅 tailnet）或 **Funnel**（公开），同时网关保持绑定到环回。配置 `gateway.tailscale.mode`：
 
 - `off`：无 Tailscale 自动化（默认）。
 - `serve`：通过 `tailscale serve` 提供仅 tailnet 的 HTTPS（默认使用 Tailscale 身份标头）。
 - `funnel`：通过 `tailscale funnel` 提供公开的 HTTPS（需要共享密码认证）。
 
 注意：
-- 启用 Serve/Funnel 时，`gateway.bind` 必须保持为 `loopback`（Moltbot 会强制执行）。
+- 启用 Serve/Funnel 时，`gateway.bind` 必须保持为 `loopback`（OpenClaw 会强制执行）。
 - 可以通过设置 `gateway.auth.mode: "password"` 或 `gateway.auth.allowTailscale: false` 来强制 Serve 需要密码。
 - Funnel 除非设置了 `gateway.auth.mode: "password"`，否则拒绝启动。
 - 可选：`gateway.tailscale.resetOnExit` 在关闭时撤销 Serve/Funnel。
@@ -276,7 +278,7 @@ ClawdHub 是一个极简的技能注册表。启用 ClawdHub 后，代理可以�
 
 如果你计划构建/运行配套应用，请按照下面的平台运行手册操作。
 
-### macOS（Moltbot.app）（可选）
+### macOS（OpenClaw.app）（可选）
 
 - 网关和运行状况的菜单栏控制。
 - 语音唤醒 + 按键说话叠加层。
@@ -289,7 +291,7 @@ ClawdHub 是一个极简的技能注册表。启用 ClawdHub 后，代理可以�
 
 - 通过 Bridge 配对为节点。
 - 语音触发转发 + Canvas 界面。
-- 通过 `moltbot nodes …` 控制。
+- 通过 `openclaw nodes …` 控制。
 
 运行手册：[iOS 连接](https://docs.molt.bot/platforms/ios)
 
@@ -307,7 +309,7 @@ ClawdHub 是一个极简的技能注册表。启用 ClawdHub 后，代理可以�
 
 ## 配置
 
-最小的 `~/.clawdbot/moltbot.json`（模型 + 默认值）：
+最小的 `~/.clawdbot/openclaw.json`（模型 + 默认值）：
 
 ```json5
 {
@@ -329,7 +331,7 @@ ClawdHub 是一个极简的技能注册表。启用 ClawdHub 后，代理可以�
 
 ### [WhatsApp](https://docs.molt.bot/channels/whatsapp)
 
-- 链接设备：`pnpm moltbot channels login`（凭据存储在 `~/.clawdbot/credentials` 中）。
+- 链接设备：`pnpm openclaw channels login`（凭据存储在 `~/.clawdbot/credentials` 中）。
 - 通过 `channels.whatsapp.allowFrom` 允许列表谁可以与助手交谈。
 - 如果设置了 `channels.whatsapp.groups`，它将成为群组允许列表；包含 `"*"` 以允许所有。
 
@@ -465,13 +467,13 @@ ClawdHub 是一个极简的技能注册表。启用 ClawdHub 后，代理可以�
 
 ## Molty
 
-Moltbot 是为 **Molty** 构建的，一只太空龙虾 AI 助手。🦞
+OpenClaw 是为 **Molty** 构建的，一只太空龙虾 AI 助手。🦞
 由 Peter Steinberger 和社区构建。
 
 - [clawd.me](https://clawd.me)
 - [soul.md](https://soul.md)
 - [steipete.me](https://steipete.me)
-- [@moltbot](https://x.com/moltbot)
+- [@openclaw](https://x.com/moltbot)
 
 ## 社区
 
