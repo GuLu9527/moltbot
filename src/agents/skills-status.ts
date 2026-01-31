@@ -1,6 +1,7 @@
 import path from "node:path";
 
 import type { MoltbotConfig } from "../config/config.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { CONFIG_DIR } from "../utils.js";
 import {
   hasBinary,
@@ -187,8 +188,8 @@ function normalizeInstallOptions(
     // 翻译自定义标签中的英文
     if (label) {
       label = label
-        .replace(/^Install\s+/i, "安装 ")
-        .replace(/\s+via\s+/i, " 通过 ")
+        .replace(/^Install\s+/i, `${zhCN.ui.skills.install} `)
+        .replace(/\s+via\s+/i, ` ${zhCN.ui.skills.via} `)
         .replace(/\(brew\)/i, "(brew)")
         .replace(/\(npm\)/i, "(npm)")
         .replace(/\(go\)/i, "(go)")
@@ -197,23 +198,23 @@ function normalizeInstallOptions(
     }
 
     if (spec.kind === "node" && spec.package) {
-      label = `安装 ${spec.package} (${prefs.nodeManager})`;
+      label = `${zhCN.ui.skills.install} ${spec.package} (${prefs.nodeManager})`;
     }
     if (!label) {
       if (spec.kind === "brew" && spec.formula) {
-        label = `安装 ${spec.formula} (brew)`;
+        label = `${zhCN.ui.skills.install} ${spec.formula} (brew)`;
       } else if (spec.kind === "node" && spec.package) {
-        label = `安装 ${spec.package} (${prefs.nodeManager})`;
+        label = `${zhCN.ui.skills.install} ${spec.package} (${prefs.nodeManager})`;
       } else if (spec.kind === "go" && spec.module) {
-        label = `安装 ${spec.module} (go)`;
+        label = `${zhCN.ui.skills.install} ${spec.module} (go)`;
       } else if (spec.kind === "uv" && spec.package) {
-        label = `安装 ${spec.package} (uv)`;
+        label = `${zhCN.ui.skills.install} ${spec.package} (uv)`;
       } else if (spec.kind === "download" && spec.url) {
         const url = spec.url.trim();
         const last = url.split("/").pop();
-        label = `下载 ${last && last.length > 0 ? last : url}`;
+        label = `${zhCN.ui.skills.download} ${last && last.length > 0 ? last : url}`;
       } else {
-        label = "运行安装程序";
+        label = zhCN.ui.skills.runInstaller;
       }
     }
     return { id, kind: spec.kind, label, bins };

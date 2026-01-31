@@ -10,7 +10,6 @@ import {
   resolveConfiguredModelRef,
   resolveHooksGmailModel,
 } from "../agents/model-selection.js";
-import { formatCliCommand } from "../cli/command-format.js";
 import type { MoltbotConfig } from "../config/config.js";
 import { CONFIG_PATH, readConfigFileSnapshot, writeConfigFile } from "../config/config.js";
 import { logConfigUpdated } from "../config/logging.js";
@@ -126,10 +125,7 @@ export async function doctorCommand(
     });
     const needsToken = auth.mode !== "password" && (auth.mode !== "token" || !auth.token);
     if (needsToken) {
-      note(
-        zhCN.output.gatewayAuthMissing,
-        "Gateway auth",
-      );
+      note(zhCN.output.gatewayAuthMissing, "Gateway auth");
       const shouldSetToken =
         options.generateGatewayToken === true
           ? true
@@ -216,14 +212,10 @@ export async function doctorCommand(
       });
       const warnings: string[] = [];
       if (!status.allowed) {
-        warnings.push(
-          zhCN.output.hooksNotInAllowlist,
-        );
+        warnings.push(zhCN.output.hooksNotInAllowlist);
       }
       if (!status.inCatalog) {
-        warnings.push(
-          zhCN.output.hooksNotInCatalog,
-        );
+        warnings.push(zhCN.output.hooksNotInCatalog);
       }
       if (warnings.length > 0) {
         note(warnings.join("\n"), "Hooks");

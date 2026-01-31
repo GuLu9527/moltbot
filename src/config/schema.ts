@@ -1,7 +1,6 @@
 import { CHANNEL_IDS } from "../channels/registry.js";
 import { VERSION } from "../version.js";
 import { MoltbotSchema } from "./zod-schema.js";
-import { zhCN } from "../i18n/zh-CN.js";
 
 export type ConfigUiHint = {
   label?: string;

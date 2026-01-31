@@ -3,10 +3,13 @@ import type { MessageCliHelpers } from "./helpers.js";
 import { zhCN } from "../../../i18n/zh-CN.js";
 
 export function registerMessageDiscordAdminCommands(message: Command, helpers: MessageCliHelpers) {
-  const role = message.command("role").description("角色操作");
+  const role = message.command("role").description(zhCN.commands.discordRole);
   helpers
     .withMessageBase(
-      role.command("info").description(zhCN.commands.discordRoleInfo).requiredOption("--guild-id <id>", "Guild id"),
+      role
+        .command("info")
+        .description(zhCN.commands.discordRoleInfo)
+        .requiredOption("--guild-id <id>", "Guild id"),
     )
     .action(async (opts) => {
       await helpers.runMessageAction("role-info", opts);
@@ -38,10 +41,12 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
       await helpers.runMessageAction("role-remove", opts);
     });
 
-  const channel = message.command("channel").description("频道操作");
+  const channel = message.command("channel").description(zhCN.commands.discordChannel);
   helpers
     .withMessageBase(
-      helpers.withRequiredMessageTarget(channel.command("info").description(zhCN.commands.discordChannelInfo)),
+      helpers.withRequiredMessageTarget(
+        channel.command("info").description(zhCN.commands.discordChannelInfo),
+      ),
     )
     .action(async (opts) => {
       await helpers.runMessageAction("channel-info", opts);
@@ -58,7 +63,7 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
       await helpers.runMessageAction("channel-list", opts);
     });
 
-  const member = message.command("member").description("成员操作");
+  const member = message.command("member").description(zhCN.commands.discordMember);
   helpers
     .withMessageBase(
       member
@@ -71,7 +76,7 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
       await helpers.runMessageAction("member-info", opts);
     });
 
-  const voice = message.command("voice").description("语音状态");
+  const voice = message.command("voice").description(zhCN.commands.discordVoice);
   helpers
     .withMessageBase(
       voice
@@ -84,7 +89,7 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
       await helpers.runMessageAction("voice-status", opts);
     });
 
-  const event = message.command("event").description("活动操作");
+  const event = message.command("event").description(zhCN.commands.discordEvent);
   helpers
     .withMessageBase(
       event

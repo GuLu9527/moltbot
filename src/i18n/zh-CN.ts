@@ -53,6 +53,15 @@ export const zhCN = {
     commands: "命令",
     examples: "示例",
     docs: "文档",
+    // CLI 示例描述
+    exampleChannelsLogin: "链接个人 WhatsApp Web 并显示二维码 + 连接日志",
+    exampleMessageSend: "通过网页会话发送并打印 JSON 结果",
+    exampleGatewayPort: "本地运行 WebSocket 网关",
+    exampleDevGateway: "运行开发网关（隔离状态/配置）",
+    exampleGatewayForce: "终止默认网关端口上的所有进程，然后启动",
+    exampleGatewayControl: "通过 WebSocket 控制网关",
+    exampleAgentDeliver: "直接与代理对话；可选发送 WhatsApp 回复",
+    exampleTelegramSend: "通过 Telegram 机器人发送",
   },
 
   // 选项描述
@@ -176,6 +185,11 @@ export const zhCN = {
     memorySearch: "搜索内存文件",
 
     // Discord 管理
+    discordRole: "角色操作",
+    discordChannel: "频道操作",
+    discordMember: "成员操作",
+    discordVoice: "语音状态",
+    discordEvent: "活动操作",
     discordRoleInfo: "列出角色",
     discordRoleAdd: "向成员添加角色",
     discordRoleRemove: "从成员移除角色",
@@ -1301,6 +1315,11 @@ export const zhCN = {
       installing: "安装中…",
       apiKey: "API 密钥",
       saveKey: "保存密钥",
+      // 安装相关
+      install: "安装",
+      download: "下载",
+      runInstaller: "运行安装程序",
+      via: "通过",
     },
     debug: {
       snapshots: "快照",
@@ -1614,6 +1633,7 @@ export const zhCN = {
     startGatewayService: "现在启动网关服务？",
     restartGatewayService: "现在重启网关服务？",
     launchAgentLoadedHint: "LaunchAgent 已加载",
+    launchAgentStopHint: "LaunchAgent 已加载；停止需要运行",
     gatewayNotRunning: "网关未运行。",
 
     // Progress messages

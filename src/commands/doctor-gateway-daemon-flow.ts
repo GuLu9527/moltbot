@@ -61,18 +61,18 @@ async function maybeRepairLaunchAgentBootstrap(params: {
   const repair = await repairLaunchAgentBootstrap({ env: params.env });
   if (!repair.ok) {
     params.runtime.error(
-      `${params.title} LaunchAgent 引导失败：${repair.detail ?? "未知错误"}`,
+      `${params.title} ${zhCN.output.launchAgentBootstrapFailed}：${repair.detail ?? zhCN.error}`,
     );
     return false;
   }
 
   const verified = await isLaunchAgentLoaded({ env: params.env });
   if (!verified) {
-    params.runtime.error(`${params.title} LaunchAgent 修复后仍未加载。`);
+    params.runtime.error(`${params.title} ${zhCN.output.launchAgentStillNotLoaded}`);
     return false;
   }
 
-  note(`${params.title} LaunchAgent 已修复。`, `${params.title} LaunchAgent`);
+  note(`${params.title} ${zhCN.output.launchAgentRepaired}`, `${params.title} LaunchAgent`);
   return true;
 }
 
@@ -127,7 +127,7 @@ export async function maybeRepairGatewayDaemon(params: {
       note(formatPortDiagnostics(diagnostics).join("\n"), "Gateway port");
     } else if (loaded && serviceRuntime?.status === "running") {
       const lastError = await readLastGatewayErrorLine(process.env);
-      if (lastError) note(`上次网关错误: ${lastError}`, "Gateway");
+      if (lastError) note(`${zhCN.output.lastGatewayError}: ${lastError}`, "Gateway");
     }
   }
 
@@ -173,7 +173,7 @@ export async function maybeRepairGatewayDaemon(params: {
             environment,
           });
         } catch (err) {
-          note(`网关服务安装失败: ${String(err)}`, "Gateway");
+          note(`${zhCN.output.gatewayServiceInstallFailed}: ${String(err)}`, "Gateway");
           note(gatewayInstallErrorHint(), "Gateway");
         }
       }
@@ -188,7 +188,7 @@ export async function maybeRepairGatewayDaemon(params: {
   });
   if (summary || hints.length > 0) {
     const lines: string[] = [];
-    if (summary) lines.push(`运行时: ${summary}`);
+    if (summary) lines.push(`${zhCN.output.gatewayRuntime}: ${summary}`);
     lines.push(...hints);
     note(lines.join("\n"), "Gateway");
   }
@@ -210,7 +210,7 @@ export async function maybeRepairGatewayDaemon(params: {
   if (process.platform === "darwin") {
     const label = resolveGatewayLaunchAgentLabel(process.env.CLAWDBOT_PROFILE);
     note(
-      `LaunchAgent loaded; stopping requires "${formatCliCommand("moltbot gateway stop")}" or launchctl bootout gui/$UID/${label}.`,
+      `${zhCN.output.launchAgentStopHint} "${formatCliCommand("moltbot gateway stop")}" 或 launchctl bootout gui/$UID/${label}。`,
       "Gateway",
     );
   }
