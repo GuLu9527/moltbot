@@ -4,6 +4,7 @@ import { formatAgo } from "../format";
 import type { IMessageStatus } from "../types";
 import type { ChannelsProps } from "./channels.types";
 import { renderChannelConfigSection } from "./channels.config";
+import { zhCN } from "@openclaw/i18n";
 
 export function renderIMessageCard(params: {
   props: ChannelsProps;
@@ -15,25 +16,25 @@ export function renderIMessageCard(params: {
   return html`
     <div class="card">
       <div class="card-title">iMessage</div>
-      <div class="card-sub">macOS bridge status and channel configuration.</div>
+      <div class="card-sub">${zhCN.ui.channels.imessageDesc}</div>
       ${accountCountLabel}
 
       <div class="status-list" style="margin-top: 16px;">
         <div>
-          <span class="label">Configured</span>
-          <span>${imessage?.configured ? "Yes" : "No"}</span>
+          <span class="label">${zhCN.configured}</span>
+          <span>${imessage?.configured ? zhCN.yes : zhCN.no}</span>
         </div>
         <div>
-          <span class="label">Running</span>
-          <span>${imessage?.running ? "Yes" : "No"}</span>
+          <span class="label">${zhCN.running}</span>
+          <span>${imessage?.running ? zhCN.yes : zhCN.no}</span>
         </div>
         <div>
-          <span class="label">Last start</span>
-          <span>${imessage?.lastStartAt ? formatAgo(imessage.lastStartAt) : "n/a"}</span>
+          <span class="label">${zhCN.ui.channels.lastStart}</span>
+          <span>${imessage?.lastStartAt ? formatAgo(imessage.lastStartAt) : zhCN.notAvailable}</span>
         </div>
         <div>
-          <span class="label">Last probe</span>
-          <span>${imessage?.lastProbeAt ? formatAgo(imessage.lastProbeAt) : "n/a"}</span>
+          <span class="label">${zhCN.ui.channels.lastProbe}</span>
+          <span>${imessage?.lastProbeAt ? formatAgo(imessage.lastProbeAt) : zhCN.notAvailable}</span>
         </div>
       </div>
 
@@ -45,7 +46,7 @@ export function renderIMessageCard(params: {
 
       ${imessage?.probe
         ? html`<div class="callout" style="margin-top: 12px;">
-            Probe ${imessage.probe.ok ? "ok" : "failed"} ·
+            探测 ${imessage.probe.ok ? zhCN.ui.channels.probeOk : zhCN.ui.channels.probeFailed} ·
             ${imessage.probe.error ?? ""}
           </div>`
         : nothing}
@@ -54,7 +55,7 @@ export function renderIMessageCard(params: {
 
       <div class="row" style="margin-top: 12px;">
         <button class="btn" @click=${() => props.onRefresh(true)}>
-          Probe
+          ${zhCN.ui.channels.probe}
         </button>
       </div>
     </div>

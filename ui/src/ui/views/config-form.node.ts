@@ -7,9 +7,10 @@ import {
   isSensitivePath,
   pathKey,
   schemaType,
+  translateDescription,
   type JsonSchema,
 } from "./config-form.shared";
-import { zhCN } from "@moltbot/i18n";
+import { zhCN } from "@openclaw/i18n";
 
 const META_KEYS = new Set(["title", "description", "default", "nullable"]);
 
@@ -51,7 +52,7 @@ export function renderNode(params: {
   const type = schemaType(schema);
   const hint = hintForPath(path, hints);
   const label = hint?.label ?? schema.title ?? humanize(String(path.at(-1)));
-  const help = hint?.help ?? schema.description;
+  const help = translateDescription(hint?.help ?? schema.description);
   const key = pathKey(path);
 
   if (unsupported.has(key)) {
@@ -230,7 +231,7 @@ function renderTextInput(params: {
   const showLabel = params.showLabel ?? true;
   const hint = hintForPath(path, hints);
   const label = hint?.label ?? schema.title ?? humanize(String(path.at(-1)));
-  const help = hint?.help ?? schema.description;
+  const help = translateDescription(hint?.help ?? schema.description);
   const isSensitive = hint?.sensitive ?? isSensitivePath(path);
   const placeholder =
     hint?.placeholder ??
@@ -294,7 +295,7 @@ function renderNumberInput(params: {
   const showLabel = params.showLabel ?? true;
   const hint = hintForPath(path, hints);
   const label = hint?.label ?? schema.title ?? humanize(String(path.at(-1)));
-  const help = hint?.help ?? schema.description;
+  const help = translateDescription(hint?.help ?? schema.description);
   const displayValue = value ?? schema.default ?? "";
   const numValue = typeof displayValue === "number" ? displayValue : 0;
 
@@ -345,7 +346,7 @@ function renderSelect(params: {
   const showLabel = params.showLabel ?? true;
   const hint = hintForPath(path, hints);
   const label = hint?.label ?? schema.title ?? humanize(String(path.at(-1)));
-  const help = hint?.help ?? schema.description;
+  const help = translateDescription(hint?.help ?? schema.description);
   const resolvedValue = value ?? schema.default;
   const currentIndex = options.findIndex(
     (opt) => opt === resolvedValue || String(opt) === String(resolvedValue),
@@ -388,7 +389,7 @@ function renderObject(params: {
   const showLabel = params.showLabel ?? true;
   const hint = hintForPath(path, hints);
   const label = hint?.label ?? schema.title ?? humanize(String(path.at(-1)));
-  const help = hint?.help ?? schema.description;
+  const help = translateDescription(hint?.help ?? schema.description);
 
   const fallback = value ?? schema.default;
   const obj = fallback && typeof fallback === "object" && !Array.isArray(fallback)
@@ -487,7 +488,7 @@ function renderArray(params: {
   const showLabel = params.showLabel ?? true;
   const hint = hintForPath(path, hints);
   const label = hint?.label ?? schema.title ?? humanize(String(path.at(-1)));
-  const help = hint?.help ?? schema.description;
+  const help = translateDescription(hint?.help ?? schema.description);
 
   const itemsSchema = Array.isArray(schema.items) ? schema.items[0] : schema.items;
   if (!itemsSchema) {

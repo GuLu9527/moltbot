@@ -4,6 +4,7 @@ import { formatAgo } from "../format";
 import type { GoogleChatStatus } from "../types";
 import { renderChannelConfigSection } from "./channels.config";
 import type { ChannelsProps } from "./channels.types";
+import { zhCN } from "@openclaw/i18n";
 
 export function renderGoogleChatCard(params: {
   props: ChannelsProps;
@@ -15,37 +16,37 @@ export function renderGoogleChatCard(params: {
   return html`
     <div class="card">
       <div class="card-title">Google Chat</div>
-      <div class="card-sub">Chat API webhook status and channel configuration.</div>
+      <div class="card-sub">${zhCN.ui.channels.googlechatDesc}</div>
       ${accountCountLabel}
 
       <div class="status-list" style="margin-top: 16px;">
         <div>
-          <span class="label">Configured</span>
-          <span>${googleChat ? (googleChat.configured ? "Yes" : "No") : "n/a"}</span>
+          <span class="label">${zhCN.configured}</span>
+          <span>${googleChat ? (googleChat.configured ? zhCN.yes : zhCN.no) : zhCN.notAvailable}</span>
         </div>
         <div>
-          <span class="label">Running</span>
-          <span>${googleChat ? (googleChat.running ? "Yes" : "No") : "n/a"}</span>
+          <span class="label">${zhCN.running}</span>
+          <span>${googleChat ? (googleChat.running ? zhCN.yes : zhCN.no) : zhCN.notAvailable}</span>
         </div>
         <div>
-          <span class="label">Credential</span>
-          <span>${googleChat?.credentialSource ?? "n/a"}</span>
+          <span class="label">${zhCN.ui.channels.credential}</span>
+          <span>${googleChat?.credentialSource ?? zhCN.notAvailable}</span>
         </div>
         <div>
-          <span class="label">Audience</span>
+          <span class="label">${zhCN.ui.channels.audience}</span>
           <span>
             ${googleChat?.audienceType
               ? `${googleChat.audienceType}${googleChat.audience ? ` · ${googleChat.audience}` : ""}`
-              : "n/a"}
+              : zhCN.notAvailable}
           </span>
         </div>
         <div>
-          <span class="label">Last start</span>
-          <span>${googleChat?.lastStartAt ? formatAgo(googleChat.lastStartAt) : "n/a"}</span>
+          <span class="label">${zhCN.ui.channels.lastStart}</span>
+          <span>${googleChat?.lastStartAt ? formatAgo(googleChat.lastStartAt) : zhCN.notAvailable}</span>
         </div>
         <div>
-          <span class="label">Last probe</span>
-          <span>${googleChat?.lastProbeAt ? formatAgo(googleChat.lastProbeAt) : "n/a"}</span>
+          <span class="label">${zhCN.ui.channels.lastProbe}</span>
+          <span>${googleChat?.lastProbeAt ? formatAgo(googleChat.lastProbeAt) : zhCN.notAvailable}</span>
         </div>
       </div>
 
@@ -57,7 +58,7 @@ export function renderGoogleChatCard(params: {
 
       ${googleChat?.probe
         ? html`<div class="callout" style="margin-top: 12px;">
-            Probe ${googleChat.probe.ok ? "ok" : "failed"} ·
+            探测 ${googleChat.probe.ok ? zhCN.ui.channels.probeOk : zhCN.ui.channels.probeFailed} ·
             ${googleChat.probe.status ?? ""} ${googleChat.probe.error ?? ""}
           </div>`
         : nothing}
@@ -66,7 +67,7 @@ export function renderGoogleChatCard(params: {
 
       <div class="row" style="margin-top: 12px;">
         <button class="btn" @click=${() => props.onRefresh(true)}>
-          Probe
+          ${zhCN.ui.channels.probe}
         </button>
       </div>
     </div>

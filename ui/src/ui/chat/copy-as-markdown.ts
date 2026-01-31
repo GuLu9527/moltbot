@@ -1,11 +1,12 @@
 import { html, type TemplateResult } from "lit";
 import { icons } from "../icons";
+import { zhCN } from "@openclaw/i18n";
 
 const COPIED_FOR_MS = 1500;
 const ERROR_FOR_MS = 2000;
-const COPY_LABEL = "Copy as markdown";
-const COPIED_LABEL = "Copied";
-const ERROR_LABEL = "Copy failed";
+const COPY_LABEL = zhCN.ui.chat.copyAsMarkdown || "Copy as markdown";
+const COPIED_LABEL = zhCN.ui.chat.copied;
+const ERROR_LABEL = zhCN.ui.chat.copyFailed || "Copy failed";
 
 type CopyButtonOptions = {
   text: () => string;

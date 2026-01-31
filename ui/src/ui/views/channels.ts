@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 
 import { formatAgo } from "../format";
+import { zhCN } from "@openclaw/i18n";
 import type {
   ChannelAccountSnapshot,
   ChannelUiMetaEntry,
@@ -77,8 +78,8 @@ export function renderChannels(props: ChannelsProps) {
     <section class="card" style="margin-top: 18px;">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Channel health</div>
-          <div class="card-sub">Channel status snapshots from the gateway.</div>
+          <div class="card-title">${zhCN.ui.channels.channelHealth}</div>
+          <div class="card-sub">${zhCN.ui.channels.channelHealthSub}</div>
         </div>
         <div class="muted">${props.lastSuccessAt ? formatAgo(props.lastSuccessAt) : "n/a"}</div>
       </div>
@@ -88,7 +89,7 @@ export function renderChannels(props: ChannelsProps) {
           </div>`
         : nothing}
       <pre class="code-block" style="margin-top: 12px;">
-${props.snapshot ? JSON.stringify(props.snapshot, null, 2) : "No snapshot yet."}
+${props.snapshot ? JSON.stringify(props.snapshot, null, 2) : zhCN.ui.channels.noSnapshotYet}
       </pre>
     </section>
   `;
@@ -215,7 +216,7 @@ function renderGenericChannelCard(
   return html`
     <div class="card">
       <div class="card-title">${label}</div>
-      <div class="card-sub">Channel status and configuration.</div>
+      <div class="card-sub">${zhCN.ui.channels.channelStatus}</div>
       ${accountCountLabel}
 
       ${accounts.length > 0
@@ -227,16 +228,16 @@ function renderGenericChannelCard(
         : html`
             <div class="status-list" style="margin-top: 16px;">
               <div>
-                <span class="label">Configured</span>
-                <span>${configured == null ? "n/a" : configured ? "Yes" : "No"}</span>
+                <span class="label">${zhCN.ui.channels.configured}</span>
+                <span>${configured == null ? "n/a" : configured ? zhCN.ui.channels.yes : zhCN.ui.channels.no}</span>
               </div>
               <div>
-                <span class="label">Running</span>
-                <span>${running == null ? "n/a" : running ? "Yes" : "No"}</span>
+                <span class="label">${zhCN.ui.channels.running}</span>
+                <span>${running == null ? "n/a" : running ? zhCN.ui.channels.yes : zhCN.ui.channels.no}</span>
               </div>
               <div>
-                <span class="label">Connected</span>
-                <span>${connected == null ? "n/a" : connected ? "Yes" : "No"}</span>
+                <span class="label">${zhCN.ui.channels.connected}</span>
+                <span>${connected == null ? "n/a" : connected ? zhCN.ui.channels.yes : zhCN.ui.channels.no}</span>
               </div>
             </div>
           `}
@@ -274,18 +275,18 @@ function hasRecentActivity(account: ChannelAccountSnapshot): boolean {
   return Date.now() - account.lastInboundAt < RECENT_ACTIVITY_THRESHOLD_MS;
 }
 
-function deriveRunningStatus(account: ChannelAccountSnapshot): "Yes" | "No" | "Active" {
-  if (account.running) return "Yes";
+function deriveRunningStatus(account: ChannelAccountSnapshot): string {
+  if (account.running) return zhCN.ui.channels.yes;
   // If we have recent inbound activity, the channel is effectively running
-  if (hasRecentActivity(account)) return "Active";
-  return "No";
+  if (hasRecentActivity(account)) return zhCN.ui.channels.active;
+  return zhCN.ui.channels.no;
 }
 
-function deriveConnectedStatus(account: ChannelAccountSnapshot): "Yes" | "No" | "Active" | "n/a" {
-  if (account.connected === true) return "Yes";
-  if (account.connected === false) return "No";
+function deriveConnectedStatus(account: ChannelAccountSnapshot): string {
+  if (account.connected === true) return zhCN.ui.channels.yes;
+  if (account.connected === false) return zhCN.ui.channels.no;
   // If connected is null/undefined but we have recent activity, show as active
-  if (hasRecentActivity(account)) return "Active";
+  if (hasRecentActivity(account)) return zhCN.ui.channels.active;
   return "n/a";
 }
 
@@ -301,19 +302,19 @@ function renderGenericAccount(account: ChannelAccountSnapshot) {
       </div>
       <div class="status-list account-card-status">
         <div>
-          <span class="label">Running</span>
+          <span class="label">${zhCN.ui.channels.running}</span>
           <span>${runningStatus}</span>
         </div>
         <div>
-          <span class="label">Configured</span>
-          <span>${account.configured ? "Yes" : "No"}</span>
+          <span class="label">${zhCN.ui.channels.configured}</span>
+          <span>${account.configured ? zhCN.ui.channels.yes : zhCN.ui.channels.no}</span>
         </div>
         <div>
-          <span class="label">Connected</span>
+          <span class="label">${zhCN.ui.channels.connected}</span>
           <span>${connectedStatus}</span>
         </div>
         <div>
-          <span class="label">Last inbound</span>
+          <span class="label">${zhCN.ui.channels.lastInbound}</span>
           <span>${account.lastInboundAt ? formatAgo(account.lastInboundAt) : "n/a"}</span>
         </div>
         ${account.lastError

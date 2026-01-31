@@ -1,5 +1,6 @@
 import { html, nothing } from "lit";
 
+import { zhCN } from "@openclaw/i18n";
 import { formatAgo } from "../format";
 import { formatSessionTokens } from "../presenter";
 import { pathForTab } from "../navigation";
@@ -36,9 +37,9 @@ export type SessionsProps = {
 const THINK_LEVELS = ["", "off", "minimal", "low", "medium", "high"] as const;
 const BINARY_THINK_LEVELS = ["", "off", "on"] as const;
 const VERBOSE_LEVELS = [
-  { value: "", label: "inherit" },
-  { value: "off", label: "off (explicit)" },
-  { value: "on", label: "on" },
+  { value: "", label: zhCN.ui.sessions.inherit },
+  { value: "off", label: zhCN.ui.sessions.offExplicit },
+  { value: "on", label: zhCN.ui.sessions.on },
 ] as const;
 const REASONING_LEVELS = ["", "off", "on", "stream"] as const;
 
@@ -76,17 +77,17 @@ export function renderSessions(props: SessionsProps) {
     <section class="card">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Sessions</div>
-          <div class="card-sub">Active session keys and per-session overrides.</div>
+          <div class="card-title">${zhCN.ui.sessions.sessions}</div>
+          <div class="card-sub">${zhCN.ui.sessions.sessionsSub}</div>
         </div>
         <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-          ${props.loading ? "Loading…" : "Refresh"}
+          ${props.loading ? zhCN.ui.sessions.loading : zhCN.ui.sessions.refresh}
         </button>
       </div>
 
       <div class="filters" style="margin-top: 14px;">
         <label class="field">
-          <span>Active within (minutes)</span>
+          <span>${zhCN.ui.sessions.activeWithinMinutes}</span>
           <input
             .value=${props.activeMinutes}
             @input=${(e: Event) =>
@@ -99,7 +100,7 @@ export function renderSessions(props: SessionsProps) {
           />
         </label>
         <label class="field">
-          <span>Limit</span>
+          <span>${zhCN.ui.sessions.limit}</span>
           <input
             .value=${props.limit}
             @input=${(e: Event) =>
@@ -112,7 +113,7 @@ export function renderSessions(props: SessionsProps) {
           />
         </label>
         <label class="field checkbox">
-          <span>Include global</span>
+          <span>${zhCN.ui.sessions.includeGlobal}</span>
           <input
             type="checkbox"
             .checked=${props.includeGlobal}
@@ -126,7 +127,7 @@ export function renderSessions(props: SessionsProps) {
           />
         </label>
         <label class="field checkbox">
-          <span>Include unknown</span>
+          <span>${zhCN.ui.sessions.includeUnknown}</span>
           <input
             type="checkbox"
             .checked=${props.includeUnknown}
@@ -146,23 +147,23 @@ export function renderSessions(props: SessionsProps) {
         : nothing}
 
       <div class="muted" style="margin-top: 12px;">
-        ${props.result ? `Store: ${props.result.path}` : ""}
+        ${props.result ? `${zhCN.ui.sessions.store}: ${props.result.path}` : ""}
       </div>
 
       <div class="table" style="margin-top: 16px;">
         <div class="table-head">
-          <div>Key</div>
-          <div>Label</div>
-          <div>Kind</div>
-          <div>Updated</div>
-          <div>Tokens</div>
-          <div>Thinking</div>
-          <div>Verbose</div>
-          <div>Reasoning</div>
-          <div>Actions</div>
+          <div>${zhCN.ui.sessions.key}</div>
+          <div>${zhCN.ui.sessions.label}</div>
+          <div>${zhCN.ui.sessions.kind}</div>
+          <div>${zhCN.ui.sessions.updated}</div>
+          <div>${zhCN.ui.sessions.tokens}</div>
+          <div>${zhCN.ui.sessions.thinking}</div>
+          <div>${zhCN.ui.sessions.verbose}</div>
+          <div>${zhCN.ui.sessions.reasoning}</div>
+          <div>${zhCN.ui.sessions.actions}</div>
         </div>
         ${rows.length === 0
-          ? html`<div class="muted">No sessions found.</div>`
+          ? html`<div class="muted">${zhCN.ui.sessions.noSessionsFound}</div>`
           : rows.map((row) =>
               renderRow(row, props.basePath, props.onPatch, props.onDelete, props.loading),
             )}
@@ -200,7 +201,7 @@ function renderRow(
         <input
           .value=${row.label ?? ""}
           ?disabled=${disabled}
-          placeholder="(optional)"
+          placeholder=${zhCN.ui.sessions.optional}
           @change=${(e: Event) => {
             const value = (e.target as HTMLInputElement).value.trim();
             onPatch(row.key, { label: value || null });
@@ -222,7 +223,7 @@ function renderRow(
           }}
         >
           ${thinkLevels.map((level) =>
-            html`<option value=${level}>${level || "inherit"}</option>`,
+            html`<option value=${level}>${level || zhCN.ui.sessions.inherit}</option>`,
           )}
         </select>
       </div>
@@ -250,13 +251,13 @@ function renderRow(
           }}
         >
           ${REASONING_LEVELS.map((level) =>
-            html`<option value=${level}>${level || "inherit"}</option>`,
+            html`<option value=${level}>${level || zhCN.ui.sessions.inherit}</option>`,
           )}
         </select>
       </div>
       <div>
         <button class="btn danger" ?disabled=${disabled} @click=${() => onDelete(row.key)}>
-          Delete
+          ${zhCN.ui.sessions.delete}
         </button>
       </div>
     </div>

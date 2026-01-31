@@ -7,7 +7,7 @@ import {
   schemaType,
   type JsonSchema,
 } from "./config-form.shared";
-import { zhCN } from "@moltbot/i18n";
+import { zhCN } from "@openclaw/i18n";
 
 export type ConfigProps = {
   raw: string;
@@ -76,18 +76,18 @@ const sidebarIcons = {
 
 // Section definitions
 const SECTIONS: Array<{ key: string; label: string }> = [
-  { key: "env", label: "Environment" },
-  { key: "update", label: "Updates" },
-  { key: "agents", label: "Agents" },
-  { key: "auth", label: "Authentication" },
+  { key: "env", label: zhCN.commands.configSections.environmentVariables },
+  { key: "update", label: zhCN.commands.configSections.updates },
+  { key: "agents", label: zhCN.commands.configSections.agents },
+  { key: "auth", label: zhCN.commands.configSections.authentication },
   { key: "channels", label: zhCN.commands.configSections.channels },
-  { key: "messages", label: "Messages" },
-  { key: "commands", label: "Commands" },
-  { key: "hooks", label: "Hooks" },
+  { key: "messages", label: zhCN.commands.configSections.messages },
+  { key: "commands", label: zhCN.commands.configSections.commands },
+  { key: "hooks", label: zhCN.commands.configSections.hooks },
   { key: "skills", label: zhCN.commands.configSections.skills },
-  { key: "tools", label: "Tools" },
-  { key: "gateway", label: "Gateway" },
-  { key: "wizard", label: "Setup Wizard" },
+  { key: "tools", label: zhCN.commands.configSections.tools },
+  { key: "gateway", label: zhCN.commands.configSections.gateway },
+  { key: "wizard", label: zhCN.commands.configSections.wizard },
 ];
 
 type SubsectionEntry = {
@@ -198,7 +198,7 @@ export function renderConfig(props: ConfigProps) {
   const knownKeys = new Set(SECTIONS.map(s => s.key));
   const extraSections = Object.keys(schemaProps)
     .filter(k => !knownKeys.has(k))
-    .map(k => ({ key: k, label: k.charAt(0).toUpperCase() + k.slice(1) }));
+    .map(k => ({ key: k, label: humanize(k) }));
 
   const allSections = [...availableSections, ...extraSections];
 

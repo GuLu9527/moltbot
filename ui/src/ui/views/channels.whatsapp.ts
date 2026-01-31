@@ -5,6 +5,7 @@ import type { WhatsAppStatus } from "../types";
 import type { ChannelsProps } from "./channels.types";
 import { renderChannelConfigSection } from "./channels.config";
 import { formatDuration } from "./channels.shared";
+import { zhCN } from "@openclaw/i18n";
 
 export function renderWhatsAppCard(params: {
   props: ChannelsProps;
@@ -16,46 +17,46 @@ export function renderWhatsAppCard(params: {
   return html`
     <div class="card">
       <div class="card-title">WhatsApp</div>
-      <div class="card-sub">Link WhatsApp Web and monitor connection health.</div>
+      <div class="card-sub">${zhCN.ui.channels.whatsappDesc}</div>
       ${accountCountLabel}
 
       <div class="status-list" style="margin-top: 16px;">
         <div>
-          <span class="label">Configured</span>
-          <span>${whatsapp?.configured ? "Yes" : "No"}</span>
+          <span class="label">${zhCN.configured}</span>
+          <span>${whatsapp?.configured ? zhCN.yes : zhCN.no}</span>
         </div>
         <div>
-          <span class="label">Linked</span>
-          <span>${whatsapp?.linked ? "Yes" : "No"}</span>
+          <span class="label">${zhCN.ui.channels.linked}</span>
+          <span>${whatsapp?.linked ? zhCN.yes : zhCN.no}</span>
         </div>
         <div>
-          <span class="label">Running</span>
-          <span>${whatsapp?.running ? "Yes" : "No"}</span>
+          <span class="label">${zhCN.running}</span>
+          <span>${whatsapp?.running ? zhCN.yes : zhCN.no}</span>
         </div>
         <div>
-          <span class="label">Connected</span>
-          <span>${whatsapp?.connected ? "Yes" : "No"}</span>
+          <span class="label">${zhCN.ui.channels.connected}</span>
+          <span>${whatsapp?.connected ? zhCN.yes : zhCN.no}</span>
         </div>
         <div>
-          <span class="label">Last connect</span>
+          <span class="label">${zhCN.ui.channels.lastConnect}</span>
           <span>
             ${whatsapp?.lastConnectedAt
               ? formatAgo(whatsapp.lastConnectedAt)
-              : "n/a"}
+              : zhCN.notAvailable}
           </span>
         </div>
         <div>
-          <span class="label">Last message</span>
+          <span class="label">${zhCN.ui.channels.lastMessage}</span>
           <span>
-            ${whatsapp?.lastMessageAt ? formatAgo(whatsapp.lastMessageAt) : "n/a"}
+            ${whatsapp?.lastMessageAt ? formatAgo(whatsapp.lastMessageAt) : zhCN.notAvailable}
           </span>
         </div>
         <div>
-          <span class="label">Auth age</span>
+          <span class="label">${zhCN.ui.channels.authAge}</span>
           <span>
             ${whatsapp?.authAgeMs != null
               ? formatDuration(whatsapp.authAgeMs)
-              : "n/a"}
+              : zhCN.notAvailable}
           </span>
         </div>
       </div>
@@ -84,31 +85,31 @@ export function renderWhatsAppCard(params: {
           ?disabled=${props.whatsappBusy}
           @click=${() => props.onWhatsAppStart(false)}
         >
-          ${props.whatsappBusy ? "Working…" : "Show QR"}
+          ${props.whatsappBusy ? zhCN.ui.channels.working : zhCN.ui.channels.showQR}
         </button>
         <button
           class="btn"
           ?disabled=${props.whatsappBusy}
           @click=${() => props.onWhatsAppStart(true)}
         >
-          Relink
+          ${zhCN.ui.channels.relink}
         </button>
         <button
           class="btn"
           ?disabled=${props.whatsappBusy}
           @click=${() => props.onWhatsAppWait()}
         >
-          Wait for scan
+          ${zhCN.ui.channels.waitForScan}
         </button>
         <button
           class="btn danger"
           ?disabled=${props.whatsappBusy}
           @click=${() => props.onWhatsAppLogout()}
         >
-          Logout
+          ${zhCN.ui.channels.logout}
         </button>
         <button class="btn" @click=${() => props.onRefresh(true)}>
-          Refresh
+          ${zhCN.ui.channels.refresh}
         </button>
       </div>
 

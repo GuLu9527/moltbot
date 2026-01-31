@@ -8,7 +8,7 @@ import {
   type JsonSchema,
 } from "./config-form.shared";
 import { renderNode } from "./config-form.node";
-import { zhCN } from "@moltbot/i18n";
+import { zhCN } from "@openclaw/i18n";
 
 export type ConfigFormProps = {
   schema: JsonSchema | null;
@@ -57,34 +57,34 @@ const sectionIcons = {
 
 // Section metadata
 export const SECTION_META: Record<string, { label: string; description: string }> = {
-  env: { label: zhCN.commands.configSections.environmentVariables, description: "Environment variables passed to the gateway process" },
-  update: { label: zhCN.commands.configSections.updates, description: "Auto-update settings and release channel" },
-  agents: { label: zhCN.commands.configSections.agents, description: "Agent configurations, models, and identities" },
-  auth: { label: zhCN.commands.configSections.authentication, description: "API keys and authentication profiles" },
-  channels: { label: zhCN.commands.configSections.channels, description: "Messaging channels (Telegram, Discord, Slack, etc.)" },
-  messages: { label: zhCN.commands.configSections.messages, description: "Message handling and routing settings" },
-  commands: { label: zhCN.commands.configSections.commands, description: "Custom slash commands" },
-  hooks: { label: zhCN.commands.configSections.hooks, description: "Webhooks and event hooks" },
-  skills: { label: zhCN.commands.configSections.skills, description: "Skill packs and capabilities" },
-  tools: { label: zhCN.commands.configSections.tools, description: "Tool configurations (browser, search, etc.)" },
-  gateway: { label: zhCN.commands.configSections.gateway, description: "Gateway server settings (port, auth, binding)" },
-  wizard: { label: zhCN.commands.configSections.wizard, description: "Setup wizard state and history" },
+  env: { label: zhCN.commands.configSections.environmentVariables, description: zhCN.commands.configSections.descEnv },
+  update: { label: zhCN.commands.configSections.updates, description: zhCN.commands.configSections.descUpdate },
+  agents: { label: zhCN.commands.configSections.agents, description: zhCN.commands.configSections.descAgents },
+  auth: { label: zhCN.commands.configSections.authentication, description: zhCN.commands.configSections.descAuth },
+  channels: { label: zhCN.commands.configSections.channels, description: zhCN.commands.configSections.descChannels },
+  messages: { label: zhCN.commands.configSections.messages, description: zhCN.commands.configSections.descMessages },
+  commands: { label: zhCN.commands.configSections.commands, description: zhCN.commands.configSections.descCommands },
+  hooks: { label: zhCN.commands.configSections.hooks, description: zhCN.commands.configSections.descHooks },
+  skills: { label: zhCN.commands.configSections.skills, description: zhCN.commands.configSections.descSkills },
+  tools: { label: zhCN.commands.configSections.tools, description: zhCN.commands.configSections.descTools },
+  gateway: { label: zhCN.commands.configSections.gateway, description: zhCN.commands.configSections.descGateway },
+  wizard: { label: zhCN.commands.configSections.wizard, description: zhCN.commands.configSections.descWizard },
   // Additional sections
-  meta: { label: zhCN.commands.configSections.meta, description: "Gateway metadata and version information" },
-  logging: { label: zhCN.commands.configSections.logging, description: "Log levels and output configuration" },
-  browser: { label: zhCN.commands.configSections.browser, description: "Browser automation settings" },
-  ui: { label: zhCN.commands.configSections.ui, description: "User interface preferences" },
-  models: { label: zhCN.commands.configSections.models, description: "AI model configurations and providers" },
-  bindings: { label: zhCN.commands.configSections.bindings, description: "Key bindings and shortcuts" },
-  broadcast: { label: zhCN.commands.configSections.broadcast, description: "Broadcast and notification settings" },
-  audio: { label: zhCN.commands.configSections.audio, description: "Audio input/output settings" },
-  session: { label: zhCN.commands.configSections.session, description: "Session management and persistence" },
-  cron: { label: zhCN.commands.configSections.cron, description: "Scheduled tasks and automation" },
-  web: { label: zhCN.commands.configSections.web, description: "Web server and API settings" },
-  discovery: { label: zhCN.commands.configSections.discovery, description: "Service discovery and networking" },
-  canvasHost: { label: zhCN.commands.configSections.canvasHost, description: "Canvas rendering and display" },
-  talk: { label: zhCN.commands.configSections.talk, description: "Voice and speech settings" },
-  plugins: { label: zhCN.commands.configSections.plugins, description: "Plugin management and extensions" },
+  meta: { label: zhCN.commands.configSections.meta, description: zhCN.commands.configSections.descMeta },
+  logging: { label: zhCN.commands.configSections.logging, description: zhCN.commands.configSections.descLogging },
+  browser: { label: zhCN.commands.configSections.browser, description: zhCN.commands.configSections.descBrowser },
+  ui: { label: zhCN.commands.configSections.ui, description: zhCN.commands.configSections.descUI },
+  models: { label: zhCN.commands.configSections.models, description: zhCN.commands.configSections.descModels },
+  bindings: { label: zhCN.commands.configSections.bindings, description: zhCN.commands.configSections.descBindings },
+  broadcast: { label: zhCN.commands.configSections.broadcast, description: zhCN.commands.configSections.descBroadcast },
+  audio: { label: zhCN.commands.configSections.audio, description: zhCN.commands.configSections.descAudio },
+  session: { label: zhCN.commands.configSections.session, description: zhCN.commands.configSections.descSession },
+  cron: { label: zhCN.commands.configSections.cron, description: zhCN.commands.configSections.descCron },
+  web: { label: zhCN.commands.configSections.web, description: zhCN.commands.configSections.descWeb },
+  discovery: { label: zhCN.commands.configSections.discovery, description: zhCN.commands.configSections.descDiscovery },
+  canvasHost: { label: zhCN.commands.configSections.canvasHost, description: zhCN.commands.configSections.descCanvasHost },
+  talk: { label: zhCN.commands.configSections.talk, description: zhCN.commands.configSections.descTalk },
+  plugins: { label: zhCN.commands.configSections.plugins, description: zhCN.commands.configSections.descPlugins },
 };
 
 function getSectionIcon(key: string) {
@@ -143,12 +143,12 @@ function schemaMatches(schema: JsonSchema, query: string): boolean {
 
 export function renderConfigForm(props: ConfigFormProps) {
   if (!props.schema) {
-    return html`<div class="muted">${zhCN.commands.settings.schemaUnavailable}</div>`;
+    return html`<div class="muted">${zhCN.ui.settings.schemaUnavailable}</div>`;
   }
   const schema = props.schema;
   const value = props.value ?? {};
   if (schemaType(schema) !== "object" || !schema.properties) {
-    return html`<div class="callout danger">${zhCN.commands.settings.unsupportedSchema}</div>`;
+    return html`<div class="callout danger">${zhCN.ui.settings.unsupportedSchema}</div>`;
   }
   const unsupported = new Set(props.unsupportedPaths ?? []);
   const properties = schema.properties;
@@ -194,8 +194,8 @@ export function renderConfigForm(props: ConfigFormProps) {
         <div class="config-empty__icon">${icons.search}</div>
         <div class="config-empty__text">
           ${searchQuery
-            ? zhCN.commands.settings.noSettingsMatch.replace("{query}", searchQuery)
-            : zhCN.commands.settings.noSettingsSection}
+            ? zhCN.ui.settings.noSettingsMatch.replace("{query}", searchQuery)
+            : zhCN.ui.settings.noSettingsSection}
         </div>
       </div>
     `;

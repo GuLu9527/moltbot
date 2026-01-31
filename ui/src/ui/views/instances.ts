@@ -1,5 +1,6 @@
 import { html, nothing } from "lit";
 
+import { zhCN } from "@openclaw/i18n";
 import { formatPresenceAge, formatPresenceSummary } from "../presenter";
 import type { PresenceEntry } from "../types";
 
@@ -16,11 +17,11 @@ export function renderInstances(props: InstancesProps) {
     <section class="card">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Connected Instances</div>
-          <div class="card-sub">Presence beacons from the gateway and clients.</div>
+          <div class="card-title">${zhCN.ui.instances.connectedInstances}</div>
+          <div class="card-sub">${zhCN.ui.instances.presenceBeacons}</div>
         </div>
         <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-          ${props.loading ? "Loading…" : "Refresh"}
+          ${props.loading ? zhCN.ui.instances.loading : zhCN.ui.instances.refresh}
         </button>
       </div>
       ${props.lastError
@@ -35,7 +36,7 @@ export function renderInstances(props: InstancesProps) {
         : nothing}
       <div class="list" style="margin-top: 16px;">
         ${props.entries.length === 0
-          ? html`<div class="muted">No instances reported yet.</div>`
+          ? html`<div class="muted">${zhCN.ui.instances.noInstancesYet}</div>`
           : props.entries.map((entry) => renderEntry(entry))}
       </div>
     </section>
@@ -45,7 +46,7 @@ export function renderInstances(props: InstancesProps) {
 function renderEntry(entry: PresenceEntry) {
   const lastInput =
     entry.lastInputSeconds != null
-      ? `${entry.lastInputSeconds}s ago`
+      ? `${entry.lastInputSeconds}s ${zhCN.ui.instances.ago}`
       : "n/a";
   const mode = entry.mode ?? "unknown";
   const roles = Array.isArray(entry.roles) ? entry.roles.filter(Boolean) : [];
@@ -53,13 +54,13 @@ function renderEntry(entry: PresenceEntry) {
   const scopesLabel =
     scopes.length > 0
       ? scopes.length > 3
-        ? `${scopes.length} scopes`
-        : `scopes: ${scopes.join(", ")}`
+        ? zhCN.ui.instances.scopesCount.replace("{count}", String(scopes.length))
+        : `${zhCN.ui.instances.scopes}: ${scopes.join(", ")}`
       : null;
   return html`
     <div class="list-item">
       <div class="list-main">
-        <div class="list-title">${entry.host ?? "unknown host"}</div>
+        <div class="list-title">${entry.host ?? zhCN.ui.instances.unknownHost}</div>
         <div class="list-sub">${formatPresenceSummary(entry)}</div>
         <div class="chip-row">
           <span class="chip">${mode}</span>
@@ -77,8 +78,8 @@ function renderEntry(entry: PresenceEntry) {
       </div>
       <div class="list-meta">
         <div>${formatPresenceAge(entry)}</div>
-        <div class="muted">Last input ${lastInput}</div>
-        <div class="muted">Reason ${entry.reason ?? ""}</div>
+        <div class="muted">${zhCN.ui.instances.lastInput} ${lastInput}</div>
+        <div class="muted">${zhCN.ui.instances.reason} ${entry.reason ?? ""}</div>
       </div>
     </div>
   `;

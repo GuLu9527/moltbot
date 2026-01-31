@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 
 import type { LogEntry, LogLevel } from "../types";
+import { zhCN } from "@openclaw/i18n";
 
 const LEVELS: LogLevel[] = ["trace", "debug", "info", "warn", "error", "fatal"];
 
@@ -44,41 +45,41 @@ export function renderLogs(props: LogsProps) {
     if (entry.level && !props.levelFilters[entry.level]) return false;
     return matchesFilter(entry, needle);
   });
-  const exportLabel = needle || levelFiltered ? "filtered" : "visible";
+  const exportLabel = needle || levelFiltered ? zhCN.ui.logs.filtered : zhCN.ui.logs.visible;
 
   return html`
     <section class="card">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Logs</div>
-          <div class="card-sub">Gateway file logs (JSONL).</div>
+          <div class="card-title">${zhCN.ui.logs.logs}</div>
+          <div class="card-sub">${zhCN.ui.logs.logsSub}</div>
         </div>
         <div class="row" style="gap: 8px;">
           <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-            ${props.loading ? "Loading…" : "Refresh"}
+            ${props.loading ? zhCN.ui.logs.loading : zhCN.ui.logs.refresh}
           </button>
           <button
             class="btn"
             ?disabled=${filtered.length === 0}
             @click=${() => props.onExport(filtered.map((entry) => entry.raw), exportLabel)}
           >
-            Export ${exportLabel}
+            ${zhCN.ui.logs.export} ${exportLabel}
           </button>
         </div>
       </div>
 
       <div class="filters" style="margin-top: 14px;">
         <label class="field" style="min-width: 220px;">
-          <span>Filter</span>
+          <span>${zhCN.ui.logs.filter}</span>
           <input
             .value=${props.filterText}
             @input=${(e: Event) =>
               props.onFilterTextChange((e.target as HTMLInputElement).value)}
-            placeholder="Search logs"
+            placeholder=${zhCN.ui.logs.searchLogs}
           />
         </label>
         <label class="field checkbox">
-          <span>Auto-follow</span>
+          <span>${zhCN.ui.logs.autoFollow}</span>
           <input
             type="checkbox"
             .checked=${props.autoFollow}
@@ -105,11 +106,11 @@ export function renderLogs(props: LogsProps) {
       </div>
 
       ${props.file
-        ? html`<div class="muted" style="margin-top: 10px;">File: ${props.file}</div>`
+        ? html`<div class="muted" style="margin-top: 10px;">${zhCN.ui.logs.file}: ${props.file}</div>`
         : nothing}
       ${props.truncated
         ? html`<div class="callout" style="margin-top: 10px;">
-            Log output truncated; showing latest chunk.
+            ${zhCN.ui.logs.logOutputTruncated}
           </div>`
         : nothing}
       ${props.error
@@ -118,7 +119,7 @@ export function renderLogs(props: LogsProps) {
 
       <div class="log-stream" style="margin-top: 12px;" @scroll=${props.onScroll}>
         ${filtered.length === 0
-          ? html`<div class="muted" style="padding: 12px;">No log entries.</div>`
+          ? html`<div class="muted" style="padding: 12px;">${zhCN.ui.logs.noLogEntries}</div>`
           : filtered.map(
               (entry) => html`
                 <div class="log-row">

@@ -2,6 +2,7 @@ import { html, nothing } from "lit";
 
 import { formatEventPayload } from "../presenter";
 import type { EventLogEntry } from "../app-events";
+import { zhCN } from "@openclaw/i18n";
 
 export type DebugProps = {
   loading: boolean;
@@ -32,51 +33,51 @@ export function renderDebug(props: DebugProps) {
   const securityTone = critical > 0 ? "danger" : warn > 0 ? "warn" : "success";
   const securityLabel =
     critical > 0
-      ? `${critical} critical`
+      ? `${critical} ${zhCN.ui.debug.critical}`
       : warn > 0
-        ? `${warn} warnings`
-        : "No critical issues";
+        ? `${warn} ${zhCN.ui.debug.warnings}`
+        : zhCN.ui.debug.noCriticalIssues;
 
   return html`
     <section class="grid grid-cols-2">
       <div class="card">
         <div class="row" style="justify-content: space-between;">
           <div>
-            <div class="card-title">Snapshots</div>
-            <div class="card-sub">Status, health, and heartbeat data.</div>
+            <div class="card-title">${zhCN.ui.debug.snapshots}</div>
+            <div class="card-sub">${zhCN.ui.debug.snapshotsSub}</div>
           </div>
           <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-            ${props.loading ? "Refreshing…" : "Refresh"}
+            ${props.loading ? zhCN.ui.debug.refreshing : zhCN.ui.debug.refresh}
           </button>
         </div>
         <div class="stack" style="margin-top: 12px;">
           <div>
-            <div class="muted">Status</div>
+            <div class="muted">${zhCN.ui.debug.status}</div>
             ${securitySummary
               ? html`<div class="callout ${securityTone}" style="margin-top: 8px;">
-                  Security audit: ${securityLabel}${info > 0 ? ` · ${info} info` : ""}. Run
-                  <span class="mono">moltbot security audit --deep</span> for details.
+                  ${zhCN.ui.debug.securityAudit}: ${securityLabel}${info > 0 ? ` · ${info} ${zhCN.ui.debug.info}` : ""}. ${zhCN.ui.debug.runDeepAudit}
+                  <span class="mono">moltbot security audit --deep</span>。
                 </div>`
               : nothing}
             <pre class="code-block">${JSON.stringify(props.status ?? {}, null, 2)}</pre>
           </div>
           <div>
-            <div class="muted">Health</div>
+            <div class="muted">${zhCN.ui.debug.health}</div>
             <pre class="code-block">${JSON.stringify(props.health ?? {}, null, 2)}</pre>
           </div>
           <div>
-            <div class="muted">Last heartbeat</div>
+            <div class="muted">${zhCN.ui.debug.lastHeartbeat}</div>
             <pre class="code-block">${JSON.stringify(props.heartbeat ?? {}, null, 2)}</pre>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Manual RPC</div>
-        <div class="card-sub">Send a raw gateway method with JSON params.</div>
+        <div class="card-title">${zhCN.ui.debug.manualRpc}</div>
+        <div class="card-sub">${zhCN.ui.debug.manualRpcSub}</div>
         <div class="form-grid" style="margin-top: 16px;">
           <label class="field">
-            <span>Method</span>
+            <span>${zhCN.ui.debug.method}</span>
             <input
               .value=${props.callMethod}
               @input=${(e: Event) =>
@@ -85,7 +86,7 @@ export function renderDebug(props: DebugProps) {
             />
           </label>
           <label class="field">
-            <span>Params (JSON)</span>
+            <span>${zhCN.ui.debug.paramsJson}</span>
             <textarea
               .value=${props.callParams}
               @input=${(e: Event) =>
@@ -95,7 +96,7 @@ export function renderDebug(props: DebugProps) {
           </label>
         </div>
         <div class="row" style="margin-top: 12px;">
-          <button class="btn primary" @click=${props.onCall}>Call</button>
+          <button class="btn primary" @click=${props.onCall}>${zhCN.ui.debug.call}</button>
         </div>
         ${props.callError
           ? html`<div class="callout danger" style="margin-top: 12px;">
@@ -109,8 +110,8 @@ export function renderDebug(props: DebugProps) {
     </section>
 
     <section class="card" style="margin-top: 18px;">
-      <div class="card-title">Models</div>
-      <div class="card-sub">Catalog from models.list.</div>
+      <div class="card-title">${zhCN.ui.debug.models}</div>
+      <div class="card-sub">${zhCN.ui.debug.modelsSub}</div>
       <pre class="code-block" style="margin-top: 12px;">${JSON.stringify(
         props.models ?? [],
         null,
@@ -119,10 +120,10 @@ export function renderDebug(props: DebugProps) {
     </section>
 
     <section class="card" style="margin-top: 18px;">
-      <div class="card-title">Event Log</div>
-      <div class="card-sub">Latest gateway events.</div>
+      <div class="card-title">${zhCN.ui.debug.eventLog}</div>
+      <div class="card-sub">${zhCN.ui.debug.eventLogSub}</div>
       ${props.eventLog.length === 0
-        ? html`<div class="muted" style="margin-top: 12px;">No events yet.</div>`
+        ? html`<div class="muted" style="margin-top: 12px;">${zhCN.ui.debug.noEventsYet}</div>`
         : html`
             <div class="list" style="margin-top: 12px;">
               ${props.eventLog.map(

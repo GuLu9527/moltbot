@@ -1,5 +1,7 @@
 import type { ConfigUiHints } from "../types";
 
+import { zhCN } from "@openclaw/i18n";
+
 export type JsonSchema = {
   type?: string | string[];
   title?: string;
@@ -72,11 +74,50 @@ export function hintForPath(path: Array<string | number>, hints: ConfigUiHints) 
 }
 
 export function humanize(raw: string) {
-  return raw
+  // 首先检查是否有直接的翻译
+  const fieldTranslations = zhCN.commands.configFields as Record<string, string>;
+  if (fieldTranslations[raw]) {
+    return fieldTranslations[raw];
+  }
+
+  // 如果没有直接翻译，尝试驼峰命名转换后的翻译
+  const normalized = raw
     .replace(/_/g, " ")
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .replace(/\s+/g, " ")
-    .replace(/^./, (m) => m.toUpperCase());
+    .trim();
+
+  // 将第一个单词转换为小驼峰，检查翻译
+  const camelCase = normalized
+    .split(" ")
+    .map((word, i) => (i === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()))
+    .join("");
+
+  if (fieldTranslations[camelCase]) {
+    return fieldTranslations[camelCase];
+  }
+
+  // 尝试翻译每个单词
+  const words = normalized.split(" ");
+  const translatedWords = words.map((word) => {
+    const lowerWord = word.toLowerCase();
+    return fieldTranslations[lowerWord] || word;
+  });
+
+  // 如果至少有一个单词被翻译了，返回翻译后的结果
+  if (translatedWords.some((word, i) => word !== words[i] && word !== words[i].toLowerCase())) {
+    return translatedWords.join(" ");
+  }
+
+  // 如果都没有翻译，返回格式化的英文
+  return normalized.replace(/^./, (m) => m.toUpperCase());
+}
+
+export function translateDescription(description: string | undefined): string | undefined {
+  if (!description) return undefined;
+
+  const descTranslations = zhCN.commands.configDescriptions as Record<string, string>;
+  return descTranslations[description] || description;
 }
 
 export function isSensitivePath(path: Array<string | number>): boolean {

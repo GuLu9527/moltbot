@@ -8,6 +8,7 @@ import {
   formatToolOutputForSidebar,
   getTruncatedPreview,
 } from "./tool-helpers";
+import { zhCN } from "@openclaw/i18n";
 import { isToolResultMessage } from "./message-normalizer";
 import { extractTextCached } from "./message-extract";
 
@@ -100,7 +101,7 @@ export function renderToolCardSidebar(
           <span>${display.label}</span>
         </div>
         ${canClick
-          ? html`<span class="chat-tool-card__action">${hasText ? "View" : ""} ${icons.check}</span>`
+          ? html`<span class="chat-tool-card__action">${hasText ? zhCN.ui.chat.view : ""} ${icons.check}</span>`
           : nothing}
         ${isEmpty && !canClick ? html`<span class="chat-tool-card__status">${icons.check}</span>` : nothing}
       </div>
@@ -108,7 +109,7 @@ export function renderToolCardSidebar(
         ? html`<div class="chat-tool-card__detail">${detail}</div>`
         : nothing}
       ${isEmpty
-        ? html`<div class="chat-tool-card__status-text muted">Completed</div>`
+        ? html`<div class="chat-tool-card__status-text muted">${zhCN.ui.chat.completed}</div>`
         : nothing}
       ${showCollapsed
         ? html`<div class="chat-tool-card__preview mono">${getTruncatedPreview(card.text!)}</div>`

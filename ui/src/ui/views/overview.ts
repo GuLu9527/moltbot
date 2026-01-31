@@ -4,6 +4,7 @@ import type { GatewayHelloOk } from "../gateway";
 import { formatAgo, formatDurationMs } from "../format";
 import { formatNextRun } from "../presenter";
 import type { UiSettings } from "../storage";
+import { zhCN } from "@openclaw/i18n";
 
 export type OverviewProps = {
   connected: boolean;
@@ -41,7 +42,7 @@ export function renderOverview(props: OverviewProps) {
     if (!hasToken && !hasPassword) {
       return html`
         <div class="muted" style="margin-top: 8px;">
-          This gateway requires auth. Add a token or password, then click Connect.
+          ${zhCN.ui.overview.authRequired}
           <div style="margin-top: 6px;">
             <span class="mono">moltbot dashboard --no-open</span> → tokenized URL<br />
             <span class="mono">moltbot doctor --generate-gateway-token</span> → set token
@@ -52,8 +53,8 @@ export function renderOverview(props: OverviewProps) {
               href="https://docs.molt.bot/web/dashboard"
               target="_blank"
               rel="noreferrer"
-              title="Control UI auth docs (opens in new tab)"
-              >Docs: Control UI auth</a
+              title="控制 UI 认证文档（在新标签页中打开）"
+              >${zhCN.ui.overview.docsControlUiAuth}</a
             >
           </div>
         </div>
@@ -61,17 +62,16 @@ export function renderOverview(props: OverviewProps) {
     }
     return html`
       <div class="muted" style="margin-top: 8px;">
-        Auth failed. Re-copy a tokenized URL with
-        <span class="mono">moltbot dashboard --no-open</span>, or update the token,
-        then click Connect.
+        ${zhCN.ui.overview.authFailed}
+        <span class="mono">moltbot dashboard --no-open</span>
         <div style="margin-top: 6px;">
           <a
             class="session-link"
             href="https://docs.molt.bot/web/dashboard"
             target="_blank"
             rel="noreferrer"
-            title="Control UI auth docs (opens in new tab)"
-            >Docs: Control UI auth</a
+            title="控制 UI 认证文档（在新标签页中打开）"
+            >${zhCN.ui.overview.docsControlUiAuth}</a
           >
         </div>
       </div>
@@ -87,10 +87,10 @@ export function renderOverview(props: OverviewProps) {
     }
     return html`
       <div class="muted" style="margin-top: 8px;">
-        This page is HTTP, so the browser blocks device identity. Use HTTPS (Tailscale Serve) or
-        open <span class="mono">http://127.0.0.1:18789</span> on the gateway host.
+        ${zhCN.ui.overview.insecureContextHint}
+        <span class="mono">http://127.0.0.1:18789</span>
         <div style="margin-top: 6px;">
-          If you must stay on HTTP, set
+          ${zhCN.ui.overview.insecureContextConfig}
           <span class="mono">gateway.controlUi.allowInsecureAuth: true</span> (token-only).
         </div>
         <div style="margin-top: 6px;">
@@ -99,8 +99,8 @@ export function renderOverview(props: OverviewProps) {
             href="https://docs.molt.bot/gateway/tailscale"
             target="_blank"
             rel="noreferrer"
-            title="Tailscale Serve docs (opens in new tab)"
-            >Docs: Tailscale Serve</a
+            title="Tailscale Serve 文档（在新标签页中打开）"
+            >${zhCN.ui.overview.docsTailscaleServe}</a
           >
           <span class="muted"> · </span>
           <a
@@ -108,8 +108,8 @@ export function renderOverview(props: OverviewProps) {
             href="https://docs.molt.bot/web/control-ui#insecure-http"
             target="_blank"
             rel="noreferrer"
-            title="Insecure HTTP docs (opens in new tab)"
-            >Docs: Insecure HTTP</a
+            title="不安全 HTTP 文档（在新标签页中打开）"
+            >${zhCN.ui.overview.docsInsecureHttp}</a
           >
         </div>
       </div>
@@ -119,11 +119,11 @@ export function renderOverview(props: OverviewProps) {
   return html`
     <section class="grid grid-cols-2">
       <div class="card">
-        <div class="card-title">Gateway Access</div>
-        <div class="card-sub">Where the dashboard connects and how it authenticates.</div>
+        <div class="card-title">${zhCN.ui.overview.gatewayAccess}</div>
+        <div class="card-sub">${zhCN.ui.overview.gatewayAccessSub}</div>
         <div class="form-grid" style="margin-top: 16px;">
           <label class="field">
-            <span>WebSocket URL</span>
+            <span>${zhCN.ui.overview.websocketUrl}</span>
             <input
               .value=${props.settings.gatewayUrl}
               @input=${(e: Event) => {
@@ -134,7 +134,7 @@ export function renderOverview(props: OverviewProps) {
             />
           </label>
           <label class="field">
-            <span>Gateway Token</span>
+            <span>${zhCN.ui.overview.gatewayToken}</span>
             <input
               .value=${props.settings.token}
               @input=${(e: Event) => {
@@ -145,7 +145,7 @@ export function renderOverview(props: OverviewProps) {
             />
           </label>
           <label class="field">
-            <span>Password (not stored)</span>
+            <span>${zhCN.ui.overview.password}</span>
             <input
               type="password"
               .value=${props.password}
@@ -157,7 +157,7 @@ export function renderOverview(props: OverviewProps) {
             />
           </label>
           <label class="field">
-            <span>Default Session Key</span>
+            <span>${zhCN.ui.overview.defaultSessionKey}</span>
             <input
               .value=${props.settings.sessionKey}
               @input=${(e: Event) => {
@@ -168,32 +168,32 @@ export function renderOverview(props: OverviewProps) {
           </label>
         </div>
         <div class="row" style="margin-top: 14px;">
-          <button class="btn" @click=${() => props.onConnect()}>Connect</button>
-          <button class="btn" @click=${() => props.onRefresh()}>Refresh</button>
-          <span class="muted">Click Connect to apply connection changes.</span>
+          <button class="btn" @click=${() => props.onConnect()}>${zhCN.ui.overview.connect}</button>
+          <button class="btn" @click=${() => props.onRefresh()}>${zhCN.ui.overview.refresh}</button>
+          <span class="muted">${zhCN.ui.overview.clickConnectToApply}</span>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Snapshot</div>
-        <div class="card-sub">Latest gateway handshake information.</div>
+        <div class="card-title">${zhCN.ui.overview.snapshot}</div>
+        <div class="card-sub">${zhCN.ui.overview.snapshotSub}</div>
         <div class="stat-grid" style="margin-top: 16px;">
           <div class="stat">
-            <div class="stat-label">Status</div>
+            <div class="stat-label">${zhCN.ui.overview.status}</div>
             <div class="stat-value ${props.connected ? "ok" : "warn"}">
-              ${props.connected ? "Connected" : "Disconnected"}
+              ${props.connected ? zhCN.ui.overview.connected : zhCN.ui.overview.disconnected}
             </div>
           </div>
           <div class="stat">
-            <div class="stat-label">Uptime</div>
+            <div class="stat-label">${zhCN.ui.overview.uptime}</div>
             <div class="stat-value">${uptime}</div>
           </div>
           <div class="stat">
-            <div class="stat-label">Tick Interval</div>
+            <div class="stat-label">${zhCN.ui.overview.tickInterval}</div>
             <div class="stat-value">${tick}</div>
           </div>
           <div class="stat">
-            <div class="stat-label">Last Channels Refresh</div>
+            <div class="stat-label">${zhCN.ui.overview.lastChannelsRefresh}</div>
             <div class="stat-value">
               ${props.lastChannelsRefresh
                 ? formatAgo(props.lastChannelsRefresh)
@@ -208,52 +208,52 @@ export function renderOverview(props: OverviewProps) {
               ${insecureContextHint ?? ""}
             </div>`
           : html`<div class="callout" style="margin-top: 14px;">
-              Use Channels to link WhatsApp, Telegram, Discord, Signal, or iMessage.
+              ${zhCN.ui.overview.useChannelsHint}
             </div>`}
       </div>
     </section>
 
     <section class="grid grid-cols-3" style="margin-top: 18px;">
       <div class="card stat-card">
-        <div class="stat-label">Instances</div>
+        <div class="stat-label">${zhCN.ui.overview.instances}</div>
         <div class="stat-value">${props.presenceCount}</div>
-        <div class="muted">Presence beacons in the last 5 minutes.</div>
+        <div class="muted">${zhCN.ui.overview.instancesHint}</div>
       </div>
       <div class="card stat-card">
-        <div class="stat-label">Sessions</div>
+        <div class="stat-label">${zhCN.ui.overview.sessions}</div>
         <div class="stat-value">${props.sessionsCount ?? "n/a"}</div>
-        <div class="muted">Recent session keys tracked by the gateway.</div>
+        <div class="muted">${zhCN.ui.overview.sessionsHint}</div>
       </div>
       <div class="card stat-card">
-        <div class="stat-label">Cron</div>
+        <div class="stat-label">${zhCN.ui.overview.cron}</div>
         <div class="stat-value">
           ${props.cronEnabled == null
             ? "n/a"
             : props.cronEnabled
-              ? "Enabled"
-              : "Disabled"}
+              ? zhCN.ui.overview.cronEnabled
+              : zhCN.ui.overview.cronDisabled}
         </div>
-        <div class="muted">Next wake ${formatNextRun(props.cronNext)}</div>
+        <div class="muted">${zhCN.ui.overview.cronNextWake} ${formatNextRun(props.cronNext)}</div>
       </div>
     </section>
 
     <section class="card" style="margin-top: 18px;">
-      <div class="card-title">Notes</div>
-      <div class="card-sub">Quick reminders for remote control setups.</div>
+      <div class="card-title">${zhCN.ui.overview.notes}</div>
+      <div class="card-sub">${zhCN.ui.overview.notesSub}</div>
       <div class="note-grid" style="margin-top: 14px;">
         <div>
-          <div class="note-title">Tailscale serve</div>
+          <div class="note-title">${zhCN.ui.overview.noteTailscaleServe}</div>
           <div class="muted">
-            Prefer serve mode to keep the gateway on loopback with tailnet auth.
+            ${zhCN.ui.overview.noteTailscaleServeHint}
           </div>
         </div>
         <div>
-          <div class="note-title">Session hygiene</div>
-          <div class="muted">Use /new or sessions.patch to reset context.</div>
+          <div class="note-title">${zhCN.ui.overview.noteSessionHygiene}</div>
+          <div class="muted">${zhCN.ui.overview.noteSessionHygieneHint}</div>
         </div>
         <div>
-          <div class="note-title">Cron reminders</div>
-          <div class="muted">Use isolated sessions for recurring runs.</div>
+          <div class="note-title">${zhCN.ui.overview.noteCronReminders}</div>
+          <div class="muted">${zhCN.ui.overview.noteCronRemindersHint}</div>
         </div>
       </div>
     </section>

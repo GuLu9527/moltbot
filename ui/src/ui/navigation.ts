@@ -1,5 +1,5 @@
 import type { IconName } from "./icons.js";
-import { zhCN } from "@moltbot/i18n";
+import { zhCN } from "@openclaw/i18n";
 
 export const TAB_GROUPS = [
   { label: zhCN.commands.navigation.chat, tabs: ["chat"] },

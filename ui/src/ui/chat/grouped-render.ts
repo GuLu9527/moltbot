@@ -12,6 +12,7 @@ import {
   formatReasoningMarkdown,
 } from "./message-extract";
 import { extractToolCards, renderToolCardSidebar } from "./tool-cards";
+import { zhCN } from "@openclaw/i18n";
 
 type ImageBlock = {
   url: string;
@@ -80,7 +81,7 @@ export function renderStreamingGroup(
     hour: "numeric",
     minute: "2-digit",
   });
-  const name = assistant?.name ?? "Assistant";
+  const name = assistant?.name ?? zhCN.ui.chat.assistant;
 
   return html`
     <div class="chat-group assistant">
@@ -114,10 +115,10 @@ export function renderMessageGroup(
   },
 ) {
   const normalizedRole = normalizeRoleForGrouping(group.role);
-  const assistantName = opts.assistantName ?? "Assistant";
+  const assistantName = opts.assistantName ?? zhCN.ui.chat.assistant;
   const who =
     normalizedRole === "user"
-      ? "You"
+      ? zhCN.ui.chat.you
       : normalizedRole === "assistant"
         ? assistantName
         : normalizedRole;
@@ -164,7 +165,7 @@ function renderAvatar(
   assistant?: Pick<AssistantIdentity, "name" | "avatar">,
 ) {
   const normalized = normalizeRoleForGrouping(role);
-  const assistantName = assistant?.name?.trim() || "Assistant";
+  const assistantName = assistant?.name?.trim() || zhCN.ui.chat.assistant;
   const assistantAvatar = assistant?.avatar?.trim() || "";
   const initial =
     normalized === "user"
