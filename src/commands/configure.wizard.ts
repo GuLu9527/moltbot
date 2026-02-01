@@ -3,6 +3,7 @@ import type { MoltbotConfig } from "../config/config.js";
 import { readConfigFileSnapshot, resolveGatewayPort, writeConfigFile } from "../config/config.js";
 import { logConfigUpdated } from "../config/logging.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { defaultRuntime } from "../runtime.js";
 import { note } from "../terminal/note.js";
@@ -175,14 +176,16 @@ export async function runConfigureWizard(
 ) {
   try {
     printWizardHeader(runtime);
-    intro(opts.command === "update" ? "Moltbot update wizard" : "Moltbot configure");
+    intro(
+      opts.command === "update" ? zhCN.output.openClawUpdateWizard : zhCN.output.openClawConfigure,
+    );
     const prompter = createClackPrompter();
 
     const snapshot = await readConfigFileSnapshot();
     const baseConfig: MoltbotConfig = snapshot.valid ? snapshot.config : {};
 
     if (snapshot.exists) {
-      const title = snapshot.valid ? "Existing config detected" : "Invalid config";
+      const title = snapshot.valid ? zhCN.output.existingConfigDetected : zhCN.output.invalidConfig;
       note(summarizeExistingConfig(baseConfig), title);
       if (!snapshot.valid && snapshot.issues.length > 0) {
         note(
@@ -219,23 +222,23 @@ export async function runConfigureWizard(
 
     const mode = guardCancel(
       await select({
-        message: "Where will the Gateway run?",
+        message: zhCN.output.whereWillGatewayRun,
         options: [
           {
             value: "local",
-            label: "Local (this machine)",
+            label: zhCN.output.localThisMachine,
             hint: localProbe.ok
-              ? `Gateway reachable (${localUrl})`
-              : `No gateway detected (${localUrl})`,
+              ? `${zhCN.output.gatewayReachable} (${localUrl})`
+              : `${zhCN.output.noGatewayDetected} (${localUrl})`,
           },
           {
             value: "remote",
-            label: "Remote (info-only)",
+            label: zhCN.output.remoteInfoOnly,
             hint: !remoteUrl
-              ? "No remote URL configured yet"
+              ? zhCN.output.noRemoteUrlConfigured
               : remoteProbe?.ok
-                ? `Gateway reachable (${remoteUrl})`
-                : `Configured but unreachable (${remoteUrl})`,
+                ? `${zhCN.output.gatewayReachable} (${remoteUrl})`
+                : `${zhCN.output.configuredButUnreachable} (${remoteUrl})`,
           },
         ],
       }),

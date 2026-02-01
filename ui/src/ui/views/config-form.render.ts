@@ -85,6 +85,13 @@ export const SECTION_META: Record<string, { label: string; description: string }
   canvasHost: { label: zhCN.commands.configSections.canvasHost, description: zhCN.commands.configSections.descCanvasHost },
   talk: { label: zhCN.commands.configSections.talk, description: zhCN.commands.configSections.descTalk },
   plugins: { label: zhCN.commands.configSections.plugins, description: zhCN.commands.configSections.descPlugins },
+  // 新增分类
+  diagnostics: { label: zhCN.commands.configSections.diagnostics, description: zhCN.commands.configSections.descDiagnostics },
+  nodeHost: { label: zhCN.commands.configSections.nodeHost, description: zhCN.commands.configSections.descNodeHost },
+  media: { label: zhCN.commands.configSections.media, description: zhCN.commands.configSections.descMedia },
+  approvals: { label: zhCN.commands.configSections.approvals, description: zhCN.commands.configSections.descApprovals },
+  presence: { label: zhCN.commands.configSections.presence, description: zhCN.commands.configSections.descPresence },
+  voicewake: { label: zhCN.commands.configSections.voicewake, description: zhCN.commands.configSections.descVoicewake },
 };
 
 function getSectionIcon(key: string) {

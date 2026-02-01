@@ -27,6 +27,7 @@ import type {
   ResetScope,
 } from "../commands/onboard-types.js";
 import { formatCliCommand } from "../cli/command-format.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import type { MoltbotConfig } from "../config/config.js";
 import {
   DEFAULT_GATEWAY_PORT,
@@ -49,38 +50,14 @@ async function requireRiskAcknowledgement(params: {
 }) {
   if (params.opts.acceptRisk === true) return;
 
-  await params.prompter.note(
-    [
-      "Security warning — please read.",
-      "",
-      "Moltbot is a hobby project and still in beta. Expect sharp edges.",
-      "This bot can read files and run actions if tools are enabled.",
-      "A bad prompt can trick it into doing unsafe things.",
-      "",
-      "If you’re not comfortable with basic security and access control, don’t run Moltbot.",
-      "Ask someone experienced to help before enabling tools or exposing it to the internet.",
-      "",
-      "Recommended baseline:",
-      "- Pairing/allowlists + mention gating.",
-      "- Sandbox + least-privilege tools.",
-      "- Keep secrets out of the agent’s reachable filesystem.",
-      "- Use the strongest available model for any bot with tools or untrusted inboxes.",
-      "",
-      "Run regularly:",
-      "moltbot security audit --deep",
-      "moltbot security audit --fix",
-      "",
-      "Must read: https://docs.molt.bot/gateway/security",
-    ].join("\n"),
-    "Security",
-  );
+  await params.prompter.note(zhCN.output.onboardingSecurityWarning, "安全 Security");
 
   const ok = await params.prompter.confirm({
-    message: "I understand this is powerful and inherently risky. Continue?",
+    message: zhCN.output.onboardingRiskConfirmation,
     initialValue: false,
   });
   if (!ok) {
-    throw new WizardCancelledError("risk not accepted");
+    throw new WizardCancelledError(zhCN.output.onboardingRiskNotAccepted);
   }
 }
 
@@ -90,7 +67,7 @@ export async function runOnboardingWizard(
   prompter: WizardPrompter,
 ) {
   printWizardHeader(runtime);
-  await prompter.intro("Moltbot onboarding");
+  await prompter.intro(zhCN.output.openClawOnboarding);
   await requireRiskAcknowledgement({ opts, prompter });
 
   const snapshot = await readConfigFileSnapshot();

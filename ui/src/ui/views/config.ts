@@ -76,8 +76,10 @@ const sidebarIcons = {
 
 // Section definitions
 const SECTIONS: Array<{ key: string; label: string }> = [
+  // 基础配置
   { key: "env", label: zhCN.commands.configSections.environmentVariables },
   { key: "update", label: zhCN.commands.configSections.updates },
+  // 核心功能
   { key: "agents", label: zhCN.commands.configSections.agents },
   { key: "auth", label: zhCN.commands.configSections.authentication },
   { key: "channels", label: zhCN.commands.configSections.channels },
@@ -88,6 +90,38 @@ const SECTIONS: Array<{ key: string; label: string }> = [
   { key: "tools", label: zhCN.commands.configSections.tools },
   { key: "gateway", label: zhCN.commands.configSections.gateway },
   { key: "wizard", label: zhCN.commands.configSections.wizard },
+  // 元数据和诊断
+  { key: "meta", label: zhCN.commands.configSections.meta },
+  { key: "diagnostics", label: zhCN.commands.configSections.diagnostics },
+  { key: "logging", label: zhCN.commands.configSections.logging },
+  // 界面和浏览器
+  { key: "browser", label: zhCN.commands.configSections.browser },
+  { key: "ui", label: zhCN.commands.configSections.ui },
+  // 模型和节点
+  { key: "models", label: zhCN.commands.configSections.models },
+  { key: "nodeHost", label: zhCN.commands.configSections.nodeHost },
+  // 绑定和广播
+  { key: "bindings", label: zhCN.commands.configSections.bindings },
+  { key: "broadcast", label: zhCN.commands.configSections.broadcast },
+  // 音频和媒体
+  { key: "audio", label: zhCN.commands.configSections.audio },
+  { key: "media", label: zhCN.commands.configSections.media },
+  // 审批和会话
+  { key: "approvals", label: zhCN.commands.configSections.approvals },
+  { key: "session", label: zhCN.commands.configSections.session },
+  // 定时任务和 Web
+  { key: "cron", label: zhCN.commands.configSections.cron },
+  { key: "web", label: zhCN.commands.configSections.web },
+  // 发现和画布
+  { key: "discovery", label: zhCN.commands.configSections.discovery },
+  { key: "canvasHost", label: zhCN.commands.configSections.canvasHost },
+  // 语音
+  { key: "talk", label: zhCN.commands.configSections.talk },
+  // 插件
+  { key: "plugins", label: zhCN.commands.configSections.plugins },
+  // 在线状态
+  { key: "presence", label: zhCN.commands.configSections.presence },
+  { key: "voicewake", label: zhCN.commands.configSections.voicewake },
 ];
 
 type SubsectionEntry = {
