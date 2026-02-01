@@ -1,6 +1,7 @@
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
 import type { MoltbotConfig } from "../config/config.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { loadMoltbotPlugins } from "../plugins/loader.js";
 import { note } from "../terminal/note.js";
 import { detectLegacyWorkspaceDirs, formatLegacyWorkspaceWarning } from "./doctor-workspace.js";
@@ -15,14 +16,14 @@ export function noteWorkspaceStatus(cfg: MoltbotConfig) {
   const skillsReport = buildWorkspaceSkillStatus(workspaceDir, { config: cfg });
   note(
     [
-      `Eligible: ${skillsReport.skills.filter((s) => s.eligible).length}`,
-      `Missing requirements: ${
+      `${zhCN.output.eligible}: ${skillsReport.skills.filter((s) => s.eligible).length}`,
+      `${zhCN.output.missingRequirements}: ${
         skillsReport.skills.filter((s) => !s.eligible && !s.disabled && !s.blockedByAllowlist)
           .length
       }`,
-      `Blocked by allowlist: ${skillsReport.skills.filter((s) => s.blockedByAllowlist).length}`,
+      `${zhCN.output.blockedByAllowlist}: ${skillsReport.skills.filter((s) => s.blockedByAllowlist).length}`,
     ].join("\n"),
-    "Skills status",
+    zhCN.output.skillsStatus,
   );
 
   const pluginRegistry = loadMoltbotPlugins({
@@ -41,9 +42,9 @@ export function noteWorkspaceStatus(cfg: MoltbotConfig) {
     const errored = pluginRegistry.plugins.filter((p) => p.status === "error");
 
     const lines = [
-      `Loaded: ${loaded.length}`,
-      `Disabled: ${disabled.length}`,
-      `Errors: ${errored.length}`,
+      `${zhCN.output.loaded}: ${loaded.length}`,
+      `${zhCN.output.disabled}: ${disabled.length}`,
+      `${zhCN.output.errors}: ${errored.length}`,
       errored.length > 0
         ? `- ${errored
             .slice(0, 10)
@@ -52,7 +53,7 @@ export function noteWorkspaceStatus(cfg: MoltbotConfig) {
         : null,
     ].filter((line): line is string => Boolean(line));
 
-    note(lines.join("\n"), "Plugins");
+    note(lines.join("\n"), zhCN.output.plugins);
   }
   if (pluginRegistry.diagnostics.length > 0) {
     const lines = pluginRegistry.diagnostics.map((diag) => {
@@ -61,7 +62,7 @@ export function noteWorkspaceStatus(cfg: MoltbotConfig) {
       const source = diag.source ? ` (${diag.source})` : "";
       return `- ${prefix}${plugin}: ${diag.message}${source}`;
     });
-    note(lines.join("\n"), "Plugin diagnostics");
+    note(lines.join("\n"), zhCN.output.pluginDiagnostics ?? "插件诊断");
   }
 
   return { workspaceDir };

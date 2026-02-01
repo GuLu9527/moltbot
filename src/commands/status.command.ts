@@ -2,6 +2,7 @@ import { withProgress } from "../cli/progress.js";
 import { resolveGatewayPort } from "../config/config.js";
 import { buildGatewayConnectionDetails, callGateway } from "../gateway/call.js";
 import { info } from "../globals.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { formatUsageReportLines, loadProviderUsageSummary } from "../infra/provider-usage.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { runSecurityAudit } from "../security/audit.js";
@@ -363,9 +364,9 @@ export async function statusCommand(
     },
   ];
 
-  runtime.log(theme.heading("Moltbot status"));
+  runtime.log(theme.heading("OpenClaw 状态"));
   runtime.log("");
-  runtime.log(theme.heading("Overview"));
+  runtime.log(theme.heading("概览 Overview"));
   runtime.log(
     renderTable({
       width: tableWidth,
@@ -378,7 +379,7 @@ export async function statusCommand(
   );
 
   runtime.log("");
-  runtime.log(theme.heading("Security audit"));
+  runtime.log(theme.heading("安全审计 Security audit"));
   const fmtSummary = (value: { critical: number; warn: number; info: number }) => {
     const parts = [
       theme.error(`${value.critical} critical`),
@@ -416,7 +417,7 @@ export async function statusCommand(
   runtime.log(theme.muted(`Deep probe: ${formatCliCommand("moltbot security audit --deep")}`));
 
   runtime.log("");
-  runtime.log(theme.heading("Channels"));
+  runtime.log(theme.heading("渠道 Channels"));
   const channelIssuesByChannel = (() => {
     const map = new Map<string, typeof channelIssues>();
     for (const issue of channelIssues) {
@@ -461,7 +462,7 @@ export async function statusCommand(
   );
 
   runtime.log("");
-  runtime.log(theme.heading("Sessions"));
+  runtime.log(theme.heading("会话 Sessions"));
   runtime.log(
     renderTable({
       width: tableWidth,
@@ -495,7 +496,7 @@ export async function statusCommand(
 
   if (summary.queuedSystemEvents.length > 0) {
     runtime.log("");
-    runtime.log(theme.heading("System events"));
+    runtime.log(theme.heading("系统事件 System events"));
     runtime.log(
       renderTable({
         width: tableWidth,
@@ -512,7 +513,7 @@ export async function statusCommand(
 
   if (health) {
     runtime.log("");
-    runtime.log(theme.heading("Health"));
+    runtime.log(theme.heading("健康状态 Health"));
     const rows: Array<Record<string, string>> = [];
     rows.push({
       Item: "Gateway",
@@ -553,7 +554,7 @@ export async function statusCommand(
 
   if (usage) {
     runtime.log("");
-    runtime.log(theme.heading("Usage"));
+    runtime.log(theme.heading("使用量 Usage"));
     for (const line of formatUsageReportLines(usage)) {
       runtime.log(line);
     }

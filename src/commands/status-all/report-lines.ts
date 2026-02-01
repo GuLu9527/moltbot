@@ -1,4 +1,5 @@
 import type { ProgressReporter } from "../../cli/progress.js";
+import { zhCN } from "../../i18n/zh-CN.js";
 import { renderTable } from "../../terminal/table.js";
 import { isRich, theme } from "../../terminal/theme.js";
 import { appendStatusAllDiagnosis } from "./diagnosis.js";
@@ -140,12 +141,12 @@ export async function buildStatusAllReportLines(params: {
   });
 
   const lines: string[] = [];
-  lines.push(heading("Moltbot status --all"));
+  lines.push(heading("OpenClaw 状态 status --all"));
   lines.push("");
-  lines.push(heading("Overview"));
+  lines.push(heading("概览 Overview"));
   lines.push(overview.trimEnd());
   lines.push("");
-  lines.push(heading("Channels"));
+  lines.push(heading("渠道 Channels"));
   lines.push(channelsTable.trimEnd());
   for (const detail of params.channels.details) {
     lines.push("");
@@ -171,10 +172,10 @@ export async function buildStatusAllReportLines(params: {
     );
   }
   lines.push("");
-  lines.push(heading("Agents"));
+  lines.push(heading("代理 Agents"));
   lines.push(agentsTable.trimEnd());
   lines.push("");
-  lines.push(heading("Diagnosis (read-only)"));
+  lines.push(heading("诊断 Diagnosis（只读）"));
 
   await appendStatusAllDiagnosis({
     lines,

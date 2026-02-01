@@ -2,6 +2,7 @@ import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
 import { listChannelPlugins } from "../channels/plugins/index.js";
 import type { ChannelId } from "../channels/plugins/types.js";
 import type { MoltbotConfig, GatewayBindMode } from "../config/config.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { readChannelAllowFromStore } from "../pairing/pairing-store.js";
 import { note } from "../terminal/note.js";
 import { formatCliCommand } from "../cli/command-format.js";
@@ -171,7 +172,10 @@ export async function noteSecurityWarnings(cfg: MoltbotConfig) {
     }
   }
 
-  const lines = warnings.length > 0 ? warnings : ["- No channel security warnings detected."];
+  const lines =
+    warnings.length > 0
+      ? warnings
+      : [`- ${zhCN.output.noSecurityWarnings ?? "未检测到渠道安全警告。"}`];
   lines.push(auditHint);
-  note(lines.join("\n"), "Security");
+  note(lines.join("\n"), zhCN.output.security);
 }

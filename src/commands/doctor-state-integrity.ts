@@ -12,6 +12,7 @@ import {
   resolveSessionTranscriptsDirForAgent,
   resolveStorePath,
 } from "../config/sessions.js";
+import { zhCN } from "../i18n/zh-CN.js";
 import { note } from "../terminal/note.js";
 import { shortenHomePath } from "../utils.js";
 
@@ -340,7 +341,7 @@ export async function noteStateIntegrity(
   }
 
   if (warnings.length > 0) {
-    note(warnings.join("\n"), "State integrity");
+    note(warnings.join("\n"), zhCN.output.stateIntegrity);
   }
   if (changes.length > 0) {
     note(changes.join("\n"), "Doctor changes");
